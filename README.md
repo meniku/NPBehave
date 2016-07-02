@@ -56,7 +56,7 @@ behaviourTree = new Root(
 Up until now there really isn't anything event driven in this tree. Before we can dig into this, you need to understand what blackboards are.
 
 ## Blackboards
-In NPBehave, like in Unreal, we got blackboards. You can think about them as beeing the "brain" of your AI. In NPBehave, blackboards are basically dictionaries that can be observed for changes. We mainly use `Service` to store & update values in the blackboards. And we use `BlackboardCondition` to observe the blackboard for changes and in turn continue traversing the bahaviour tree. Though you are free to access or modify values of the blackboard everywhere else (you'll also access them often from `Action` nodes).
+In NPBehave, like in Unreal, we got blackboards. You can think about them as beeing the "memory" of your AI. In NPBehave, blackboards are basically dictionaries that can be observed for changes. We mainly use `Service` to store & update values in the blackboards. And we use `BlackboardCondition` to observe the blackboard for changes and in turn continue traversing the bahaviour tree. Though you are free to access or modify values of the blackboard everywhere else (you'll also access them often from `Action` nodes).
 
 A blackboard is automatically created when you instantiate a `Root`, but you may also provide another instance with it's constructor (this is particulary useful for [Shared Blackboards](#Shared-Blackboards))
 
@@ -136,8 +136,6 @@ Most likely you won't need to access those, but it's still good to know about th
 The current state can be retrieved with the `CurrentState` property
 
 ### The Clock
-
-When the blackboard is the brain of the behavior tree, the `clock` is the heart. However there is only one single instance, so it's more like a big shared heart for all of your behaviours.
 
 You can use the clock in your nodes to register timers or get notified on each frame. Use `RootNode.Clock` to access the clock. 
 
