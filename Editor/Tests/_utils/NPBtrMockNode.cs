@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using NPBehave;
 
-public class NPBtrMockNode : NPBtrNode
+public class NPBtrMockNode : Node
 {
     private bool succedsOnExplictStop;
 

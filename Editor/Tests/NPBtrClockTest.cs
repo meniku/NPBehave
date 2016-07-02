@@ -1,16 +1,14 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using System;
 using NUnit.Framework;
 
 public class NPBtrClockTest
 {
-    private NPBtrClock sut;
+    private NPBehave.Clock sut;
 
     [SetUp]
     public void SetUp()
     {
-        this.sut = new NPBtrClock();
+		this.sut = new NPBehave.Clock();
     }
 
     [Test]

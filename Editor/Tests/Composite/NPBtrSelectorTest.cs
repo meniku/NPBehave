@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using NPBehave;
 
 public class NPBtrSelectorTest : NPBtrTest
 {
@@ -8,16 +7,16 @@ public class NPBtrSelectorTest : NPBtrTest
     public void ShouldFail_WhenSingleChildFails()
     {
         NPBtrMockNode failingChild = new NPBtrMockNode();
-        NPBtrSelector sut = new NPBtrSelector(failingChild);
+        Selector sut = new Selector(failingChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
 
         failingChild.Finish(false);
 
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.IsFalse(behaviorTree.WasSuccess);
     }
@@ -26,16 +25,16 @@ public class NPBtrSelectorTest : NPBtrTest
     public void ShouldSucceed_WhenSingleChildSucceeds()
     {
         NPBtrMockNode succeedingChild = new NPBtrMockNode();
-        NPBtrSelector sut = new NPBtrSelector(succeedingChild);
+        Selector sut = new Selector(succeedingChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
 
         succeedingChild.Finish(true);
 
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.IsTrue(behaviorTree.WasSuccess);
     }
@@ -44,16 +43,16 @@ public class NPBtrSelectorTest : NPBtrTest
     public void ShouldFail_WhenStoppedExplicitly()
     {
         NPBtrMockNode failingChild = new NPBtrMockNode(false);
-        NPBtrSelector sut = new NPBtrSelector(failingChild);
+        Selector sut = new Selector(failingChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
 
         sut.Stop();
 
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.IsFalse(behaviorTree.WasSuccess);
     }
@@ -62,16 +61,16 @@ public class NPBtrSelectorTest : NPBtrTest
     public void ShouldSucceed_WhenStoppedExplicitlyButChildStillFinishesSuccessfully()
     {
         NPBtrMockNode succeedingChild = new NPBtrMockNode(true);
-        NPBtrSelector sut = new NPBtrSelector(succeedingChild);
+        Selector sut = new Selector(succeedingChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
 
         sut.Stop();
 
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.True(behaviorTree.WasSuccess);
     }
@@ -81,20 +80,20 @@ public class NPBtrSelectorTest : NPBtrTest
     {
         NPBtrMockNode firstChild = new NPBtrMockNode();
         NPBtrMockNode secondChild = new NPBtrMockNode();
-        NPBtrSelector sut = new NPBtrSelector(firstChild, secondChild);
+        Selector sut = new Selector(firstChild, secondChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, secondChild.CurrentState);
 
         firstChild.Finish(true);
         
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, secondChild.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.IsTrue(behaviorTree.WasSuccess);
     }
@@ -104,26 +103,26 @@ public class NPBtrSelectorTest : NPBtrTest
     {
         NPBtrMockNode firstChild = new NPBtrMockNode();
         NPBtrMockNode secondChild = new NPBtrMockNode();
-        NPBtrSelector sut = new NPBtrSelector(firstChild, secondChild);
+        Selector sut = new Selector(firstChild, secondChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, secondChild.CurrentState);
 
         firstChild.Finish(false);
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, secondChild.CurrentState);
 
         secondChild.Finish(false);
         
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, secondChild.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.IsFalse(behaviorTree.WasSuccess);
     }
@@ -133,21 +132,21 @@ public class NPBtrSelectorTest : NPBtrTest
     {
         NPBtrMockNode firstChild = new NPBtrMockNode();
         NPBtrMockNode secondChild = new NPBtrMockNode();
-        NPBtrSelector sut = new NPBtrSelector(firstChild, secondChild);
+        Selector sut = new Selector(firstChild, secondChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         firstChild.Finish(false);
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, secondChild.CurrentState);
 
         sut.StopLowerPriorityChildrenForChild(firstChild, false);
         
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, secondChild.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.IsFalse(behaviorTree.WasSuccess);
     }
@@ -157,21 +156,21 @@ public class NPBtrSelectorTest : NPBtrTest
     {
         NPBtrMockNode firstChild = new NPBtrMockNode();
         NPBtrMockNode secondChild = new NPBtrMockNode(false);
-        NPBtrSelector sut = new NPBtrSelector(firstChild, secondChild);
+        Selector sut = new Selector(firstChild, secondChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         firstChild.Finish(false);
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, secondChild.CurrentState);
 
         sut.StopLowerPriorityChildrenForChild(firstChild, true);
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, secondChild.CurrentState);
         Assert.IsFalse(behaviorTree.DidFinish);
     }
 
@@ -180,21 +179,21 @@ public class NPBtrSelectorTest : NPBtrTest
     {
         NPBtrMockNode firstChild = new NPBtrMockNode();
         NPBtrMockNode secondChild = new NPBtrMockNode(true);
-        NPBtrSelector sut = new NPBtrSelector(firstChild, secondChild);
+        Selector sut = new Selector(firstChild, secondChild);
         NPBtrTestRoot behaviorTree = CreateBehaviorTree(sut);
 
         behaviorTree.Start();
         firstChild.Finish(false);
         
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.ACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.ACTIVE, secondChild.CurrentState);
 
         sut.StopLowerPriorityChildrenForChild(firstChild, true);
         
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, sut.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, firstChild.CurrentState);
-        Assert.AreEqual(NPBtrNode.State.INACTIVE, secondChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, sut.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
+        Assert.AreEqual(Node.State.INACTIVE, secondChild.CurrentState);
         Assert.IsTrue(behaviorTree.DidFinish);
         Assert.IsTrue(behaviorTree.WasSuccess);
     }

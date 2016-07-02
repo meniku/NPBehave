@@ -1,25 +1,23 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using NPBehave;
 
 public class NPBtrBlackboardTest
 {
-    private NPBtrClock clock;
-    private NPBtrBlackboard sut;
+    private Clock clock;
+    private Blackboard sut;
 
     [SetUp]
     public void SetUp()
     {
-        this.clock = new NPBtrClock();
-        this.sut = new NPBtrBlackboard(clock);
+        this.clock = new Clock();
+        this.sut = new Blackboard(clock);
     }
 
     [Test]
     public void ShouldNotNotifyObservers_WhenNoClockUpdate()
     {
         bool notified = false;
-        this.sut.AddObserver("test", (NPBtrBlackboard.Type type, object value) => {
+        this.sut.AddObserver("test", (Blackboard.Type type, object value) => {
             notified = true;
         });
 
@@ -31,7 +29,7 @@ public class NPBtrBlackboardTest
     public void ShouldNotifyObservers_WhenClockUpdate()
     {
         bool notified = false;
-        this.sut.AddObserver("test", (NPBtrBlackboard.Type type, object value) => {
+        this.sut.AddObserver("test", (Blackboard.Type type, object value) => {
             notified = true;
         });
 
@@ -44,15 +42,15 @@ public class NPBtrBlackboardTest
     public void ShouldNotNotifyObserver_WhenRemovedDuringOtherObserver()
     {
         bool notified = false;
-        System.Action<NPBtrBlackboard.Type, object> obs1 = null;
-        System.Action<NPBtrBlackboard.Type, object> obs2 = null;
+        System.Action<Blackboard.Type, object> obs1 = null;
+        System.Action<Blackboard.Type, object> obs2 = null;
         
-        obs1 = (NPBtrBlackboard.Type type, object value) => {
+        obs1 = (Blackboard.Type type, object value) => {
             Assert.IsFalse(notified);
             notified = true;
             this.sut.RemoveObserver("test", obs2);
         };
-        obs2 = (NPBtrBlackboard.Type type, object value) => {
+        obs2 = (Blackboard.Type type, object value) => {
             Assert.IsFalse(notified);
             notified = true;
             this.sut.RemoveObserver("test", obs1);

@@ -1,17 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using NPBehave;
 
 public class NPBtrTest
 {
-    protected NPBtrNode SUT;
+    protected Node SUT;
     protected NPBtrTestRoot Root;
-    protected NPBtrBlackboard Blackboard;
-    protected NPBtrClock Timer;
+    protected Blackboard Blackboard;
+    protected Clock Timer;
 
-    protected NPBtrTestRoot CreateBehaviorTree(NPBtrNode sut)
+    protected NPBtrTestRoot CreateBehaviorTree(Node sut)
     {
-        this.Timer = new NPBtrClock();
-        this.Blackboard = new NPBtrBlackboard(this.Timer);
+        this.Timer = new Clock();
+        this.Blackboard = new Blackboard(this.Timer);
         this.Root = new NPBtrTestRoot(Blackboard, Timer, sut);
         this.SUT = sut;
         return Root;

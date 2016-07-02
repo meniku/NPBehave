@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using NPBehave;
 
-public class NPBtrTestRoot : NPBtrRoot
+public class NPBtrTestRoot : Root
 {
     private bool didFinish = false;
     private bool wasSuccess = false;
@@ -16,7 +15,7 @@ public class NPBtrTestRoot : NPBtrRoot
         get { return wasSuccess; }
     }
 
-    public NPBtrTestRoot(NPBtrBlackboard blackboard, NPBtrClock timer, NPBtrNode mainNode) :
+    public NPBtrTestRoot(Blackboard blackboard, Clock timer, Node mainNode) :
         base(blackboard, timer, mainNode)
     {
     }
@@ -27,7 +26,7 @@ public class NPBtrTestRoot : NPBtrRoot
         base.DoStart();
     }
 
-    override protected void DoChildStopped(NPBtrNode node, bool success)
+    override protected void DoChildStopped(Node node, bool success)
     {
         didFinish = true;
         wasSuccess = success;

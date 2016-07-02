@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using NPBehave;
 
-[CustomEditor(typeof(NPBtrDebugger))]
+[CustomEditor(typeof(Debugger))]
 public class NPBtrDebuggerEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -12,7 +13,7 @@ public class NPBtrDebuggerEditor : Editor
             return;
         }
 
-        NPBtrDebugger debugger = (NPBtrDebugger)target;
+        Debugger debugger = (Debugger)target;
 
         if( !target || debugger.BehaviorTree == null) 
         {
@@ -26,7 +27,7 @@ public class NPBtrDebuggerEditor : Editor
         else
         {
             EditorGUILayout.LabelField("Blackboard: ", EditorStyles.boldLabel);
-            NPBtrBlackboard blackboard = debugger.BehaviorTree.Blackboard;
+            Blackboard blackboard = debugger.BehaviorTree.Blackboard;
             List<string> keys = blackboard.Keys;
             foreach (string key in keys)
             {
@@ -48,20 +49,20 @@ public class NPBtrDebuggerEditor : Editor
         }
     }
 
-    private void Traverse(string prefix, NPBtrNode node)
+    private void Traverse(string prefix, Node node)
     {
         Print(prefix, node);
 
-        if (node is NPBtrContainer)
+        if (node is Container)
         {
-            NPBtrNode[] children = (node as NPBtrContainer).DebugChildren;
+            Node[] children = (node as Container).DebugChildren;
             if (children == null)
             {
                 GUILayout.Label(prefix + " CHILDREN ARE NULL");
             }
             else
             {
-                foreach (NPBtrNode child in children)
+                foreach (Node child in children)
                 {
                     Traverse(prefix + "  ", child);
                 }
@@ -69,9 +70,9 @@ public class NPBtrDebuggerEditor : Editor
         }
     }
 
-    private void Print(string prefix, NPBtrNode node)
+    private void Print(string prefix, Node node)
     {
-        if (node.CurrentState == NPBtrNode.State.ACTIVE)
+        if (node.CurrentState == Node.State.ACTIVE)
         {
             string label = prefix + " > " + node + " (" + node.DebugNumStartCalls + "|" + node.DebugNumStopCalls + "|" + node.DebugNumStoppedCalls + (node.DebugNumStoppedCalls > 0 ? "|" + node.DebugLastResult:"") + ")";
             EditorGUILayout.BeginHorizontal();
@@ -86,7 +87,7 @@ public class NPBtrDebuggerEditor : Editor
         {
             string label = prefix + " - " + node + " (" + node.DebugNumStartCalls + "|" + node.DebugNumStopCalls + "|" + node.DebugNumStoppedCalls + (node.DebugNumStoppedCalls > 0 ? "|" + node.DebugLastResult:"") + ")";
 
-            if (node is NPBtrRoot)
+            if (node is Root)
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(label);
