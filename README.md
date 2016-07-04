@@ -176,6 +176,9 @@ You can use the clock in your nodes to register timers or get notified on each f
 - BlackboardCondition(string key, Operator op, object value, Stops stopsOnChange, Node decoratee)
 - BlackboardCondition(string key, Operator op, Stops stopsOnChange, Node decoratee)
 
+#### BlackboardQuery
+- BlackboardQuery(string[] observedKeys, Stops stopsOnChange, System.Func<bool> query, Node decoratee
+
 #### Condition
 - Condition(Func<bool> condition, Node decoratee)
 
