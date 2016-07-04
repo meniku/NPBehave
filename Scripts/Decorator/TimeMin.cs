@@ -11,7 +11,7 @@ namespace NPBehave
         private bool isDecorateeDone = false;
         private bool isDecorateeSuccess = false;
 
-        public TimeMin(float limit, Node decoratee) : base("NPBtrTimeMin", decoratee)
+        public TimeMin(float limit, Node decoratee) : base("TimeMin", decoratee)
         {
             this.limit = limit;
             this.randomVariation = this.limit * 0.05f;
@@ -19,7 +19,7 @@ namespace NPBehave
             Assert.IsTrue(limit > 0f, "limit has to be set");
         }
 
-        public TimeMin(float limit, bool waitOnFailure, Node decoratee) : base("NPBtrTimeMin", decoratee)
+        public TimeMin(float limit, bool waitOnFailure, Node decoratee) : base("TimeMin", decoratee)
         {
             this.limit = limit;
             this.randomVariation = this.limit * 0.05f;
@@ -27,7 +27,7 @@ namespace NPBehave
             Assert.IsTrue(limit > 0f, "limit has to be set");
         }
 
-        public TimeMin(float limit, float randomVariation, bool waitOnFailure, Node decoratee) : base("NPBtrTimeMin", decoratee)
+        public TimeMin(float limit, float randomVariation, bool waitOnFailure, Node decoratee) : base("TimeMin", decoratee)
         {
             this.limit = limit;
             this.randomVariation = randomVariation;

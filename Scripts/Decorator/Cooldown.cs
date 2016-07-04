@@ -12,7 +12,7 @@ namespace NPBehave
         private float randomVariation = 0.05f;
         private bool isReady = true;
 
-        public Cooldown(float cooldownTime, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee) : base("NPBtrTimeCooldown", decoratee)
+        public Cooldown(float cooldownTime, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee) : base("TimeCooldown", decoratee)
         {
             this.startAfterDecoratee = startAfterDecoratee;
             this.cooldownTime = cooldownTime;
@@ -21,7 +21,7 @@ namespace NPBehave
             Assert.IsTrue(cooldownTime > 0f, "cooldownTime has to be set");
         }
 
-        public Cooldown(float cooldownTime, float randomVariation, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee) : base("NPBtrTimeCooldown", decoratee)
+        public Cooldown(float cooldownTime, float randomVariation, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee) : base("TimeCooldown", decoratee)
         {
             this.startAfterDecoratee = startAfterDecoratee;
             this.cooldownTime = cooldownTime;
@@ -30,7 +30,7 @@ namespace NPBehave
             Assert.IsTrue(cooldownTime > 0f, "limit has to be set");
         }
 
-        public Cooldown(float cooldownTime, float randomVariation, Node decoratee) : base("NPBtrTimeCooldown", decoratee)
+        public Cooldown(float cooldownTime, float randomVariation, Node decoratee) : base("TimeCooldown", decoratee)
         {
             this.startAfterDecoratee = false;
             this.cooldownTime = cooldownTime;
@@ -39,7 +39,7 @@ namespace NPBehave
             Assert.IsTrue(cooldownTime > 0f, "limit has to be set");
         }
 
-        public Cooldown(float cooldownTime, Node decoratee) : base("NPBtrTimeCooldown", decoratee)
+        public Cooldown(float cooldownTime, Node decoratee) : base("TimeCooldown", decoratee)
         {
             this.startAfterDecoratee = false;
             this.cooldownTime = cooldownTime;

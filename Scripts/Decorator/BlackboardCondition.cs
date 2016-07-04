@@ -89,7 +89,7 @@ namespace NPBehave
                     Assert.IsNotNull(childNode);
                     if (parentNode is Parallel)
                     {
-                        Assert.IsTrue(stopsOnChange == Stops.IMMEDIATE_RESTART, "On Parallel Nodes all children have the same priority, thus NPBtrStops.LOWER_PRIORITY or NPBtrStops.BOTH are unsupported in this context!");
+                        Assert.IsTrue(stopsOnChange == Stops.IMMEDIATE_RESTART, "On Parallel Nodes all children have the same priority, thus Stops.LOWER_PRIORITY or Stops.BOTH are unsupported in this context!");
                     }
 
                     ((Composite)parentNode).StopLowerPriorityChildrenForChild(childNode, stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART);

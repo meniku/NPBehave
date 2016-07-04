@@ -157,17 +157,17 @@ namespace NPBehave
             /// be careful with this!
         }
 
-        // public NPBtrComposite ParentComposite
+        // public Composite ParentComposite
         // {
         //     get
         //     {
-        //         if (ParentNode != null && !(ParentNode is NPBtrComposite))
+        //         if (ParentNode != null && !(ParentNode is Composite))
         //         {
         //             return ParentNode.ParentComposite;
         //         }
         //         else
         //         {
-        //             return ParentNode as NPBtrComposite;
+        //             return ParentNode as Composite;
         //         }
         //     }
         // }

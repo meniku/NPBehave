@@ -9,7 +9,7 @@ namespace NPBehave
         private bool waitForChildButFailOnLimitReached = false;
         private bool isLimitReached = false;
 
-        public TimeMax(float limit, bool waitForChildButFailOnLimitReached, Node decoratee) : base("NPBtrTimeMax", decoratee)
+        public TimeMax(float limit, bool waitForChildButFailOnLimitReached, Node decoratee) : base("TimeMax", decoratee)
         {
             this.limit = limit;
             this.randomVariation = limit * 0.05f;
@@ -17,7 +17,7 @@ namespace NPBehave
             Assert.IsTrue(limit > 0f, "limit has to be set");
         }
 
-        public TimeMax(float limit, float randomVariation, bool waitForChildButFailOnLimitReached, Node decoratee) : base("NPBtrTimeMax", decoratee)
+        public TimeMax(float limit, float randomVariation, bool waitForChildButFailOnLimitReached, Node decoratee) : base("TimeMax", decoratee)
         {
             this.limit = limit;
             this.randomVariation = randomVariation;

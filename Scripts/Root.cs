@@ -6,7 +6,7 @@ namespace NPBehave
     {
         private Node mainNode;
 
-        //private NPBtrNode inProgressNode;
+        //private Node inProgressNode;
 
         private Blackboard blackboard;
         public override Blackboard Blackboard

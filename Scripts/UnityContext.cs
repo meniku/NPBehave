@@ -12,7 +12,7 @@ namespace NPBehave
             if (instance == null)
             {
                 GameObject gameObject = new GameObject();
-                gameObject.name = "~NPBtrContext";
+                gameObject.name = "~Context";
                 instance = (UnityContext)gameObject.AddComponent(typeof(UnityContext));
                 gameObject.isStatic = true;
 #if !UNITY_EDITOR

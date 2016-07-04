@@ -14,7 +14,7 @@ public class NPBehaveExampleHelloBlackboardsAI : MonoBehaviour
 
                 new Selector(
 
-                    // Check the 'toggled' flag. NPBtrStops.IMMEDIATE_RESTART means that the Blackboard will be observed for changes 
+                    // Check the 'toggled' flag. Stops.IMMEDIATE_RESTART means that the Blackboard will be observed for changes 
                     // while this or any lower priority branches are executed. If the value changes, the corresponding branch will be
                     // stopped and it will be immediately jump to the branch that now matches the condition.
                     new BlackboardCondition("foo", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART,
@@ -25,7 +25,7 @@ public class NPBehaveExampleHelloBlackboardsAI : MonoBehaviour
                             // print out a message ...
                             new Action(() => Debug.Log("foo")),
 
-                            // ... and stay here until the `NPBtrBlackboardValue`-node stops us because the toggled flag went false.
+                            // ... and stay here until the `BlackboardValue`-node stops us because the toggled flag went false.
                             new WaitUntilStopped()
                         )
                     ),
