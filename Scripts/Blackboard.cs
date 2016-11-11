@@ -86,7 +86,16 @@ namespace NPBehave
                 }
                 else
                 {
-                    if (!this.data[key].Equals(value))
+					if(this.data[key] == null)
+					{
+						if(value != null)
+						{
+							this.data[key] = value;
+							this.notifications.Add(new Notification(key, Type.CHANGE, value));
+							this.clock.AddTimer(0f, 0, NotifiyObservers);
+						}
+					}
+                    else if (!this.data[key].Equals(value))
                     {
                         this.data[key] = value;
                         this.notifications.Add(new Notification(key, Type.CHANGE, value));
