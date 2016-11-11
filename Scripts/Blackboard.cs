@@ -86,7 +86,7 @@ namespace NPBehave
                 }
                 else
                 {
-                    if((this.data[key] == null && value != null)|| !this.data[key].Equals(value))
+                    if ((this.data[key] == null && value != null) || (this.data[key] != null && !this.data[key].Equals(value)))
                     {
                         this.data[key] = value;
                         this.notifications.Add(new Notification(key, Type.CHANGE, value));

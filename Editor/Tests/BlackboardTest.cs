@@ -67,5 +67,17 @@ namespace NPBehave
             this.clock.Update(1f);
             Assert.IsTrue(notified);
         }
+
+        [Test]
+        public void ShouldAllowToSetToNull_WhenAlreadySertToNull()
+        {
+            this.sut.Set("test", 1f);
+            Assert.AreEqual(this.sut.Get("test"), 1f);
+            this.sut.Set("test", null);
+            this.sut.Set("test", null);
+            Assert.AreEqual(this.sut.Get("test"), null);
+            this.sut.Set("test", "something");
+            Assert.AreEqual(this.sut.Get("test"), "something");
+        }
     }
 }
