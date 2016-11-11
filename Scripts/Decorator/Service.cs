@@ -7,21 +7,21 @@
         private float interval = -1.0f;
         private float randomVariation;
 
-		public Service(float interval, float randomVariation, System.Action service, Node decoratee) : base("Service", decoratee)
+        public Service(float interval, float randomVariation, System.Action service, Node decoratee) : base("Service", decoratee)
         {
             this.serviceMethod = service;
             this.interval = interval;
             this.randomVariation = randomVariation;
         }
 
-		public Service(float interval, System.Action service, Node decoratee) : base("Service", decoratee)
+        public Service(float interval, System.Action service, Node decoratee) : base("Service", decoratee)
         {
             this.serviceMethod = service;
             this.interval = interval;
             this.randomVariation = interval * 0.05f;
         }
 
-		public Service(System.Action service, Node decoratee) : base("Service", decoratee)
+        public Service(System.Action service, Node decoratee) : base("Service", decoratee)
         {
             this.serviceMethod = service;
         }

@@ -21,7 +21,7 @@ namespace NPBehave
         {
             if (stopsOnChange != Stops.NONE)
             {
-                foreach(string key in this.keys)
+                foreach (string key in this.keys)
                 {
                     this.RootNode.Blackboard.AddObserver(key, OnValueChanged);
                 }
@@ -48,7 +48,7 @@ namespace NPBehave
             Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
             if (stopsOnChange == Stops.NONE || stopsOnChange == Stops.SELF)
             {
-                foreach(string key in this.keys)
+                foreach (string key in this.keys)
                 {
                     this.RootNode.Blackboard.RemoveObserver(key, OnValueChanged);
                 }
@@ -58,7 +58,7 @@ namespace NPBehave
 
         override protected void DoParentCompositeStopped(Composite parentComposite)
         {
-            foreach(string key in this.keys)
+            foreach (string key in this.keys)
             {
                 this.RootNode.Blackboard.RemoveObserver(key, OnValueChanged);
             }
@@ -106,9 +106,9 @@ namespace NPBehave
         override public string ToString()
         {
             string keys = "";
-            foreach(string key in this.keys)
+            foreach (string key in this.keys)
             {
-                keys += " " +key ;
+                keys += " " + key;
             }
             return Name + keys;
         }

@@ -4,10 +4,10 @@ namespace NPBehave
 {
     public class Observer : Decorator
     {
-		private System.Action onStart;
-		private System.Action<bool> onStop;
+        private System.Action onStart;
+        private System.Action<bool> onStop;
 
-		public Observer(System.Action onStart, System.Action<bool> onStop, Node decoratee) : base("Observer", decoratee)
+        public Observer(System.Action onStart, System.Action<bool> onStop, Node decoratee) : base("Observer", decoratee)
         {
             this.onStart = onStart;
             this.onStop = onStop;

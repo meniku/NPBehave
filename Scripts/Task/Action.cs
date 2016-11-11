@@ -12,8 +12,8 @@ namespace NPBehave
         }
 
 
-		private System.Func<bool, Result> multiFrameFunc;
-		private System.Action action;
+        private System.Func<bool, Result> multiFrameFunc;
+        private System.Action action;
 
         public Action(System.Action action) : base("Action")
         {
@@ -21,7 +21,7 @@ namespace NPBehave
             this.action = action;
         }
 
-		public Action(System.Func<bool, Result> multiframeFunc) : base("Action")
+        public Action(System.Func<bool, Result> multiframeFunc) : base("Action")
         {
             this.multiFrameFunc = multiframeFunc;
             this.action = null;

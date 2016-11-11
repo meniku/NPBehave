@@ -21,7 +21,7 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
 
         // attach the debugger component if executed in editor (helps to debug in the inspector)
 #if UNITY_EDITOR
-		Debugger debugger = (Debugger)this.gameObject.AddComponent(typeof(Debugger));
+        Debugger debugger = (Debugger)this.gameObject.AddComponent(typeof(Debugger));
         debugger.BehaviorTree = behaviorTree;
 #endif
 
@@ -67,7 +67,7 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
 
                     // park until engaged does change
                     new Selector(
-                        
+
                         // this time we can also use NBtrStops.BOTH, which stops the current branch if the condition changes but will traverse the 
                         // tree further the normal way (in that case, doesn't make a difference at all). 
                         new BlackboardCondition("playerInRange", Operator.IS_EQUAL, true, Stops.BOTH,

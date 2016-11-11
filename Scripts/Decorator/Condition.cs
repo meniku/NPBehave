@@ -10,12 +10,12 @@ namespace NPBehave
 
         public Condition(Func<bool> condition, Node decoratee) : base("Condition", decoratee)
         {
-			this.condition = condition;
+            this.condition = condition;
         }
 
         protected override void DoStart()
         {
-			if (!condition.Invoke())
+            if (!condition.Invoke())
             {
                 Stopped(false);
             }

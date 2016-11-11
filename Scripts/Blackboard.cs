@@ -26,10 +26,10 @@ namespace NPBehave
 
         private Clock clock;
         private Dictionary<string, object> data = new Dictionary<string, object>();
-		private Dictionary<string, List<System.Action<Type, object>>> observers = new Dictionary<string, List<System.Action<Type, object>>>();
+        private Dictionary<string, List<System.Action<Type, object>>> observers = new Dictionary<string, List<System.Action<Type, object>>>();
         private bool isNotifiyng = false;
-		private Dictionary<string, List<System.Action<Type, object>>> addObservers = new Dictionary<string, List<System.Action<Type, object>>>();
-		private Dictionary<string, List<System.Action<Type, object>>> removeObservers = new Dictionary<string, List<System.Action<Type, object>>>();
+        private Dictionary<string, List<System.Action<Type, object>>> addObservers = new Dictionary<string, List<System.Action<Type, object>>>();
+        private Dictionary<string, List<System.Action<Type, object>>> removeObservers = new Dictionary<string, List<System.Action<Type, object>>>();
         private List<Notification> notifications = new List<Notification>();
         private List<Notification> notificationsDispatch = new List<Notification>();
         private Blackboard parentBlackboard;
@@ -164,9 +164,9 @@ namespace NPBehave
             return this.data.ContainsKey(key) || (this.parentBlackboard != null && this.parentBlackboard.Isset(key));
         }
 
-		public void AddObserver(string key, System.Action<Type, object> observer)
+        public void AddObserver(string key, System.Action<Type, object> observer)
         {
-			List<System.Action<Type, object>> observers = GetObserverList(this.observers, key);
+            List<System.Action<Type, object>> observers = GetObserverList(this.observers, key);
             if (!isNotifiyng)
             {
                 if (!observers.Contains(observer))
@@ -178,14 +178,14 @@ namespace NPBehave
             {
                 if (!observers.Contains(observer))
                 {
-					List<System.Action<Type, object>> addObservers = GetObserverList(this.addObservers, key);
+                    List<System.Action<Type, object>> addObservers = GetObserverList(this.addObservers, key);
                     if (!addObservers.Contains(observer))
                     {
                         addObservers.Add(observer);
                     }
                 }
 
-				List<System.Action<Type, object>> removeObservers = GetObserverList(this.removeObservers, key);
+                List<System.Action<Type, object>> removeObservers = GetObserverList(this.removeObservers, key);
                 if (removeObservers.Contains(observer))
                 {
                     removeObservers.Remove(observer);
@@ -193,9 +193,9 @@ namespace NPBehave
             }
         }
 
-		public void RemoveObserver(string key, System.Action<Type, object> observer)
+        public void RemoveObserver(string key, System.Action<Type, object> observer)
         {
-			List<System.Action<Type, object>> observers = GetObserverList(this.observers, key);
+            List<System.Action<Type, object>> observers = GetObserverList(this.observers, key);
             if (!isNotifiyng)
             {
                 if (observers.Contains(observer))
@@ -205,7 +205,7 @@ namespace NPBehave
             }
             else
             {
-				List<System.Action<Type, object>> removeObservers = GetObserverList(this.removeObservers, key);
+                List<System.Action<Type, object>> removeObservers = GetObserverList(this.removeObservers, key);
                 if (!removeObservers.Contains(observer))
                 {
                     if (observers.Contains(observer))
@@ -214,7 +214,7 @@ namespace NPBehave
                     }
                 }
 
-				List<System.Action<Type, object>> addObservers = GetObserverList(this.addObservers, key);
+                List<System.Action<Type, object>> addObservers = GetObserverList(this.addObservers, key);
                 if (addObservers.Contains(observer))
                 {
                     addObservers.Remove(observer);
@@ -280,8 +280,8 @@ namespace NPBehave
                     continue;
                 }
 
-				List<System.Action<Type, object>> observers = GetObserverList(this.observers, notification.key);
-				foreach (System.Action<Type, object> observer in observers)
+                List<System.Action<Type, object>> observers = GetObserverList(this.observers, notification.key);
+                foreach (System.Action<Type, object> observer in observers)
                 {
                     if (this.removeObservers.ContainsKey(notification.key) && this.removeObservers[notification.key].Contains(observer))
                     {
@@ -297,7 +297,7 @@ namespace NPBehave
             }
             foreach (string key in this.removeObservers.Keys)
             {
-				foreach (System.Action<Type, object> action in removeObservers[key])
+                foreach (System.Action<Type, object> action in removeObservers[key])
                 {
                     GetObserverList(this.observers, key).Remove(action);
                 }
@@ -308,16 +308,16 @@ namespace NPBehave
             isNotifiyng = false;
         }
 
-		private List<System.Action<Type, object>> GetObserverList(Dictionary<string, List<System.Action<Type, object>>> target, string key)
+        private List<System.Action<Type, object>> GetObserverList(Dictionary<string, List<System.Action<Type, object>>> target, string key)
         {
-			List<System.Action<Type, object>> observers;
+            List<System.Action<Type, object>> observers;
             if (target.ContainsKey(key))
             {
                 observers = target[key];
             }
             else
             {
-				observers = new List<System.Action<Type, object>>();
+                observers = new List<System.Action<Type, object>>();
                 target[key] = observers;
             }
             return observers;
