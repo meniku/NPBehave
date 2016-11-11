@@ -1,4 +1,4 @@
-# NPBehave - An event driven behaviour tree library for code based AIs in Unity 3D
+# NPBehave - An event driven behaviour tree library for code based AIs in Unity
 NPBehave aims to be:
 
 - lightweight, fast & simple
@@ -13,7 +13,7 @@ In NPBehave you will find most node types from traditional behavior trees, but a
 If you don't know anything about behavior trees, it's highly recommended that you gain some theory first, [this Gamasutra article](http://www.gamasutra.com/blogs/ChrisSimpson/20140717/221339/Behavior_trees_for_AI_How_they_work.php) is a good read.
 
 ## Installation
-Just drop the `NPBehave` folder into your unity project. There is also an `Examples` subfolder, with some example scenes you may want to check out.
+Just drop the `NPBehave` folder into your Unity project. There is also an `Examples` subfolder, with some example scenes you may want to check out.
 
 ## Example: "Hello World" Behaviour Tree
 Let's start with an example:
