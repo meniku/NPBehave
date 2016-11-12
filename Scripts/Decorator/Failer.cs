@@ -18,7 +18,7 @@
 
         protected override void DoChildStopped(Node child, bool result)
         {
-            Stopped(true);
+            Stopped(false);
         }
     }
 
