@@ -10,6 +10,6 @@ namespace NPBehave
         IS_GREATER,
         IS_SMALLER_OR_EQUAL,
         IS_SMALLER,
-        ON_CHANGE
+        ALWAYS_TRUE
     }
 }

@@ -99,7 +99,7 @@ namespace NPBehave
 
         private bool IsConditionMet()
         {
-            if (op == Operator.ON_CHANGE)
+            if (op == Operator.ALWAYS_TRUE)
             {
                 return true;
             }
