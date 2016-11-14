@@ -7,6 +7,13 @@ namespace NPBehave
     [CustomEditor(typeof(Debugger))]
     public class DebuggerEditor : Editor
     {
+        GUIStyle GreenLabelStyle;
+
+        void OnEnable () {
+            GreenLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            GreenLabelStyle.normal.textColor = Color.green;
+        }
+
         public override void OnInspectorGUI()
         {
             if (!target)
@@ -77,7 +84,7 @@ namespace NPBehave
             {
                 string label = prefix + " > " + node + " (" + node.DebugNumStartCalls + "|" + node.DebugNumStopCalls + "|" + node.DebugNumStoppedCalls + (node.DebugNumStoppedCalls > 0 ? "|" + node.DebugLastResult : "") + ")";
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(label);
+                EditorGUILayout.LabelField(label, GreenLabelStyle);
                 if (GUILayout.Button("Stop"))
                 {
                     node.Stop();
