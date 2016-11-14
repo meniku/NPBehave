@@ -9,8 +9,9 @@ namespace NPBehave
     {
         GUIStyle GreenLabelStyle;
 
-        void OnEnable () {
-            GreenLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+        void OnEnable()
+        {
+            GreenLabelStyle = new GUIStyle(EditorStyles.label);
             GreenLabelStyle.normal.textColor = Color.green;
         }
 
