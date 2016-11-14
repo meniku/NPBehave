@@ -44,7 +44,7 @@ When you run this, you'll notice that "Hello World" will be printed over and ove
 behaviourTree = new Root(
 	new Sequence(
 		new Action(() => Debug.Log("Hello World!")),
-		new NBtrWaitUntilStops()
+		new WaitUntilStopped()
 	)
 );
 ... 
