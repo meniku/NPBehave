@@ -161,6 +161,9 @@ You can use the clock in your nodes to register timers or get notified on each f
 - Action(Action action)
 - Action(Func<bool, Result> multiframeFunc)
 
+#### NavWalkTo (!!!! EXPERIMENTAL !!!!)
+- NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f)
+
 #### Wait
 - Wait(float seconds)
 - Wait(float seconds, float randomVariance)
