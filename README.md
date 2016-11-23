@@ -221,3 +221,8 @@ You can use the clock in your nodes to register timers or get notified on each f
 - TimeMin(float limit, Node decoratee)
 - TimeMin(float limit, bool waitOnFailure, Node decoratee)
 - TimeMin(float limit, float randomVariation, bool waitOnFailure, Node decoratee)
+
+## Video Tutorials
+
+* [Tutorial 01](https://www.youtube.com/watch?v=JZbesN2_-fE): Getting started
+* [Tutorial 02](https://www.youtube.com/watch?v=0jKz9WqF24c): Simple Patrolling AI
