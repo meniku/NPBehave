@@ -33,8 +33,16 @@
 
         override protected void DoStop()
         {
+            this.Clock.RemoveTimer(restartDecoratee);
             stopRequested = true;
-            Decoratee.Stop();
+            if (Decoratee.IsActive)
+            {
+                Decoratee.Stop();
+            }
+            else
+            {
+                Stopped(false);
+            }
         }
 
         protected override void DoChildStopped(Node child, bool result)
@@ -47,13 +55,18 @@
                 }
                 else
                 {
-                    Decoratee.Start();
+                    this.Clock.AddTimer(0, 0, restartDecoratee);
                 }
             }
             else
             {
                 Stopped(false);
             }
+        }
+
+        protected void restartDecoratee()
+        {
+            Decoratee.Start();
         }
     }
 }
