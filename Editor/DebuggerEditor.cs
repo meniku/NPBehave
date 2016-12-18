@@ -14,9 +14,6 @@ namespace NPBehave
 
         private Color defaultColor;
 
-        private GUIContent pauseIcon = EditorGUIUtility.IconContent("PauseButton Anim");
-        private GUIContent playIcon = EditorGUIUtility.IconContent("PlayButton On");
-
         public void OnEnable()
         {
             nestedBoxStyle = new GUIStyle();
@@ -182,23 +179,20 @@ namespace NPBehave
             {
                 GUILayout.Label("-" + node.ToString(), nodeTextStyle);
 
-                // This part still screws with the width a bit, NEED TO FIND ANOTHER WAY ( Only on SimpleAI example for some reason ) 
-                /*if (node.CurrentState == Node.State.ACTIVE)
+                if (node.CurrentState == Node.State.ACTIVE)
                 {
-                    EditorGUILayout.LabelField(playIcon);
-                    if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition) && Event.current.type == EventType.MouseDown && Event.current.clickCount == 1)
+                    if (GUILayout.Button("stop", EditorStyles.miniButton))
                     {
                         node.Stop();
                     }
                 }
                 else if (node is Root)
                 {
-                    EditorGUILayout.LabelField(pauseIcon);
-                    if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition) && Event.current.type == EventType.MouseDown && Event.current.clickCount == 1)
+                    if (GUILayout.Button("start", EditorStyles.miniButton))
                     {
                         node.Start();
                     }
-                }*/
+                }
 
                 GUILayout.FlexibleSpace();
                 GUILayout.Label((node.DebugNumStoppedCalls > 0 ? node.DebugLastResult.ToString() : "") + " | "+ node.DebugNumStartCalls + " , " + node.DebugNumStopCalls + " , " + node.DebugNumStoppedCalls, smallTextStyle);
