@@ -179,6 +179,7 @@ namespace NPBehave
             {
                 GUILayout.Label("-" + node.ToString(), nodeTextStyle);
 
+
                 if (node.CurrentState == Node.State.ACTIVE)
                 {
                     if (GUILayout.Button("stop", EditorStyles.miniButton))
@@ -188,10 +189,12 @@ namespace NPBehave
                 }
                 else if (node is Root)
                 {
+                    GUI.color = new Color(1f, 1f, 1f, 1f);
                     if (GUILayout.Button("start", EditorStyles.miniButton))
                     {
                         node.Start();
                     }
+                    GUI.color = new Color(1f, 1f, 1f, 0.3f);
                 }
 
                 GUILayout.FlexibleSpace();
