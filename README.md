@@ -1,4 +1,7 @@
 # NPBehave - An event driven behaviour tree library for code based AIs in Unity
+
+![NPBehave Logo](http://labs.nkuebler.de/npbehave/images/np-behave.png)
+
 NPBehave aims to be:
 
 - lightweight, fast & simple
@@ -105,6 +108,8 @@ In NPBehave we have four different node types:
 
 ## The Debugger
 You can use the `Debugger` component to debug the behavior trees at runtime in the inspector. 
+
+![NPBehave Debugger](http://labs.nkuebler.de/npbehave/images/npbehave-dbg.png)
 
 *Check out the [sample](https://github.com/meniku/NPBehave/blob/master/Examples/Scripts/NPBehaveExampleEnemyAI.cs)*
 
