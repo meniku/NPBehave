@@ -125,17 +125,28 @@ namespace NPBehave
                 GUILayout.Label("Behaviour Tree:", EditorStyles.boldLabel);
 
                 EditorGUILayout.BeginVertical(nestedBoxStyle);
-                DrawNodeContainers(debugger.BehaviorTree, 0);
+                DrawNodeTree(debugger.BehaviorTree, 0);
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndVertical();
         }
 
-        private void DrawNodeContainers(Node node, int depth = 0)
+        private void DrawNodeTree(Node node, int depth = 0, bool firstNode = true, float lastYPos = 0f)
         {
             GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
 
             DrawNode(node, depth);
+
+            Rect rect = GUILayoutUtility.GetLastRect();
+
+            // Set intial line position
+            if (firstNode) lastYPos = rect.yMin;
+
+            // Draw the lines
+            Handles.BeginGUI();
+            Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.15f);
+            Handles.DrawLine(new Vector2(rect.xMin + 3, lastYPos + 3), new Vector2(rect.xMin + 3, rect.yMax - 5));
+            Handles.EndGUI();
 
             depth++;
 
@@ -152,23 +163,15 @@ namespace NPBehave
                 }
                 else
                 {
-                    foreach (Node child in children)
+                    lastYPos = rect.yMin + 10; // Set new Line position
+
+                    for (int i = 0; i < children.Length; i++)
                     {
-                        DrawNodeContainers(child, depth);
+                        DrawNodeTree(children[i], depth, i == 0, lastYPos);
                     }
                 }
 
                 EditorGUILayout.EndVertical();
-
-
-                Rect rect = GUILayoutUtility.GetLastRect();
-
-                Handles.BeginGUI();
-                Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.15f);
-                Handles.DrawLine(new Vector2(rect.xMin + 7, rect.yMin + 1), new Vector2(rect.xMin + 7, rect.yMax - 5));
-                Handles.EndGUI();
-
-                GUI.color = Color.white;
             }
 
         }
