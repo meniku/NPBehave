@@ -163,7 +163,7 @@ namespace NPBehave
                 }
                 else
                 {
-                    lastYPos = rect.yMin + 10; // Set new Line position
+                    lastYPos = rect.yMin + 13; // Set new Line position
 
                     for (int i = 0; i < children.Length; i++)
                     {
