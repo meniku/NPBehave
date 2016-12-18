@@ -152,10 +152,10 @@ namespace NPBehave
 
             if (node is Container)
             {
-                GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f,1f,1f,1f) : new Color(1f, 1f, 1f, 0.3f);
+                GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
 
                 EditorGUILayout.BeginVertical(nestedBoxStyle);
-                
+
                 Node[] children = (node as Container).DebugChildren;
                 if (children == null)
                 {
@@ -201,7 +201,7 @@ namespace NPBehave
                 }
 
                 GUILayout.FlexibleSpace();
-                GUILayout.Label((node.DebugNumStoppedCalls > 0 ? node.DebugLastResult.ToString() : "") + " | "+ node.DebugNumStartCalls + " , " + node.DebugNumStopCalls + " , " + node.DebugNumStoppedCalls, smallTextStyle);
+                GUILayout.Label((node.DebugNumStoppedCalls > 0 ? node.DebugLastResult.ToString() : "") + " | " + node.DebugNumStartCalls + " , " + node.DebugNumStopCalls + " , " + node.DebugNumStoppedCalls, smallTextStyle);
             }
             EditorGUILayout.EndHorizontal();
         }
