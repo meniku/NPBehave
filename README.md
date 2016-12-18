@@ -203,7 +203,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 
 #### Repeater
 - Repeater(Node decoratee)
-- Repeater(int repeatTimes, Node decoratee) 
+- Repeater(int loopCount, Node decoratee) 
 
 #### Service
 - Service(Action service, Node decoratee)

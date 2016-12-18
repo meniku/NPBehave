@@ -2,27 +2,28 @@
 {
     public class Repeater : Decorator
     {
-        private int repeatTimes = -1;
-        private int numberOfExecutions;
+        private int loopCount = -1;
+        private int currentLoop;
         private bool stopRequested;
 
-        /// <param name="repeatTimes">number of times to repeat, set to -1 to repeat forever, be careful with endless loops!</param>
+        /// <param name="loopCount">number of times to execute the decoratee. Set to -1 to repeat forever, be careful with endless loops!</param>
         /// <param name="decoratee">Decorated Node</param>
-        public Repeater(int repeatTimes, Node decoratee) : base("Repeater", decoratee)
+        public Repeater(int loopCount, Node decoratee) : base("Repeater", decoratee)
         {
-            this.repeatTimes = repeatTimes;
+            this.loopCount = loopCount;
         }
 
+        /// <param name="decoratee">Decorated Node, repeated forever</param>
         public Repeater(Node decoratee) : base("Repeater", decoratee)
         {
         }
 
         protected override void DoStart()
         {
-            if (repeatTimes != 0)
+            if (loopCount != 0)
             {
                 stopRequested = false;
-                numberOfExecutions = 0;
+                currentLoop = 0;
                 Decoratee.Start();
             }
             else
@@ -49,7 +50,7 @@
         {
             if (result)
             {
-                if (stopRequested || (repeatTimes > 0 && ++numberOfExecutions >= repeatTimes))
+                if (stopRequested || (loopCount > 0 && ++currentLoop >= loopCount))
                 {
                     Stopped(true);
                 }
