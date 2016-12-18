@@ -4,18 +4,48 @@ using System.Collections.Generic;
 
 namespace NPBehave
 {
-    [CustomEditor(typeof(Debugger))]
-    public class DebuggerEditor : Editor
+    public class DebuggerEditor : EditorWindow
     {
         private const int nestedPadding = 10;
+        
+        private Transform selectedObject;
 
-        private GUIStyle smallTextStyle, nodeTextStyle;
+        private Vector2 scrollPosition = Vector2.zero;
+
+        private GUIStyle smallTextStyle, nodeTextStyle, nodeCapsuleGray;
         private GUIStyle nestedBoxStyle;
 
         private Color defaultColor;
 
-        public void OnEnable()
+        Dictionary<string, string> nameToTagString;
+        Dictionary<Operator, string> operatorToString;
+
+        [MenuItem("Window/NPBehave Debugger")]
+        public static void ShowWindow()
         {
+            DebuggerEditor window = (DebuggerEditor)EditorWindow.GetWindow(typeof(DebuggerEditor), false, "NPBehave Debugger");
+            window.Show();
+        }
+
+        public void Init()
+        {
+            Debug.Log("AWAKE !!");
+            operatorToString = new Dictionary<Operator, string>();
+            operatorToString[Operator.IS_SET] = "?=";
+            operatorToString[Operator.IS_NOT_SET] = "?!=";
+            operatorToString[Operator.IS_EQUAL] = "==";
+            operatorToString[Operator.IS_NOT_EQUAL] = "!=";
+            operatorToString[Operator.IS_GREATER_OR_EQUAL] = ">=";
+            operatorToString[Operator.IS_GREATER] = ">";
+            operatorToString[Operator.IS_SMALLER_OR_EQUAL] = "<=";
+            operatorToString[Operator.IS_SMALLER] = "<";
+            operatorToString[Operator.ALWAYS_TRUE] = "ALWAYS_TRUE";
+
+            nameToTagString = new Dictionary<string, string>();
+            nameToTagString["Selector"] = "?";
+            nameToTagString["Sequence"] = "->";
+            // To do add more
+
             nestedBoxStyle = new GUIStyle();
             nestedBoxStyle.margin = new RectOffset(nestedPadding, 0, 0, 0);
 
@@ -24,46 +54,67 @@ namespace NPBehave
 
             nodeTextStyle = new GUIStyle(EditorStyles.label);
 
+            nodeCapsuleGray = (GUIStyle)"CapsuleButton";
+            nodeCapsuleGray.normal.textColor = Color.white;
+
             defaultColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
         }
-
-        public override void OnInspectorGUI()
+        
+        public void OnSelectionChange()
         {
+            selectedObject = Selection.activeTransform;
+            Repaint();
+        }
+        
+        public void OnGUI()
+        {
+            if (nameToTagString == null) Init(); // Weird recompile bug fix
+
             GUI.color = defaultColor;
             GUILayout.Toggle(false, "NPBehave Debugger", GUI.skin.FindStyle("LODLevelNotifyText"));
             GUI.color = Color.white;
 
-            if (!target)
+            if (!Application.isPlaying)
             {
+                EditorGUILayout.HelpBox("Cannot use this utility in Editor Mode", MessageType.Info);
+                return;
+            }
+            else if (selectedObject == null)
+            {
+                EditorGUILayout.HelpBox("Please select an object", MessageType.Info);
                 return;
             }
 
-            Debugger debugger = (Debugger)target;
+            Debugger debugger = selectedObject.GetComponentInChildren<Debugger>();
 
-            if (!target || debugger.BehaviorTree == null)
+
+            if (debugger == null)
             {
+                EditorGUILayout.HelpBox("This object does not contain a debugger component", MessageType.Info);
+                return;
+            }
+            else if (debugger.BehaviorTree == null)
+            {
+                EditorGUILayout.HelpBox("BehavorTree is null", MessageType.Info);
                 return;
             }
 
-            if (debugger.BehaviorTree == null)
-            {
-                GUILayout.Label("NPBehave Debugger: No Behavor Tree Set");
-            }
-            else
-            {
-                GUIStyle boxStyle = EditorStyles.helpBox;
+            GUIStyle boxStyle = EditorStyles.helpBox;
 
-                GUILayout.BeginHorizontal();
-                DrawBlackboardKeyAndValues(debugger);
-                DrawStats(debugger);
-                GUILayout.EndHorizontal();
-                GUILayout.Space(10);
+            EditorGUILayout.BeginScrollView(scrollPosition);
 
-                DrawBehaviourTree(debugger);
-                GUILayout.Space(10);
+            GUILayout.BeginHorizontal();
+            DrawBlackboardKeyAndValues(debugger);
+            DrawStats(debugger);
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
 
-                EditorUtility.SetDirty(debugger); // ensure we are redrawn every frame
-            }
+            DrawBehaviourTree(debugger);
+            GUILayout.Space(10);
+
+            EditorGUILayout.EndScrollView();
+
+            Repaint();
         }
 
         private void DrawStats(Debugger debugger)
@@ -145,15 +196,13 @@ namespace NPBehave
             // Draw the lines
             Handles.BeginGUI();
             Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.15f);
-            Handles.DrawLine(new Vector2(rect.xMin + 3, lastYPos + 3), new Vector2(rect.xMin + 3, rect.yMax - 5));
+            Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos), new Vector2(rect.xMin - 5, rect.yMax - 7));
             Handles.EndGUI();
 
             depth++;
 
             if (node is Container)
             {
-                GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f,1f,1f,1f) : new Color(1f, 1f, 1f, 0.3f);
-
                 EditorGUILayout.BeginVertical(nestedBoxStyle);
                 
                 Node[] children = (node as Container).DebugChildren;
@@ -163,7 +212,7 @@ namespace NPBehave
                 }
                 else
                 {
-                    lastYPos = rect.yMin + 13; // Set new Line position
+                    lastYPos = rect.yMin + 12; // Set new Line position
 
                     for (int i = 0; i < children.Length; i++)
                     {
@@ -178,11 +227,44 @@ namespace NPBehave
 
         private void DrawNode(Node node, int depth)
         {
+
             EditorGUILayout.BeginHorizontal();
             {
-                GUILayout.Label("-" + node.ToString(), nodeTextStyle);
+
+                GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
+
+                string tagName;
+                GUIStyle tagStyle = nodeCapsuleGray;
+
+                if (node is BlackboardCondition)
+                {
+                    BlackboardCondition nodeBlackboardCond = node as BlackboardCondition;
+                    tagName = nodeBlackboardCond.Key + " " + operatorToString[nodeBlackboardCond.Operator] + " " + nodeBlackboardCond.Value;
+                    GUI.backgroundColor = new Color(1f,0.8f, 0.4f);
+                }
+                else
+                {
+                    if (node is Composite) GUI.backgroundColor = new Color(0.2f, 0.5f, 1f);
+                    if (node is Decorator) GUI.backgroundColor = new Color(0.4f, 0.7f, 0.7f);
+                    if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.7f, 0.7f);
+
+                    nameToTagString.TryGetValue(node.Name, out tagName);
+                }
+
+                if (string.IsNullOrEmpty(tagName)) tagName = node.Name;
+
+                GUILayout.Label(tagName, tagStyle);
 
 
+                // Reset background color
+                GUI.backgroundColor = Color.white;
+
+                // Draw Label
+                if (!string.IsNullOrEmpty(node.Label)) GUILayout.Label("   " + node.Label, (GUIStyle)"ChannelStripAttenuationMarkerSquare");
+                
+                GUILayout.FlexibleSpace();
+
+                // Draw Buttons
                 if (node.CurrentState == Node.State.ACTIVE)
                 {
                     if (GUILayout.Button("stop", EditorStyles.miniButton))
@@ -200,10 +282,19 @@ namespace NPBehave
                     GUI.color = new Color(1f, 1f, 1f, 0.3f);
                 }
 
-                GUILayout.FlexibleSpace();
+                // Draw Stats
                 GUILayout.Label((node.DebugNumStoppedCalls > 0 ? node.DebugLastResult.ToString() : "") + " | "+ node.DebugNumStartCalls + " , " + node.DebugNumStopCalls + " , " + node.DebugNumStoppedCalls, smallTextStyle);
             }
+
             EditorGUILayout.EndHorizontal();
+
+            // Draw the lines
+            Rect rect = GUILayoutUtility.GetLastRect();
+            Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.3f);
+            Handles.BeginGUI();
+            float midY = (rect.yMin + rect.yMax) / 2f;
+            Handles.DrawLine(new Vector2(rect.xMin-5, midY), new Vector2(rect.xMin, midY));
+            Handles.EndGUI();
         }
     }
 }
