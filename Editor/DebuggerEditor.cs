@@ -7,16 +7,32 @@ namespace NPBehave
     [CustomEditor(typeof(Debugger))]
     public class DebuggerEditor : Editor
     {
-        GUIStyle GreenLabelStyle;
+        private const int nestedPadding = 10;
 
-        void OnEnable()
+        private GUIStyle smallTextStyle, nodeTextStyle;
+        private GUIStyle nestedBoxStyle;
+
+        private Color defaultColor;
+
+        public void OnEnable()
         {
-            GreenLabelStyle = new GUIStyle(EditorStyles.label);
-            GreenLabelStyle.normal.textColor = Color.green;
+            nestedBoxStyle = new GUIStyle();
+            nestedBoxStyle.margin = new RectOffset(nestedPadding, 0, 0, 0);
+
+            smallTextStyle = new GUIStyle();
+            smallTextStyle.font = EditorStyles.miniFont;
+
+            nodeTextStyle = new GUIStyle(EditorStyles.label);
+
+            defaultColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
         }
 
         public override void OnInspectorGUI()
         {
+            GUI.color = defaultColor;
+            GUILayout.Toggle(false, "NPBehave Debugger", GUI.skin.FindStyle("LODLevelNotifyText"));
+            GUI.color = Color.white;
+
             if (!target)
             {
                 return;
@@ -35,82 +51,159 @@ namespace NPBehave
             }
             else
             {
-                EditorGUILayout.LabelField("Blackboard: ", EditorStyles.boldLabel);
-                Blackboard blackboard = debugger.BehaviorTree.Blackboard;
-                List<string> keys = blackboard.Keys;
-                foreach (string key in keys)
-                {
-                    GUILayout.Label(" -  " + key + " : " + blackboard.Get(key));
-                }
+                GUIStyle boxStyle = EditorStyles.helpBox;
 
-                EditorGUILayout.LabelField("Behaviour Tree: ", EditorStyles.boldLabel);
-                Traverse(" ", debugger.BehaviorTree);
+                GUILayout.BeginHorizontal();
+                DrawBlackboardKeyAndValues(debugger);
+                DrawStats(debugger);
+                GUILayout.EndHorizontal();
+                GUILayout.Space(10);
+
+                DrawBehaviourTree(debugger);
+                GUILayout.Space(10);
 
                 EditorUtility.SetDirty(debugger); // ensure we are redrawn every frame
-
-                EditorGUILayout.LabelField("Statistics:", EditorStyles.boldLabel);
-                GUILayout.Label(" - Totals (Start|Stop|Stopped):  " + debugger.BehaviorTree.TotalNumStartCalls + "|" + debugger.BehaviorTree.TotalNumStopCalls + "|" + debugger.BehaviorTree.TotalNumStoppedCalls);
-                GUILayout.Label(" - Active Timers:  " + debugger.BehaviorTree.Clock.NumTimers);
-                GUILayout.Label(" - Timer Pool Size:  " + debugger.BehaviorTree.Clock.DebugPoolSize);
-                GUILayout.Label(" - Active Update Observers:  " + debugger.BehaviorTree.Clock.NumUpdateObservers);
-                GUILayout.Label(" - Active Blackboard Observers:  " + debugger.BehaviorTree.Blackboard.NumObservers);
-
             }
         }
 
-        private void Traverse(string prefix, Node node)
+        private void DrawStats(Debugger debugger)
         {
-            Print(prefix, node);
+            EditorGUILayout.BeginVertical();
+            {
+                GUILayout.Label("Stats:", EditorStyles.boldLabel);
+
+                Root behaviorTree = debugger.BehaviorTree;
+
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                {
+                    DrawKeyValue("Total Starts:", behaviorTree.TotalNumStartCalls.ToString());
+                    DrawKeyValue("Total Stops:", behaviorTree.TotalNumStopCalls.ToString());
+                    DrawKeyValue("Total Stopped:", behaviorTree.TotalNumStoppedCalls.ToString());
+                    DrawKeyValue("Active Timers:  ", behaviorTree.Clock.NumTimers.ToString());
+                    DrawKeyValue("Timer Pool Size:  ", behaviorTree.Clock.DebugPoolSize.ToString());
+                    DrawKeyValue("Active Update Observers:  ", behaviorTree.Clock.NumUpdateObservers.ToString());
+                    DrawKeyValue("Active Blackboard Observers:  ", behaviorTree.Blackboard.NumObservers.ToString());
+                }
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private void DrawBlackboardKeyAndValues(Debugger debugger)
+        {
+            EditorGUILayout.BeginVertical();
+            {
+                GUILayout.Label("Blackboard:", EditorStyles.boldLabel);
+
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                {
+                    Blackboard blackboard = debugger.BehaviorTree.Blackboard;
+                    List<string> keys = blackboard.Keys;
+                    foreach (string key in keys)
+                    {
+                        DrawKeyValue(key, blackboard.Get(key).ToString());
+                    }
+                }
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private void DrawKeyValue(string key, string value)
+        {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(key, smallTextStyle);
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(value, smallTextStyle);
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawBehaviourTree(Debugger debugger)
+        {
+            EditorGUILayout.BeginVertical();
+            {
+                GUILayout.Label("Behaviour Tree:", EditorStyles.boldLabel);
+
+                EditorGUILayout.BeginVertical(nestedBoxStyle);
+                DrawNodeTree(debugger.BehaviorTree, 0);
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private void DrawNodeTree(Node node, int depth = 0, bool firstNode = true, float lastYPos = 0f)
+        {
+            GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
+
+            DrawNode(node, depth);
+
+            Rect rect = GUILayoutUtility.GetLastRect();
+
+            // Set intial line position
+            if (firstNode) lastYPos = rect.yMin;
+
+            // Draw the lines
+            Handles.BeginGUI();
+            Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.15f);
+            Handles.DrawLine(new Vector2(rect.xMin + 3, lastYPos + 3), new Vector2(rect.xMin + 3, rect.yMax - 5));
+            Handles.EndGUI();
+
+            depth++;
 
             if (node is Container)
             {
+                GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
+
+                EditorGUILayout.BeginVertical(nestedBoxStyle);
+
                 Node[] children = (node as Container).DebugChildren;
                 if (children == null)
                 {
-                    GUILayout.Label(prefix + " CHILDREN ARE NULL");
+                    GUILayout.Label("CHILDREN ARE NULL");
                 }
                 else
                 {
-                    foreach (Node child in children)
+                    lastYPos = rect.yMin + 13; // Set new Line position
+
+                    for (int i = 0; i < children.Length; i++)
                     {
-                        Traverse(prefix + "  ", child);
+                        DrawNodeTree(children[i], depth, i == 0, lastYPos);
                     }
                 }
+
+                EditorGUILayout.EndVertical();
             }
+
         }
 
-        private void Print(string prefix, Node node)
+        private void DrawNode(Node node, int depth)
         {
-            if (node.CurrentState == Node.State.ACTIVE)
+            EditorGUILayout.BeginHorizontal();
             {
-                string label = prefix + " > " + node + " (" + node.DebugNumStartCalls + "|" + node.DebugNumStopCalls + "|" + node.DebugNumStoppedCalls + (node.DebugNumStoppedCalls > 0 ? "|" + node.DebugLastResult : "") + ")";
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(label, GreenLabelStyle);
-                if (GUILayout.Button("Stop"))
-                {
-                    node.Stop();
-                }
-                EditorGUILayout.EndHorizontal();
-            }
-            else
-            {
-                string label = prefix + " - " + node + " (" + node.DebugNumStartCalls + "|" + node.DebugNumStopCalls + "|" + node.DebugNumStoppedCalls + (node.DebugNumStoppedCalls > 0 ? "|" + node.DebugLastResult : "") + ")";
+                GUILayout.Label("-" + node.ToString(), nodeTextStyle);
 
-                if (node is Root)
+
+                if (node.CurrentState == Node.State.ACTIVE)
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(label);
-                    if (GUILayout.Button("Start"))
+                    if (GUILayout.Button("stop", EditorStyles.miniButton))
+                    {
+                        node.Stop();
+                    }
+                }
+                else if (node is Root)
+                {
+                    GUI.color = new Color(1f, 1f, 1f, 1f);
+                    if (GUILayout.Button("start", EditorStyles.miniButton))
                     {
                         node.Start();
                     }
-                    EditorGUILayout.EndHorizontal();
+                    GUI.color = new Color(1f, 1f, 1f, 0.3f);
                 }
-                else
-                {
-                    EditorGUILayout.LabelField(label);
-                }
+
+                GUILayout.FlexibleSpace();
+                GUILayout.Label((node.DebugNumStoppedCalls > 0 ? node.DebugLastResult.ToString() : "") + " | " + node.DebugNumStartCalls + " , " + node.DebugNumStopCalls + " , " + node.DebugNumStoppedCalls, smallTextStyle);
             }
+            EditorGUILayout.EndHorizontal();
         }
     }
 }

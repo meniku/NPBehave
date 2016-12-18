@@ -183,7 +183,7 @@ namespace NPBehave
 
         override public string ToString()
         {
-            return Name + ":" + this.key;
+            return key + " : " + op + " ? " + this.value;
         }
     }
 }
