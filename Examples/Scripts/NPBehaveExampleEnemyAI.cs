@@ -40,7 +40,7 @@ public class NPBehaveExampleEnemyAI : MonoBehaviour
                         new Sequence(
 
                             // set color to 'red'
-                            new Action(() => SetColor(Color.red)),
+                            new Action(() => SetColor(Color.red)) { Label = "Change to Red" },
 
                             // go towards player until playerDistance is greater than 7.5 ( in that case, _shouldCancel will get true )
                             new Action((bool _shouldCancel) =>
@@ -54,13 +54,13 @@ public class NPBehaveExampleEnemyAI : MonoBehaviour
                                 {
                                     return Action.Result.FAILED;
                                 }
-                            })
+                            }) { Label = "Follow" }
                         )
                     ),
 
                     // park until playerDistance does change
                     new Sequence(
-                        new Action(() => SetColor(Color.grey)),
+                        new Action(() => SetColor(Color.grey)) { Label = "Change to Gray" },
                         new WaitUntilStopped()
                     )
                 )
