@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NPBehave
 {
-    public class DebuggerEditor : EditorWindow
+    public class DebuggerWindow : EditorWindow
     {
         private const int nestedPadding = 10;
         
@@ -23,7 +23,7 @@ namespace NPBehave
         [MenuItem("Window/NPBehave Debugger")]
         public static void ShowWindow()
         {
-            DebuggerEditor window = (DebuggerEditor)EditorWindow.GetWindow(typeof(DebuggerEditor), false, "NPBehave Debugger");
+            DebuggerWindow window = (DebuggerWindow)EditorWindow.GetWindow(typeof(DebuggerWindow), false, "NPBehave Debugger");
             window.Show();
         }
 
