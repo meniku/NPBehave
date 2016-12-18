@@ -125,17 +125,17 @@ namespace NPBehave
                 GUILayout.Label("Behaviour Tree:", EditorStyles.boldLabel);
 
                 EditorGUILayout.BeginVertical(nestedBoxStyle);
-                Traverse(debugger.BehaviorTree, 0);
+                DrawNodeContainers(debugger.BehaviorTree, 0);
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndVertical();
         }
 
-        private void Traverse(Node node, int depth = 0)
+        private void DrawNodeContainers(Node node, int depth = 0)
         {
             GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
 
-            Print(node, depth);
+            DrawNode(node, depth);
 
             depth++;
 
@@ -154,7 +154,7 @@ namespace NPBehave
                 {
                     foreach (Node child in children)
                     {
-                        Traverse(child, depth);
+                        DrawNodeContainers(child, depth);
                     }
                 }
 
@@ -173,7 +173,7 @@ namespace NPBehave
 
         }
 
-        private void Print(Node node, int depth)
+        private void DrawNode(Node node, int depth)
         {
             EditorGUILayout.BeginHorizontal();
             {
