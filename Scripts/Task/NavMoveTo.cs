@@ -7,7 +7,11 @@ namespace NPBehave
         private const float DESTINATION_CHANGE_THRESHOLD = 0.0001f;
         private const uint DESTINATION_CHANGE_MAX_CHECKS = 100;
 
+#if UNITY_5_5
+        private UnityEngine.AI.NavMeshAgent agent;
+#else
         private NavMeshAgent agent;
+#endif
         private string blackboardKey;
         private float tolerance;
         private bool stopOnTolerance;
@@ -25,7 +29,12 @@ namespace NPBehave
         /// <param name="stopOnTolerance">should stop when in tolerance</param>
         /// <param name="updateFrequency">frequency to check for changes of reaching the destination or a Transform's location</param>
         /// <param name="updateVariance">random variance for updateFrequency</param>
+
+#if UNITY_5_5
+        public NavMoveTo(UnityEngine.AI.NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f) : base("NavMoveTo")
+#else
         public NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f) : base("NavMoveTo")
+#endif
         {
             this.agent = agent;
             this.blackboardKey = blackboardKey;
