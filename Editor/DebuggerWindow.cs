@@ -8,7 +8,8 @@ namespace NPBehave
     {
         private const int nestedPadding = 10;
         
-        private Transform selectedObject;
+        public static Transform selectedObject;
+        public static Debugger selectedDebugger;
 
         private Vector2 scrollPosition = Vector2.zero;
 
@@ -63,6 +64,8 @@ namespace NPBehave
         public void OnSelectionChange()
         {
             selectedObject = Selection.activeTransform;
+            if (selectedObject!=null) selectedDebugger = selectedObject.GetComponentInChildren<Debugger>();
+
             Repaint();
         }
         
@@ -79,37 +82,41 @@ namespace NPBehave
                 EditorGUILayout.HelpBox("Cannot use this utility in Editor Mode", MessageType.Info);
                 return;
             }
-            else if (selectedObject == null)
+
+            var newDebugger = (Debugger)EditorGUILayout.ObjectField("Selected Debugger:", selectedDebugger, typeof(Debugger), true);
+
+            if (newDebugger != selectedDebugger)
+            {
+                selectedDebugger = newDebugger;
+                if (newDebugger!=null) selectedObject = selectedDebugger.transform;
+            }
+
+            if (selectedObject == null)
             {
                 EditorGUILayout.HelpBox("Please select an object", MessageType.Info);
                 return;
             }
 
-            Debugger debugger = selectedObject.GetComponentInChildren<Debugger>();
-
-
-            if (debugger == null)
+            if (selectedDebugger == null)
             {
                 EditorGUILayout.HelpBox("This object does not contain a debugger component", MessageType.Info);
                 return;
             }
-            else if (debugger.BehaviorTree == null)
+            else if (selectedDebugger.BehaviorTree == null)
             {
                 EditorGUILayout.HelpBox("BehavorTree is null", MessageType.Info);
                 return;
             }
-
-            GUIStyle boxStyle = EditorStyles.helpBox;
-
+            
             EditorGUILayout.BeginScrollView(scrollPosition);
 
             GUILayout.BeginHorizontal();
-            DrawBlackboardKeyAndValues(debugger);
-            DrawStats(debugger);
+            DrawBlackboardKeyAndValues(selectedDebugger);
+            DrawStats(selectedDebugger);
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
 
-            DrawBehaviourTree(debugger);
+            DrawBehaviourTree(selectedDebugger);
             GUILayout.Space(10);
 
             EditorGUILayout.EndScrollView();
@@ -240,13 +247,13 @@ namespace NPBehave
                 {
                     BlackboardCondition nodeBlackboardCond = node as BlackboardCondition;
                     tagName = nodeBlackboardCond.Key + " " + operatorToString[nodeBlackboardCond.Operator] + " " + nodeBlackboardCond.Value;
-                    GUI.backgroundColor = new Color(1f,0.8f, 0.4f);
+                    GUI.backgroundColor = new Color(0.9f,0.9f, 0.6f);
                 }
                 else
                 {
-                    if (node is Composite) GUI.backgroundColor = new Color(0.2f, 0.5f, 1f);
-                    if (node is Decorator) GUI.backgroundColor = new Color(0.4f, 0.7f, 0.7f);
-                    if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.7f, 0.7f);
+                    if (node is Composite) GUI.backgroundColor = new Color(0.5f, 0.7f, 1f);
+                    if (node is Decorator) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
+                    if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
 
                     nameToTagString.TryGetValue(node.Name, out tagName);
                 }
