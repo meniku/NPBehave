@@ -47,7 +47,7 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
                         new Sequence(
 
                             // set color to 'red'
-                            new Action(() => SetColor(Color.red)),
+                            new Action(() => SetColor(Color.red)) { Label = "Change to Red" },
 
                             // go towards player until we are not engaged anymore
                             new Action((bool _shouldCancel) =>
@@ -61,7 +61,7 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
                                 {
                                     return Action.Result.FAILED;
                                 }
-                            })
+                            }){ Label = "Follow" }
                         )
                     ),
 
@@ -74,14 +74,14 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
 
                             // player is not in range, mark 'yellow'
                             new Sequence(
-                                new Action(() => SetColor(Color.yellow)),
+                                new Action(() => SetColor(Color.yellow)) { Label = "Change to Yellow" },
                                 new WaitUntilStopped()
                             )
                         ),
 
                         // player is not in range, mark 'gray'
                         new Sequence(
-                            new Action(() => SetColor(Color.grey)),
+                            new Action(() => SetColor(Color.grey)) { Label = "Change to Gray" },
                             new WaitUntilStopped()
                         )
                     )

@@ -29,6 +29,20 @@ namespace NPBehave
             }
         }
 
+        private string label;
+
+        public string Label
+        {
+            get
+            {
+                return label;
+            }
+            set
+            {
+                label = value;
+            }
+        }
+
         private string name;
 
         public string Name

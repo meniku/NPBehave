@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Assertions;
+using System.Collections.Generic;
 
 namespace NPBehave
 {
@@ -10,6 +11,31 @@ namespace NPBehave
         private object value;
         private Operator op;
         private Stops stopsOnChange;
+
+        public string Key
+        {
+            get
+            {
+                return key;
+            }
+        }
+
+        public object Value
+        {
+            get
+            {
+                return value;
+            }
+        }
+
+        public Operator Operator
+        {
+            get
+            {
+                return op;
+            }
+        }
+
 
         public BlackboardCondition(string key, Operator op, object value, Stops stopsOnChange, Node decoratee) : base("BlackboardValue", decoratee)
         {
@@ -183,7 +209,7 @@ namespace NPBehave
 
         override public string ToString()
         {
-            return key + " : " + op + " ? " + this.value;
+            return "("+ this.op + ") " + this.key + " ? " + this.value;
         }
     }
 }
