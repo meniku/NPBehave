@@ -7,7 +7,7 @@ namespace NPBehave
     public class DebuggerWindow : EditorWindow
     {
         private const int nestedPadding = 10;
-        
+
         public static Transform selectedObject;
         public static Debugger selectedDebugger;
 
@@ -60,15 +60,15 @@ namespace NPBehave
 
             defaultColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
         }
-        
+
         public void OnSelectionChange()
         {
             selectedObject = Selection.activeTransform;
-            if (selectedObject!=null) selectedDebugger = selectedObject.GetComponentInChildren<Debugger>();
+            if (selectedObject != null) selectedDebugger = selectedObject.GetComponentInChildren<Debugger>();
 
             Repaint();
         }
-        
+
         public void OnGUI()
         {
             if (nameToTagString == null) Init(); // Weird recompile bug fix
@@ -88,7 +88,7 @@ namespace NPBehave
             if (newDebugger != selectedDebugger)
             {
                 selectedDebugger = newDebugger;
-                if (newDebugger!=null) selectedObject = selectedDebugger.transform;
+                if (newDebugger != null) selectedObject = selectedDebugger.transform;
             }
 
             if (selectedObject == null)
@@ -107,7 +107,7 @@ namespace NPBehave
                 EditorGUILayout.HelpBox("BehavorTree is null", MessageType.Info);
                 return;
             }
-            
+
             EditorGUILayout.BeginScrollView(scrollPosition);
 
             GUILayout.BeginHorizontal();
@@ -211,7 +211,7 @@ namespace NPBehave
             if (node is Container)
             {
                 EditorGUILayout.BeginVertical(nestedBoxStyle);
-                
+
                 Node[] children = (node as Container).DebugChildren;
                 if (children == null)
                 {
@@ -247,7 +247,7 @@ namespace NPBehave
                 {
                     BlackboardCondition nodeBlackboardCond = node as BlackboardCondition;
                     tagName = nodeBlackboardCond.Key + " " + operatorToString[nodeBlackboardCond.Operator] + " " + nodeBlackboardCond.Value;
-                    GUI.backgroundColor = new Color(0.9f,0.9f, 0.6f);
+                    GUI.backgroundColor = new Color(0.9f, 0.9f, 0.6f);
                 }
                 else
                 {
@@ -268,7 +268,7 @@ namespace NPBehave
 
                 // Draw Label
                 if (!string.IsNullOrEmpty(node.Label)) GUILayout.Label("   " + node.Label, (GUIStyle)"ChannelStripAttenuationMarkerSquare");
-                
+
                 GUILayout.FlexibleSpace();
 
                 // Draw Buttons
@@ -290,7 +290,7 @@ namespace NPBehave
                 }
 
                 // Draw Stats
-                GUILayout.Label((node.DebugNumStoppedCalls > 0 ? node.DebugLastResult.ToString() : "") + " | "+ node.DebugNumStartCalls + " , " + node.DebugNumStopCalls + " , " + node.DebugNumStoppedCalls, smallTextStyle);
+                GUILayout.Label((node.DebugNumStoppedCalls > 0 ? node.DebugLastResult.ToString() : "") + " | " + node.DebugNumStartCalls + " , " + node.DebugNumStopCalls + " , " + node.DebugNumStoppedCalls, smallTextStyle);
             }
 
             EditorGUILayout.EndHorizontal();
@@ -300,7 +300,7 @@ namespace NPBehave
             Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.3f);
             Handles.BeginGUI();
             float midY = (rect.yMin + rect.yMax) / 2f;
-            Handles.DrawLine(new Vector2(rect.xMin-5, midY), new Vector2(rect.xMin, midY));
+            Handles.DrawLine(new Vector2(rect.xMin - 5, midY), new Vector2(rect.xMin, midY));
             Handles.EndGUI();
         }
     }
