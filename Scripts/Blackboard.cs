@@ -115,41 +115,14 @@ namespace NPBehave
             }
         }
 
-        public bool GetBool(string key)
+        public T Get<T>(string key)
         {
             object result = Get(key);
             if (result == null)
             {
-                return false;
+                return default(T);
             }
-            return (bool)result;
-        }
-        public float GetFloat(string key)
-        {
-            object result = Get(key);
-            if (result == null)
-            {
-                return float.NaN;
-            }
-            return (float)Get(key);
-        }
-        public Vector3 GetVector3(string key)
-        {
-            object result = Get(key);
-            if (result == null)
-            {
-                return Vector3.zero;
-            }
-            return (Vector3)Get(key);
-        }
-        public int GetInt(string key)
-        {
-            object result = Get(key);
-            if (result == null)
-            {
-                return 0;
-            }
-            return (int)Get(key);
+            return (T)result;
         }
 
         public object Get(string key)
