@@ -62,6 +62,15 @@ namespace NPBehave
             }
         }
 
+        public object this[string key] {
+            get {
+                return Get(key);
+            }
+            set {
+                Set(key, value);
+            }
+        }
+
         public void Set(string key)
         {
             if (!Isset(key))

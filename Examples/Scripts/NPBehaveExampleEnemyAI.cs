@@ -71,8 +71,8 @@ public class NPBehaveExampleEnemyAI : MonoBehaviour
     private void UpdatePlayerDistance()
     {
         Vector3 playerLocalPos = this.transform.InverseTransformPoint(GameObject.FindGameObjectWithTag("Player").transform.position);
-        behaviorTree.Blackboard.Set("playerLocalPos", playerLocalPos);
-        behaviorTree.Blackboard.Set("playerDistance", playerLocalPos.magnitude);
+        behaviorTree.Blackboard["playerLocalPos"] = playerLocalPos;
+        behaviorTree.Blackboard["playerDistance"] = playerLocalPos.magnitude;
     }
 
     private void MoveTowards(Vector3 localPosition)

@@ -95,27 +95,27 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
         Vector3 playerLocalPos = this.transform.InverseTransformPoint(GameObject.FindGameObjectWithTag("Player").transform.position);
 
         // update all our distances
-        ownBlackboard.Set("playerLocalPos", playerLocalPos);
-        ownBlackboard.Set("playerInRange", playerLocalPos.magnitude < 7.5f);
+        ownBlackboard["playerLocalPos"]= playerLocalPos;
+        ownBlackboard["playerInRange"]= playerLocalPos.magnitude < 7.5f;
 
         // if we are not yet engaging the player, but he is in range and there are not yet other 2 guys engaged with him
         if (ownBlackboard.GetBool("playerInRange") && !ownBlackboard.GetBool("engaged") && sharedBlackboard.GetInt("numEngagedActors") < 2)
         {
             // increment the shared 'numEngagedActors'
-            sharedBlackboard.Set("numEngagedActors", sharedBlackboard.GetInt("numEngagedActors") + 1);
+            sharedBlackboard["numEngagedActors"]= sharedBlackboard.GetInt("numEngagedActors") + 1;
 
             // set this instance to 'engaged'
-            ownBlackboard.Set("engaged", true);
+            ownBlackboard["engaged"]= true;
         }
 
         // if we were engaging the player, but he is not in the range anymore
         if (!ownBlackboard.GetBool("playerInRange") && ownBlackboard.GetBool("engaged"))
         {
             // decrement the shared 'numEngagedActors'
-            sharedBlackboard.Set("numEngagedActors", sharedBlackboard.GetInt("numEngagedActors") - 1);
+            sharedBlackboard["numEngagedActors"]= sharedBlackboard.GetInt("numEngagedActors") - 1;
 
             // set this instance to 'engaged'
-            ownBlackboard.Set("engaged", false);
+            ownBlackboard["engaged"]= false;
         }
     }
 
