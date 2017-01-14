@@ -67,7 +67,7 @@ Here's a simple example that uses the blackboard for event-driven behavior:
 ```
 ...
 behaviorTree = new Root(
-    new Service(0.5f, () => { behaviorTree.Blackboard.Set("foo", !behaviorTree.Blackboard.GetBool("foo")); },
+    new Service(0.5f, () => { behaviorTree.Blackboard["foo"] = !behaviorTree.Blackboard.Get<bool>("foo"); },
         new Selector(
         
             new BlackboardCondition("foo", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART,
