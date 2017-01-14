@@ -13,7 +13,7 @@ namespace NPBehave
 
         private Vector2 scrollPosition = Vector2.zero;
 
-        private GUIStyle smallTextStyle, nodeTextStyle, nodeCapsuleGray;
+        private GUIStyle smallTextStyle, nodeCapsuleGray;
         private GUIStyle nestedBoxStyle;
 
         private Color defaultColor;
@@ -53,7 +53,7 @@ namespace NPBehave
             smallTextStyle = new GUIStyle();
             smallTextStyle.font = EditorStyles.miniFont;
 
-            nodeTextStyle = new GUIStyle(EditorStyles.label);
+//            nodeTextStyle = new GUIStyle(EditorStyles.label);
 
             nodeCapsuleGray = (GUIStyle)"CapsuleButton";
             nodeCapsuleGray.normal.textColor = Color.white;
