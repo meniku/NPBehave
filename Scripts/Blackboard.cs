@@ -115,6 +115,35 @@ namespace NPBehave
             }
         }
 
+        [System.Obsolete("Use Get<T> instead")]
+        public bool GetBool(string key)
+        {
+            return Get<bool>(key);
+        }
+
+        [System.Obsolete("Use Get<T> instead - WARNING: return value for non-existant key will be 0.0f instead of float.NaN")]
+        public float GetFloat(string key)
+        {
+            object result = Get(key);
+            if (result == null)
+            {
+                return float.NaN;
+            }
+            return (float)Get(key);
+        }
+
+        [System.Obsolete("Use Get<T> instead")]
+        public Vector3 GetVector3(string key)
+        {
+            return Get<Vector3>(key);
+        }
+
+        [System.Obsolete("Use Get<T> instead")]
+        public int GetInt(string key)
+        {
+            return Get<int>(key);
+        }
+
         public T Get<T>(string key)
         {
             object result = Get(key);
