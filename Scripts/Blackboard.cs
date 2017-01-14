@@ -62,6 +62,15 @@ namespace NPBehave
             }
         }
 
+        public object this[string key] {
+            get {
+                return Get(key);
+            }
+            set {
+                Set(key, value);
+            }
+        }
+
         public void Set(string key)
         {
             if (!Isset(key))
@@ -106,15 +115,13 @@ namespace NPBehave
             }
         }
 
+        [System.Obsolete("Use Get<T> instead")]
         public bool GetBool(string key)
         {
-            object result = Get(key);
-            if (result == null)
-            {
-                return false;
-            }
-            return (bool)result;
+            return Get<bool>(key);
         }
+
+        [System.Obsolete("Use Get<T> instead - WARNING: return value for non-existant key will be 0.0f instead of float.NaN")]
         public float GetFloat(string key)
         {
             object result = Get(key);
@@ -124,23 +131,27 @@ namespace NPBehave
             }
             return (float)Get(key);
         }
+
+        [System.Obsolete("Use Get<T> instead")]
         public Vector3 GetVector3(string key)
         {
-            object result = Get(key);
-            if (result == null)
-            {
-                return Vector3.zero;
-            }
-            return (Vector3)Get(key);
+            return Get<Vector3>(key);
         }
+
+        [System.Obsolete("Use Get<T> instead")]
         public int GetInt(string key)
+        {
+            return Get<int>(key);
+        }
+
+        public T Get<T>(string key)
         {
             object result = Get(key);
             if (result == null)
             {
-                return 0;
+                return default(T);
             }
-            return (int)Get(key);
+            return (T)result;
         }
 
         public object Get(string key)
