@@ -62,11 +62,14 @@ namespace NPBehave
             }
         }
 
-        public object this[string key] {
-            get {
+        public object this[string key]
+        {
+            get
+            {
                 return Get(key);
             }
-            set {
+            set
+            {
                 Set(key, value);
             }
         }
