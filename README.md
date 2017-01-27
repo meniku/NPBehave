@@ -163,8 +163,9 @@ You can use the clock in your nodes to register timers or get notified on each f
 ### Task Nodes
 
 #### Action
-- Action(Action action)
-- Action(Func<bool, Result> multiframeFunc)
+- `Action(System.Action action)`: fire and forget action (always finishes successfully)
+- `Action(System.Func<bool> singleFrameFunc)`: action which can succeed or fail (return false to fail) 
+- `Action(Func<bool, Result> multiframeFunc)`: action that can be ticked over multiple frames (return Result.SUCCESS, Result.FAILED or Result.PROGRESS depending on the Action's current state)
 
 #### NavWalkTo (!!!! EXPERIMENTAL !!!!)
 - NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f)

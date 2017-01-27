@@ -12,24 +12,33 @@ namespace NPBehave
         }
 
 
-        private System.Func<bool, Result> multiFrameFunc;
-        private System.Action action;
+        private System.Func<bool> singleFrameFunc = null;
+        private System.Func<bool, Result> multiFrameFunc = null;
+        private System.Action action = null;
 
         public Action(System.Action action) : base("Action")
         {
-            this.multiFrameFunc = null;
             this.action = action;
         }
 
         public Action(System.Func<bool, Result> multiframeFunc) : base("Action")
         {
             this.multiFrameFunc = multiframeFunc;
-            this.action = null;
+        }
+
+        public Action(System.Func<bool> singleFrameFunc) : base("Action")
+        {
+            this.singleFrameFunc = singleFrameFunc;
         }
 
         protected override void DoStart()
         {
-            if (this.multiFrameFunc != null)
+            if (this.action != null)
+            {
+                this.action.Invoke();
+                this.Stopped(true);
+            }
+            else if (this.multiFrameFunc != null)
             {
                 Result result = this.multiFrameFunc.Invoke(false);
                 if (result == Result.PROGRESS)
@@ -41,10 +50,9 @@ namespace NPBehave
                     this.Stopped(result == Result.SUCCESS);
                 }
             }
-            else
+            else if (this.singleFrameFunc != null)
             {
-                this.action.Invoke();
-                this.Stopped(true);
+                this.Stopped(this.singleFrameFunc.Invoke());
             }
         }
 
