@@ -170,8 +170,10 @@ You can use the clock in your nodes to register timers or get notified on each f
 - NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f)
 
 #### Wait
-- Wait(float seconds)
-- Wait(float seconds, float randomVariance)
+- `Wait(float seconds)`: Wait for given seconds with a random variance of 0.05 * seconds
+- `Wait(float seconds, float randomVariance)``: Wait for given seconds with given random varaince
+- `Wait(string blackboardKey, float randomVariance = 0f)`: wait for seconds set as float in given blackboardKey
+- `Wait(System.Func<float> function, float randomVariance = 0f)`: wait for result of the provided lambda function
 
 #### WaitUntilStopped
 - WaitUntilStopped(bool sucessWhenStopped = false)
