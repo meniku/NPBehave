@@ -81,7 +81,7 @@ namespace NPBehave
             {
                 this.RootNode.Blackboard.RemoveObserver(this.key, OnValueChanged);
             }
-            Stopped(false);
+            Stopped(result);
         }
 
         override protected void DoParentCompositeStopped(Composite parentComposite)
