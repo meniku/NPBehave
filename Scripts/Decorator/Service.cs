@@ -12,6 +12,8 @@
             this.serviceMethod = service;
             this.interval = interval;
             this.randomVariation = randomVariation;
+
+            this.Label = "" + (interval - randomVariation) + "..." + (interval + randomVariation) + "s";
         }
 
         public Service(float interval, System.Action service, Node decoratee) : base("Service", decoratee)
@@ -19,11 +21,13 @@
             this.serviceMethod = service;
             this.interval = interval;
             this.randomVariation = interval * 0.05f;
+            this.Label = "" + (interval - randomVariation) + "..." + (interval + randomVariation) + "s";
         }
 
         public Service(System.Action service, Node decoratee) : base("Service", decoratee)
         {
             this.serviceMethod = service;
+            this.Label = "every tick";
         }
 
         protected override void DoStart()
