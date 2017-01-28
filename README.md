@@ -169,7 +169,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 - `Action(Func<bool, Result> multiframeFunc)`: action that can be ticked over multiple frames (return Result.SUCCESS, Result.FAILED or Result.PROGRESS depending on the Action's current state)
 
 #### NavWalkTo (!!!! EXPERIMENTAL !!!!)
-- NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f)
+- `NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f)`: move a NavMeshAgent `agent` to either a transform or vector stored in the given `blackboardKey`. Allows a `tolerance` distance to succeed and optionally will stop once in the tolerance range (`stopOnTolerance`). `updateFrequency` controls how often the target position will be updated and how often the task checks wether it's done.
 
 #### Wait
 - `Wait(float seconds)`: Wait for given seconds with a random variance of 0.05 * seconds
@@ -178,7 +178,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 - `Wait(System.Func<float> function, float randomVariance = 0f)`: wait for result of the provided lambda function
 
 #### WaitUntilStopped
-- WaitUntilStopped(bool sucessWhenStopped = false)
+- `WaitUntilStopped(bool sucessWhenStopped = false)`: just wait until stopped by some other node. It's often used to park the behavior at the end of a `Selector`, waiting for any beforehead sibling `BlackboardCondition` to become true.
 
 ### Decorator Nodes
 
