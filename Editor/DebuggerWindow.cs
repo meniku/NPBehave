@@ -13,7 +13,7 @@ namespace NPBehave
 
         private Vector2 scrollPosition = Vector2.zero;
 
-        private GUIStyle smallTextStyle, nodeCapsuleGray;
+        private GUIStyle smallTextStyle, nodeCapsuleGray, nodeCapsuleFailed, nodeCapsuleStopRequested;
         private GUIStyle nestedBoxStyle;
 
         private Color defaultColor;
@@ -57,6 +57,10 @@ namespace NPBehave
 
             nodeCapsuleGray = (GUIStyle)"CapsuleButton";
             nodeCapsuleGray.normal.textColor = Color.white;
+            nodeCapsuleFailed = new GUIStyle(nodeCapsuleGray);
+            nodeCapsuleFailed.normal.textColor = Color.red;
+            nodeCapsuleStopRequested = new GUIStyle(nodeCapsuleGray);
+            nodeCapsuleStopRequested.normal.textColor = new Color(0.7f, 0.7f, 0.0f);
 
             defaultColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
         }
@@ -111,10 +115,22 @@ namespace NPBehave
             EditorGUILayout.BeginScrollView(scrollPosition);
 
             GUILayout.BeginHorizontal();
-            DrawBlackboardKeyAndValues(selectedDebugger);
+            DrawBlackboardKeyAndValues("Blackboard:", selectedDebugger.BehaviorTree.Blackboard);
+            if (selectedDebugger.CustomStats.Keys.Count > 0)
+            {
+                DrawBlackboardKeyAndValues("Custom Stats:", selectedDebugger.CustomStats);
+            }
             DrawStats(selectedDebugger);
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
+
+            if (Time.timeScale <= 2.0f)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("TimeScale: ");
+                Time.timeScale = EditorGUILayout.Slider(Time.timeScale, 0.0f, 2.0f);
+                GUILayout.EndHorizontal();
+            }
 
             DrawBehaviourTree(selectedDebugger);
             GUILayout.Space(10);
@@ -147,15 +163,14 @@ namespace NPBehave
             EditorGUILayout.EndVertical();
         }
 
-        private void DrawBlackboardKeyAndValues(Debugger debugger)
+        private void DrawBlackboardKeyAndValues(string label, Blackboard blackboard)
         {
             EditorGUILayout.BeginVertical();
             {
-                GUILayout.Label("Blackboard:", EditorStyles.boldLabel);
+                GUILayout.Label(label, EditorStyles.boldLabel);
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 {
-                    Blackboard blackboard = debugger.BehaviorTree.Blackboard;
                     List<string> keys = blackboard.Keys;
                     foreach (string key in keys)
                     {
@@ -202,13 +217,24 @@ namespace NPBehave
 
             // Draw the lines
             Handles.BeginGUI();
+
+            // Container collapsing
+            Container container = node as Container;
+            Rect interactionRect = new Rect(rect);
+            interactionRect.width = 100;
+            if (container != null && Event.current.type == EventType.MouseUp && Event.current.button == 0 && interactionRect.Contains(Event.current.mousePosition))
+            {
+                container.Collapse = !container.Collapse;
+                Event.current.Use();
+            }
+
             Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.15f);
             Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos), new Vector2(rect.xMin - 5, rect.yMax - 7));
             Handles.EndGUI();
 
             depth++;
 
-            if (node is Container)
+            if (node is Container && !((Container)node).Collapse)
             {
                 EditorGUILayout.BeginVertical(nestedBoxStyle);
 
@@ -234,14 +260,21 @@ namespace NPBehave
 
         private void DrawNode(Node node, int depth)
         {
+            float tStopRequested = Mathf.Lerp(0.85f, 0.25f, 2.0f * (Time.time - node.DebugLastStopRequestAt));
+            float tStopped = Mathf.Lerp(0.85f, 0.25f, 2.0f * (Time.time - node.DebugLastStoppedAt));
+            bool inactive = node.CurrentState != Node.State.ACTIVE;
+            float alpha = inactive ? Mathf.Max(0.25f, Mathf.Pow(tStopped, 2)) : 1.0f;
+            bool failed = (tStopped > 0.25f && tStopped < 1.0f && !node.DebugLastResult && inactive);
+            bool stopRequested = (tStopRequested > 0.25f && tStopRequested < 1.0f && inactive);
 
             EditorGUILayout.BeginHorizontal();
             {
-
-                GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
+                GUI.color = new Color(1f, 1f, 1f, alpha);
 
                 string tagName;
-                GUIStyle tagStyle = nodeCapsuleGray;
+                GUIStyle tagStyle = stopRequested ? nodeCapsuleStopRequested : (failed ? nodeCapsuleFailed : nodeCapsuleGray);
+
+                bool drawLabel = !string.IsNullOrEmpty(node.Label);
 
                 if (node is BlackboardCondition)
                 {
@@ -251,23 +284,30 @@ namespace NPBehave
                 }
                 else
                 {
-                    if (node is Composite) GUI.backgroundColor = new Color(0.5f, 0.7f, 1f);
-                    if (node is Decorator) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
-                    if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
+                    if ((node is Container) && ((Container)node).Collapse)
+                    {
+                        tagName = "..."; //"+";
+                        GUI.backgroundColor = new Color(0.4f, 0.4f, 0.4f);
+                    }
+                    else
+                    {
+                        if (node is Composite) GUI.backgroundColor = new Color(0.5f, 0.7f, 1f);
+                        if (node is Decorator) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
+                        if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
 
-                    nameToTagString.TryGetValue(node.Name, out tagName);
+                        nameToTagString.TryGetValue(node.Name, out tagName);
+                    }
                 }
 
                 if (string.IsNullOrEmpty(tagName)) tagName = node.Name;
 
                 GUILayout.Label(tagName, tagStyle);
 
-
                 // Reset background color
                 GUI.backgroundColor = Color.white;
 
                 // Draw Label
-                if (!string.IsNullOrEmpty(node.Label)) GUILayout.Label("   " + node.Label, (GUIStyle)"ChannelStripAttenuationMarkerSquare");
+                if (drawLabel) GUILayout.Label("   " + node.Label, (GUIStyle)"ChannelStripAttenuationMarkerSquare");
 
                 GUILayout.FlexibleSpace();
 
@@ -297,7 +337,8 @@ namespace NPBehave
 
             // Draw the lines
             Rect rect = GUILayoutUtility.GetLastRect();
-            Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.3f);
+
+            Handles.color = new Color(0f, 0f, 0f, alpha);
             Handles.BeginGUI();
             float midY = (rect.yMin + rect.yMax) / 2f;
             Handles.DrawLine(new Vector2(rect.xMin - 5, midY), new Vector2(rect.xMin, midY));

@@ -112,6 +112,7 @@ You can use the `Debugger` component to debug the behavior trees at runtime in t
 ![NPBehave Debugger](http://labs.nkuebler.de/npbehave/images/npbehave-dbg.png)
 
 *Check out the [sample](https://github.com/meniku/NPBehave/blob/master/Examples/Scripts/NPBehaveExampleEnemyAI.cs)*
+*Special thanks to [Xerios](https://github.com/Xerios) for the great improvements*
 
 ## Shared Blackboards
 You have the option to share blackboards across multiple instances of an AI. This can be useful if you want to implement some kind of swarm behavior. Additionally, you can create blackboard hierarchies, which allows you to combine a shared with a non-shared blackboard. 

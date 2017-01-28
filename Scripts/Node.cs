@@ -102,6 +102,8 @@ namespace NPBehave
         }
 
 #if UNITY_EDITOR
+        public float DebugLastStopRequestAt = 0.0f;
+        public float DebugLastStoppedAt = 0.0f;
         public int DebugNumStartCalls = 0;
         public int DebugNumStopCalls = 0;
         public int DebugNumStoppedCalls = 0;
@@ -120,12 +122,16 @@ namespace NPBehave
             DoStart();
         }
 
+        /// <summary>
+        /// TODO: Rename to "Cancel" in next API-Incompatible version
+        /// </summary>
         public void Stop()
         {
             Assert.AreEqual(this.currentState, State.ACTIVE, "can only stop active nodes, tried to stop " + this.Name + "! PATH: " + GetPath());
             this.currentState = State.STOP_REQUESTED;
 #if UNITY_EDITOR
             RootNode.TotalNumStopCalls++;
+            this.DebugLastStopRequestAt = UnityEngine.Time.time;
             this.DebugNumStopCalls++;
 #endif
             DoStop();
@@ -151,6 +157,7 @@ namespace NPBehave
 #if UNITY_EDITOR
             RootNode.TotalNumStoppedCalls++;
             this.DebugNumStoppedCalls++;
+            this.DebugLastStoppedAt = UnityEngine.Time.time;
             DebugLastResult = success;
 #endif
             if (this.ParentNode != null)
@@ -188,7 +195,7 @@ namespace NPBehave
 
         override public string ToString()
         {
-            return this.Name;
+            return !string.IsNullOrEmpty(Label) ? (this.Name + "{"+Label+"}") : this.Name;
         }
 
         protected string GetPath()
