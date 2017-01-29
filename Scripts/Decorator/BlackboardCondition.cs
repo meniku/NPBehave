@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.Assertions;
-using System.Collections.Generic;
 
 namespace NPBehave
 {
-    public class BlackboardCondition : Decorator
+    public class BlackboardCondition : ObservingDecorator
     {
         private string key;
         private object value;
         private Operator op;
-        private Stops stopsOnChange;
 
         public string Key
         {
@@ -36,94 +32,38 @@ namespace NPBehave
             }
         }
 
-
-        public BlackboardCondition(string key, Operator op, object value, Stops stopsOnChange, Node decoratee) : base("BlackboardValue", decoratee)
+        public BlackboardCondition(string key, Operator op, object value, Stops stopsOnChange, Node decoratee) : base("BlackboardCondition", stopsOnChange, decoratee)
         {
             this.op = op;
             this.key = key;
             this.value = value;
             this.stopsOnChange = stopsOnChange;
         }
-        public BlackboardCondition(string key, Operator op, Stops stopsOnChange, Node decoratee) : base("BlackboardValue", decoratee)
+        
+        public BlackboardCondition(string key, Operator op, Stops stopsOnChange, Node decoratee) : base("BlackboardCondition", stopsOnChange, decoratee)
         {
             this.op = op;
             this.key = key;
             this.stopsOnChange = stopsOnChange;
         }
 
-        protected override void DoStart()
-        {
-            if (stopsOnChange != Stops.NONE)
-            {
-                this.RootNode.Blackboard.AddObserver(this.key, OnValueChanged);
-            }
 
-            if (!IsConditionMet())
-            {
-                Stopped(false);
-            }
-            else
-            {
-                Decoratee.Start();
-            }
+        override protected void StartObserving()
+        {
+            this.RootNode.Blackboard.AddObserver(key, onValueChanged);
         }
 
-
-        override protected void DoStop()
+        override protected void StopObserving()
         {
-            Decoratee.Stop();
+            this.RootNode.Blackboard.RemoveObserver(key, onValueChanged);
         }
 
-        protected override void DoChildStopped(Node child, bool result)
+        private void onValueChanged(Blackboard.Type type, object newValue)
         {
-            Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
-            if (stopsOnChange == Stops.NONE || stopsOnChange == Stops.SELF)
-            {
-                this.RootNode.Blackboard.RemoveObserver(this.key, OnValueChanged);
-            }
-            Stopped(result);
+            Evaluate();
         }
 
-        override protected void DoParentCompositeStopped(Composite parentComposite)
-        {
-            this.RootNode.Blackboard.RemoveObserver(this.key, OnValueChanged);
-        }
-
-        private void OnValueChanged(Blackboard.Type type, object newValue)
-        {
-            if (IsActive && !IsConditionMet())
-            {
-                if (stopsOnChange == Stops.SELF || stopsOnChange == Stops.BOTH || stopsOnChange == Stops.IMMEDIATE_RESTART)
-                {
-                    // Debug.Log( this.key + " stopped self ");
-                    this.Stop();
-                }
-            }
-            else if (!IsActive && IsConditionMet())
-            {
-                if (stopsOnChange == Stops.LOWER_PRIORITY || stopsOnChange == Stops.BOTH || stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART)
-                {
-                    // Debug.Log( this.key + " stopped other ");
-                    Container parentNode = this.ParentNode;
-                    Node childNode = this;
-                    while (parentNode != null && !(parentNode is Composite))
-                    {
-                        childNode = parentNode;
-                        parentNode = parentNode.ParentNode;
-                    }
-                    Assert.IsNotNull(parentNode, "NTBtrStops is only valid when attached to a parent composite");
-                    Assert.IsNotNull(childNode);
-                    if (parentNode is Parallel)
-                    {
-                        Assert.IsTrue(stopsOnChange == Stops.IMMEDIATE_RESTART, "On Parallel Nodes all children have the same priority, thus Stops.LOWER_PRIORITY or Stops.BOTH are unsupported in this context!");
-                    }
-
-                    ((Composite)parentNode).StopLowerPriorityChildrenForChild(childNode, stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART);
-                }
-            }
-        }
-
-        private bool IsConditionMet()
+        override protected bool IsConditionMet()
         {
             if (op == Operator.ALWAYS_TRUE)
             {
@@ -209,7 +149,7 @@ namespace NPBehave
 
         override public string ToString()
         {
-            return "("+ this.op + ") " + this.key + " ? " + this.value;
+            return "(" + this.op + ") " + this.key + " ? " + this.value;
         }
     }
 }

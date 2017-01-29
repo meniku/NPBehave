@@ -1,104 +1,38 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.Assertions;
-
-namespace NPBehave
+﻿namespace NPBehave
 {
-    public class BlackboardQuery : Decorator
+    public class BlackboardQuery : ObservingDecorator
     {
         private string[] keys;
         private System.Func<bool> query;
-        private Stops stopsOnChange;
 
-        public BlackboardQuery(string[] keys, Stops stopsOnChange, System.Func<bool> query, Node decoratee) : base("BlackboardCondition", decoratee)
+        public BlackboardQuery(string[] keys, Stops stopsOnChange, System.Func<bool> query, Node decoratee) : base("BlackboardQuery", stopsOnChange, decoratee)
         {
             this.keys = keys;
             this.query = query;
-            this.stopsOnChange = stopsOnChange;
         }
 
-        protected override void DoStart()
-        {
-            if (stopsOnChange != Stops.NONE)
-            {
-                foreach (string key in this.keys)
-                {
-                    this.RootNode.Blackboard.AddObserver(key, OnValueChanged);
-                }
-            }
-
-            if (!IsConditionMet())
-            {
-                Stopped(false);
-            }
-            else
-            {
-                Decoratee.Start();
-            }
-        }
-
-
-        override protected void DoStop()
-        {
-            Decoratee.Stop();
-        }
-
-        protected override void DoChildStopped(Node child, bool result)
-        {
-            Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
-            if (stopsOnChange == Stops.NONE || stopsOnChange == Stops.SELF)
-            {
-                foreach (string key in this.keys)
-                {
-                    this.RootNode.Blackboard.RemoveObserver(key, OnValueChanged);
-                }
-            }
-            Stopped(false);
-        }
-
-        override protected void DoParentCompositeStopped(Composite parentComposite)
+        override protected void StartObserving()
         {
             foreach (string key in this.keys)
             {
-                this.RootNode.Blackboard.RemoveObserver(key, OnValueChanged);
+                this.RootNode.Blackboard.AddObserver(key, onValueChanged);
             }
         }
 
-        private void OnValueChanged(Blackboard.Type type, object newValue)
+        override protected void StopObserving()
         {
-            if (IsActive && !IsConditionMet())
+            foreach (string key in this.keys)
             {
-                if (stopsOnChange == Stops.SELF || stopsOnChange == Stops.BOTH || stopsOnChange == Stops.IMMEDIATE_RESTART)
-                {
-                    // Debug.Log( this.key + " stopped self ");
-                    this.Stop();
-                }
-            }
-            else if (!IsActive && IsConditionMet())
-            {
-                if (stopsOnChange == Stops.LOWER_PRIORITY || stopsOnChange == Stops.BOTH || stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART)
-                {
-                    // Debug.Log( this.key + " stopped other ");
-                    Container parentNode = this.ParentNode;
-                    Node childNode = this;
-                    while (parentNode != null && !(parentNode is Composite))
-                    {
-                        childNode = parentNode;
-                        parentNode = parentNode.ParentNode;
-                    }
-                    Assert.IsNotNull(parentNode, "NTBtrStops is only valid when attached to a parent composite");
-                    Assert.IsNotNull(childNode);
-                    if (parentNode is Parallel)
-                    {
-                        Assert.IsTrue(stopsOnChange == Stops.IMMEDIATE_RESTART, "On Parallel Nodes all children have the same priority, thus Stops.LOWER_PRIORITY or Stops.BOTH are unsupported in this context!");
-                    }
-
-                    ((Composite)parentNode).StopLowerPriorityChildrenForChild(childNode, stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART);
-                }
+                this.RootNode.Blackboard.RemoveObserver(key, onValueChanged);
             }
         }
 
-        private bool IsConditionMet()
+        private void onValueChanged(Blackboard.Type type, object newValue)
+        {
+            Evaluate();
+        }
+
+        protected override bool IsConditionMet()
         {
             return this.query();
         }

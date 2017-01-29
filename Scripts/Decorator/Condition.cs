@@ -1,38 +1,47 @@
-﻿using UnityEngine.Assertions;
-using System;
+﻿using System;
 
 namespace NPBehave
 {
-    public class Condition : Decorator
+    public class Condition : ObservingDecorator
     {
         private Func<bool> condition;
+        private float checkInterval;
+        private float checkVariance;
 
-        public Condition(Func<bool> condition, Node decoratee) : base("Condition", decoratee)
+        public Condition(Func<bool> condition, Node decoratee) : base("Condition", Stops.NONE, decoratee)
         {
             this.condition = condition;
+            this.checkInterval = 0.0f;
+            this.checkVariance = 0.0f;
         }
 
-        protected override void DoStart()
+        public Condition(Func<bool> condition, Stops stopsOnChange, Node decoratee) : base("Condition", stopsOnChange, decoratee)
         {
-            if (!condition.Invoke())
-            {
-                Stopped(false);
-            }
-            else
-            {
-                Decoratee.Start();
-            }
+            this.condition = condition;
+            this.checkInterval = 0.0f;
+            this.checkVariance = 0.0f;
         }
 
-        override protected void DoStop()
+        public Condition(Func<bool> condition, Stops stopsOnChange, float checkInterval, float randomVariance, Node decoratee) : base("Condition", stopsOnChange, decoratee)
         {
-            Decoratee.Stop();
+            this.condition = condition;
+            this.checkInterval = checkInterval;
+            this.checkVariance = randomVariance;
         }
 
-        protected override void DoChildStopped(Node child, bool result)
+        override protected void StartObserving()
         {
-            Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
-            Stopped(result);
+            this.RootNode.Clock.AddTimer(checkInterval, checkVariance, -1, Evaluate);
+        }
+
+        override protected void StopObserving()
+        {
+            this.RootNode.Clock.RemoveUpdateObserver(Evaluate);
+        }
+
+        protected override bool IsConditionMet()
+        {
+            return this.condition();
         }
     }
 }

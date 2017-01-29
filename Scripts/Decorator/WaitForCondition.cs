@@ -22,7 +22,8 @@ namespace NPBehave
         public WaitForCondition(Func<bool> condition, Node decoratee) : base("WaitForCondition", decoratee)
         {
             this.condition = condition;
-
+            this.checkInterval = 0.0f;
+            this.checkVariance = 0.0f;
             this.Label = "every tick";
         }
 

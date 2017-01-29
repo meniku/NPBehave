@@ -26,6 +26,7 @@ namespace NPBehave
         private List<Timer> timerPool = new List<Timer>();
         private int currentTimerPoolIndex = 0;
 
+        /// <summary>Register a timer function</summary>
         /// <param name="time">time in milliseconds</param>
         /// <param name="repeat">number of times to repeat, set to -1 to repeat until unregistered.</param>
         /// <param name="action">method to invoke</param>
@@ -34,6 +35,11 @@ namespace NPBehave
             AddTimer(time, 0f, repeat, action);
         }
 
+        /// <summary>Register a timer function with random variance</summary>
+        /// <param name="time">time in milliseconds</param>
+        /// <param name="randomVariance">deviate from time on a random basis</param>
+        /// <param name="repeat">number of times to repeat, set to -1 to repeat until unregistered.</param>
+        /// <param name="action">method to invoke</param>
         public void AddTimer(float time, float randomVariance, int repeat, System.Action action)
         {
             time = time - randomVariance * 0.5f + randomVariance * UnityEngine.Random.value;
@@ -118,7 +124,8 @@ namespace NPBehave
             }
         }
 
-
+        /// <summary>Register a function that is called every frame</summary>
+        /// <param name="action">function to invoke</param>
         public void AddUpdateObserver(System.Action action)
         {
             if (!isInUpdate)

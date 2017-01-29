@@ -95,6 +95,25 @@ This sample will swap between printing "foo" and "bar" every 500 milliseconds. W
 
 *Please note that you should put services in real methods instead of using lambdas, this will make your trees more readable. Same is true for larger actions.*
 
+## Stops Rules
+
+Some [Decorators](#node-types) such as `BlackboardCondition`, `Condition` or `BlackboardQuery` have a `stopsOnChange` parameter that allows to define stop rules. The parameter allows the `Decorator` to stop the execution of a running subtree within it's parent's [Composite](#node-types). It is your main tool to make power of the event-drivenness in NPBehave. 
+
+A **lower priority node** is a node that is defined after the current node within it's parent's [Composite]. 
+
+The most useful and commonly used stops rules are `SELF`, `IMMEDIATE_RESTART` or `LOWER_PRIORITY_IMMEDIATE_RESTART`. 
+
+Be careful if you're used to Unreal, in NPBehave `BOTH` and `LOWER_PRIORITY` have a slightly different meaning. IMMEDIATE_RESTART matches Unreal's `both` and LOWER_PRIORITY_IMMEDIATE_RESTART matches Unreal's `lower priority`.
+
+The following stop rules exist:
+
+* `Stops.NONE`: the Decorator will only check it's condition once it is started and will never stop any running nodes.
+* `Stops.SELF`: the Decorator will check it's condition once it is started and if it is met, it will observe the `Blackboard` for changes. Once the condition is no longer met, it will stop itself allowing the parent Composite to **proceed with it's next node**.
+* `Stops.LOWER_PRIORITY`: the Decorator will check it's condition once it is started and if it's not met, it will observe the `Blackboard` for changes. Once the condition is met, it will stop the lower priority node allowing the parent Composite to **proceed with it's next node**.
+* `Stops.BOTH`: the Decorator will stop both: self and lower priority nodes.
+* `Stops.LOWER_PRIORITY_IMMEDIATE_RESTART`: the Decorator will check it's condition once it is started and if it's not met, it will observe the `Blackboard` for changes. Once the condition is met, it will stop the lower priority node and order the parent Composite to **restart the Decorator immediately**. 
+* `Stops.IMMEDIATE_RESTART`: the Decorator will check it's condition once it is started and if it's not met, it will observe the `Blackboard` for changes. Once the condition is met, it will stop the lower priority node and order the parent Composite to **restart the Decorator immediately**. As in `BOTH` it will also stop itself as soon as the condition is no longer met.
+
 ## Node execution results
 In NPBehave a node can either `succeed` or `fail`. Unlike traditional behavior trees, there is no result while a node is executing. Instead the node will itself tell the parent node once it is finished. This is important to keep in mind when you [create your own node types](#extending-the-library).
 
@@ -183,15 +202,17 @@ You can use the clock in your nodes to register timers or get notified on each f
 ### Decorator Nodes
 
 #### BlackboardCondition
-- BlackboardCondition(string key, Operator op, object value, Stops stopsOnChange, Node decoratee)
-- BlackboardCondition(string key, Operator op, Stops stopsOnChange, Node decoratee)
+- `BlackboardCondition(string key, Operator operator, object value, Stops stopsOnChange, Node decoratee)`: execute the `decoratee` node only if the Blackboard's `key` matches the `op` / `value` condition. If `stopsOnChange` is not NONE, the node will observe the Blackboard for changes and stop execution of running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
+- `BlackboardCondition(string key, Operator operator, Stops stopsOnChange, Node decoratee)`: execute the `decoratee` node only if the Blackboard's `key` matches the `op` condition (for one operand operators that just check for IS_SET for example). If `stopsOnChange` is not NONE, the node will observe the Blackboard for changes and stop execution of running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
 
 #### BlackboardQuery
-- BlackboardQuery(string[] observedKeys, Stops stopsOnChange, System.Func<bool> query, Node decoratee
+- `BlackboardQuery(string[] keys, Stops stopsOnChange, System.Func<bool> query, Node decoratee)`: while `BlackboardCondition` allows to check only one key, this one will observe multiple Blackboard keys and evaluate the given `query` function as soon as one of the value`s changes allowing you to do arbitrary queries on the Blackboard. It will stop running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
 
 #### Condition
-- Condition(Func<bool> condition, Node decoratee)
-
+- `Condition(Func<bool> condition, Node decoratee)`: execute `decoratee` node if the given condition returns true
+- `Condition(Func<bool> condition, Stops stopsOnChange, Node decoratee)`: execute `decoratee` node if the given condition returns true. Re-Evaluate the condition every frame and stop running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
+- `Condition(Func<bool> condition, Stops stopsOnChange, float checkInterval, float randomVariance, Node decoratee)`: execute `decoratee` node if the given condition returns true. Re-Evaluate the condition at the given `checkInterval` and `randomVariance` and stop running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
+	
 #### Cooldown
 - Cooldown(float cooldownTime, Node decoratee)
 - Cooldown(float cooldownTime, float randomVariation, Node decoratee)
@@ -232,8 +253,8 @@ You can use the clock in your nodes to register timers or get notified on each f
 - TimeMin(float limit, float randomVariation, bool waitOnFailure, Node decoratee)
 
 #### WaitForCondition
-- `WaitForCondition(Func<bool> condition, Node decoratee)`: Delay execution of the decorated node until the `condition` gets true, checking every frame
-- `WaitForCondition(Func<bool> condition, float checkInterval, float randomVariance, Node decoratee)`: Delay execution of the decorated node until the `condition` gets true, checking with the given `checkInterval` and `randomVariance`
+- `WaitForCondition(Func<bool> condition, Node decoratee)`: Delay execution of the `decoratee` node until the `condition` gets true, checking every frame
+- `WaitForCondition(Func<bool> condition, float checkInterval, float randomVariance, Node decoratee)`: Delay execution of the `decoratee` node until the `condition` gets true, checking with the given `checkInterval` and `randomVariance`
 
 ## Video Tutorials
 
