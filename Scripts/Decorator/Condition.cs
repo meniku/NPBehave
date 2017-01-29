@@ -3,7 +3,6 @@ using System;
 
 namespace NPBehave
 {
-    // TODO: add some kind of "Watch for blackboard values" option
     public class Condition : Decorator
     {
         private Func<bool> condition;
