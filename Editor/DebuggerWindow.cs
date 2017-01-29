@@ -112,7 +112,7 @@ namespace NPBehave
                 return;
             }
 
-            EditorGUILayout.BeginScrollView(scrollPosition);
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
             GUILayout.BeginHorizontal();
             DrawBlackboardKeyAndValues("Blackboard:", selectedDebugger.BehaviorTree.Blackboard);
