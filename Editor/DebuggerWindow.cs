@@ -55,8 +55,9 @@ namespace NPBehave
 
 //            nodeTextStyle = new GUIStyle(EditorStyles.label);
 
-            nodeCapsuleGray = (GUIStyle)"CapsuleButton";
-            nodeCapsuleGray.normal.textColor = Color.white;
+            nodeCapsuleGray = (GUIStyle)"helpbox";
+            nodeCapsuleGray.normal.textColor = Color.black;
+
             nodeCapsuleFailed = new GUIStyle(nodeCapsuleGray);
             nodeCapsuleFailed.normal.textColor = Color.red;
             nodeCapsuleStopRequested = new GUIStyle(nodeCapsuleGray);
@@ -229,7 +230,7 @@ namespace NPBehave
             }
 
             Handles.color = new Color(0f, 0f, 0f, 1f);
-            Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos), new Vector2(rect.xMin - 5, rect.yMax - 7));
+            Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos + 4), new Vector2(rect.xMin - 5, rect.yMax - 4));
             Handles.EndGUI();
 
             depth++;
@@ -245,7 +246,7 @@ namespace NPBehave
                 }
                 else
                 {
-                    lastYPos = rect.yMin + 12; // Set new Line position
+                    lastYPos = rect.yMin + 16; // Set new Line position
 
                     for (int i = 0; i < children.Length; i++)
                     {
@@ -291,9 +292,9 @@ namespace NPBehave
                     }
                     else
                     {
-                        if (node is Composite) GUI.backgroundColor = new Color(0.5f, 0.7f, 1f);
-                        if (node is Decorator) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
-                        if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.9f, 0.9f);
+                        if (node is Composite) GUI.backgroundColor = new Color(0.3f, 1f, 0.1f);
+                        if (node is Decorator) GUI.backgroundColor = new Color(0.3f, 1f, 1f);
+                        if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.1f, 0.5f);
 
                         nameToTagString.TryGetValue(node.Name, out tagName);
                     }
@@ -301,13 +302,13 @@ namespace NPBehave
 
                 if (string.IsNullOrEmpty(tagName)) tagName = node.Name;
 
-                GUILayout.Label(tagName, tagStyle);
-
-                // Reset background color
-                GUI.backgroundColor = Color.white;
-
-                // Draw Label
-                if (drawLabel) GUILayout.Label("   " + node.Label, (GUIStyle)"ChannelStripAttenuationMarkerSquare");
+                if (!drawLabel) {
+                    GUILayout.Label(tagName, tagStyle);
+                } else {
+                    GUILayout.Label("("+tagName+") " + node.Label, tagStyle);
+                    // Reset background color
+                    GUI.backgroundColor = Color.white;
+                }
 
                 GUILayout.FlexibleSpace();
 
@@ -340,7 +341,7 @@ namespace NPBehave
 
             Handles.color = new Color(0f, 0f, 0f, 1f);
             Handles.BeginGUI();
-            float midY = (rect.yMin + rect.yMax) / 2f;
+            float midY = 4 + (rect.yMin + rect.yMax) / 2f;
             Handles.DrawLine(new Vector2(rect.xMin - 5, midY), new Vector2(rect.xMin, midY));
             Handles.EndGUI();
         }
