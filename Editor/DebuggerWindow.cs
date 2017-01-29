@@ -228,7 +228,7 @@ namespace NPBehave
                 Event.current.Use();
             }
 
-            Handles.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(0f, 0f, 0f, 1f) : new Color(0f, 0f, 0f, 0.15f);
+            Handles.color = new Color(0f, 0f, 0f, 1f);
             Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos), new Vector2(rect.xMin - 5, rect.yMax - 7));
             Handles.EndGUI();
 
@@ -338,7 +338,7 @@ namespace NPBehave
             // Draw the lines
             Rect rect = GUILayoutUtility.GetLastRect();
 
-            Handles.color = new Color(0f, 0f, 0f, alpha);
+            Handles.color = new Color(0f, 0f, 0f, 1f);
             Handles.BeginGUI();
             float midY = (rect.yMin + rect.yMax) / 2f;
             Handles.DrawLine(new Vector2(rect.xMin - 5, midY), new Vector2(rect.xMin, midY));
