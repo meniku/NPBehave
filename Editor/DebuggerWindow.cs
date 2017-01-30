@@ -30,7 +30,7 @@ namespace NPBehave
 
         public void Init()
         {
-            Debug.Log("AWAKE !!");
+//            Debug.Log("AWAKE !!");
             operatorToString = new Dictionary<Operator, string>();
             operatorToString[Operator.IS_SET] = "?=";
             operatorToString[Operator.IS_NOT_SET] = "?!=";
@@ -223,6 +223,7 @@ namespace NPBehave
             Container container = node as Container;
             Rect interactionRect = new Rect(rect);
             interactionRect.width = 100;
+            interactionRect.y += 8;
             if (container != null && Event.current.type == EventType.MouseUp && Event.current.button == 0 && interactionRect.Contains(Event.current.mousePosition))
             {
                 container.Collapse = !container.Collapse;
@@ -280,7 +281,14 @@ namespace NPBehave
                 if (node is BlackboardCondition)
                 {
                     BlackboardCondition nodeBlackboardCond = node as BlackboardCondition;
-                    tagName = nodeBlackboardCond.Key + " " + operatorToString[nodeBlackboardCond.Operator] + " " + nodeBlackboardCond.Value;
+                    if (nodeBlackboardCond.Collapse)
+                    {
+                        tagName = "...";
+                    }
+                    else
+                    {
+                        tagName = nodeBlackboardCond.Key + " " + operatorToString[nodeBlackboardCond.Operator] + " " + nodeBlackboardCond.Value;
+                    }
                     GUI.backgroundColor = new Color(0.9f, 0.9f, 0.6f);
                 }
                 else
