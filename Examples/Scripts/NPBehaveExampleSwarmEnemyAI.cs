@@ -121,7 +121,7 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
 
     private void MoveTowards(Vector3 localPosition)
     {
-        transform.localPosition += localPosition * 0.01f;
+        transform.localPosition += localPosition * 0.5f * Time.deltaTime;
     }
 
     private void SetColor(Color color)
