@@ -7,17 +7,23 @@ namespace NPBehave
     public abstract class ObservingDecorator : Decorator
     {
         protected Stops stopsOnChange;
+        private bool isObserving;
 
         public ObservingDecorator(string name, Stops stopsOnChange, Node decoratee) : base(name, decoratee)
         {
             this.stopsOnChange = stopsOnChange;
+            this.isObserving = false;
         }
 
         protected override void DoStart()
         {
             if (stopsOnChange != Stops.NONE)
             {
-                StartObserving();
+                if (!isObserving)
+                {
+                    isObserving = true;
+                    StartObserving();
+                }
             }
 
             if (!IsConditionMet())
@@ -40,14 +46,22 @@ namespace NPBehave
             Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
             if (stopsOnChange == Stops.NONE || stopsOnChange == Stops.SELF)
             {
-                StopObserving();
+                if (isObserving)
+                {
+                    isObserving = false;
+                    StopObserving();
+                }
             }
             Stopped(result);
         }
 
         override protected void DoParentCompositeStopped(Composite parentComposite)
         {
-            StopObserving();
+            if (isObserving)
+            {
+                isObserving = false;
+                StopObserving();
+            }
         }
 
         protected void Evaluate()
@@ -77,6 +91,15 @@ namespace NPBehave
                     if (parentNode is Parallel)
                     {
                         Assert.IsTrue(stopsOnChange == Stops.IMMEDIATE_RESTART, "On Parallel Nodes all children have the same priority, thus Stops.LOWER_PRIORITY or Stops.BOTH are unsupported in this context!");
+                    }
+
+                    if (stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART)
+                    {
+                        if (isObserving)
+                        {
+                            isObserving = false;
+                            StopObserving();
+                        }
                     }
 
                     ((Composite)parentNode).StopLowerPriorityChildrenForChild(childNode, stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART);
