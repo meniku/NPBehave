@@ -206,7 +206,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 - `BlackboardCondition(string key, Operator operator, Stops stopsOnChange, Node decoratee)`: execute the `decoratee` node only if the Blackboard's `key` matches the `op` condition (for one operand operators that just check for IS_SET for example). If `stopsOnChange` is not NONE, the node will observe the Blackboard for changes and stop execution of running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
 
 #### BlackboardQuery
-- `BlackboardQuery(string[] keys, Stops stopsOnChange, System.Func<bool> query, Node decoratee)`: while `BlackboardCondition` allows to check only one key, this one will observe multiple Blackboard keys and evaluate the given `query` function as soon as one of the value`s changes allowing you to do arbitrary queries on the Blackboard. It will stop running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
+- `BlackboardQuery(string[] keys, Stops stopsOnChange, System.Func<bool> query, Node decoratee)`: while `BlackboardCondition` allows to check only one key, this one will observe multiple Blackboard keys and evaluate the given `query` function as soon as one of the value's changes allowing you to do arbitrary queries on the Blackboard. It will stop running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
 
 #### Condition
 - `Condition(Func<bool> condition, Node decoratee)`: execute `decoratee` node if the given condition returns true
