@@ -165,7 +165,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 ## Node Type Reference
 
 ### Root
-- `Root(Node mainNode): run the given `mainNode` endlessly, regardless of it's failure state
+- `Root(Node mainNode)`: run the given `mainNode` endlessly, regardless of it's failure state
 - `Root(Blackboard blackboard, Node mainNode)`: use the given `blackboard` instead of instantiating one; run the given `mainNode` endlessly, regardless of it's failure state
 - `Root(Blackboard blackboard, Clock clock, Node mainNode)`: use the given `blackboard` instead of instantiating one; use the given `clock` instead of using the global clock from the `UnityContext`; run the given `mainNode` endlessly, regardless of it's success state
 
@@ -202,16 +202,16 @@ You can use the clock in your nodes to register timers or get notified on each f
 ### Decorator Nodes
 
 #### BlackboardCondition
-- `BlackboardCondition(string key, Operator operator, object value, Stops stopsOnChange, Node decoratee)`: execute the `decoratee` node only if the Blackboard's `key` matches the `op` / `value` condition. If `stopsOnChange` is not NONE, the node will observe the Blackboard for changes and stop execution of running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
+- `BlackboardCondition(string key, Operator operator, object value, Stops stopsOnChange, Node decoratee)`: execute the `decoratee` node only if the Blackboard's `key` matches the `op` / `value` condition. If `stopsOnChange` is not NONE, the node will observe the Blackboard for changes and stop execution of running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
 - `BlackboardCondition(string key, Operator operator, Stops stopsOnChange, Node decoratee)`: execute the `decoratee` node only if the Blackboard's `key` matches the `op` condition (for one operand operators that just check for IS_SET for example). If `stopsOnChange` is not NONE, the node will observe the Blackboard for changes and stop execution of running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
 
 #### BlackboardQuery
-- `BlackboardQuery(string[] keys, Stops stopsOnChange, System.Func<bool> query, Node decoratee)`: while `BlackboardCondition` allows to check only one key, this one will observe multiple Blackboard keys and evaluate the given `query` function as soon as one of the value's changes allowing you to do arbitrary queries on the Blackboard. It will stop running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
+- `BlackboardQuery(string[] keys, Stops stopsOnChange, System.Func<bool> query, Node decoratee)`: while `BlackboardCondition` allows to check only one key, this one will observe multiple Blackboard keys and evaluate the given `query` function as soon as one of the value's changes allowing you to do arbitrary queries on the Blackboard. It will stop running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
 
 #### Condition
 - `Condition(Func<bool> condition, Node decoratee)`: execute `decoratee` node if the given condition returns true
 - `Condition(Func<bool> condition, Stops stopsOnChange, Node decoratee)`: execute `decoratee` node if the given condition returns true. Re-Evaluate the condition every frame and stop running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
-- `Condition(Func<bool> condition, Stops stopsOnChange, float checkInterval, float randomVariance, Node decoratee)`: execute `decoratee` node if the given condition returns true. Re-Evaluate the condition at the given `checkInterval` and `randomVariance` and stop running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
+- `Condition(Func<bool> condition, Stops stopsOnChange, float checkInterval, float randomVariance, Node decoratee)`: execute `decoratee` node if the given condition returns true. Re-Evaluate the condition at the given `checkInterval` and `randomVariance` and stop running nodes based on the [`stopsOnChange` stops rules](#stops-rules).
 	
 #### Cooldown
 - `Cooldown(float cooldownTime, Node decoratee)`: Run `decoratee` immediately, but only if last execution wasn't at least past `cooldownTime`
