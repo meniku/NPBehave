@@ -165,20 +165,20 @@ You can use the clock in your nodes to register timers or get notified on each f
 ## Node Type Reference
 
 ### Root
-- Root(Node mainNode) 
-- Root(Blackboard blackboard, Node mainNode)
-- Root(Blackboard blackboard, Clock clock, Node mainNode)
+- `Root(Node mainNode): run the given `mainNode` endlessly, regardless of it's failure state
+- `Root(Blackboard blackboard, Node mainNode)`: use the given `blackboard` instead of instantiating one; run the given `mainNode` endlessly, regardless of it's failure state
+- `Root(Blackboard blackboard, Clock clock, Node mainNode)`: use the given `blackboard` instead of instantiating one; use the given `clock` instead of using the global clock from the `UnityContext`; run the given `mainNode` endlessly, regardless of it's success state
 
 ### Composite Nodes
 
 #### Selector
-- Selector(params Node[] children)
+- `Selector(params Node[] children)`: Run children sequentially until one succeeds and succeed (succeeds if one of the children succeeds).
 
 #### Composite
-- Sequence(params Node[] children) 
+- `Sequence(params Node[] children)`: Run children sequentially until one fails and fail (succeeds if non of the children fails).
 
 #### Parallel
-- Parallel(Policy successPolicy, Policy failurePolicy, params Node[] children) 
+- vParallel(Policy successPolicy, Policy failurePolicy, params Node[] children)`: Run children in parallel. When `failurePolocity` is `Polociy.ONE`, the Parallel will stop failing as soon as one of the children fails. When `successPolicy` is `Policy.ONE`, the Parallel will stop succeeding when of the children fails. If the Parallel doesn't stop because of a `Policy.ONE` it will execute until all of the children are done, then it either succeeds if all children succeeded or fails.
 
 ### Task Nodes
 
@@ -214,22 +214,22 @@ You can use the clock in your nodes to register timers or get notified on each f
 - `Condition(Func<bool> condition, Stops stopsOnChange, float checkInterval, float randomVariance, Node decoratee)`: execute `decoratee` node if the given condition returns true. Re-Evaluate the condition at the given `checkInterval` and `randomVariance` and stop running nodes based on the [`stopsOnChange` stops rules](#Stops-Rules).
 	
 #### Cooldown
-- Cooldown(float cooldownTime, Node decoratee)
-- Cooldown(float cooldownTime, float randomVariation, Node decoratee)
-- Cooldown(float cooldownTime, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee)
-- Cooldown(float cooldownTime, float randomVariation, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee)
+- `Cooldown(float cooldownTime, Node decoratee)`: Run `decoratee` immediately, but only if last execution wasn't at least past `cooldownTime`
+- `Cooldown(float cooldownTime, float randomVariation, Node decoratee)`: Run `decoratee` immediately, but only if last execution wasn't at least past `cooldownTime` with `randomVariation``
+- `Cooldown(float cooldownTime, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee)`: Run `decoratee` immediately, but only if last execution wasn't at least past `cooldownTime` with `randomVariation`. When `resetOnFailure` is true, the cooldown will be reset if the decorated node fails
+- `Cooldown(float cooldownTime, float randomVariation, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee)` Run `decoratee` immediately, but only if last execution wasn't at least past `cooldownTime` with `randomVariation`. When `startAfterDecoratee` is true, the cooldown timer will be started after the decoratee finishes instead of when it starts. When `resetOnFailure` is true, the cooldown will be reset if the decorated node fails
 
 #### Failer
-- Failer(Node decoratee)
+- `Failer(Node decoratee)`: always fail, regardless of wether the `decoratee` fails or not
 
 #### Inverter
-- Inverter(Node decoratee)
+- `Inverter(Node decoratee)`: if `decoratee` suceeds, the Inverter fails and if the `decoratee` fails, the Inverter suceeds.
 
 #### Observer
-- Observer(Action onStart, Action<bool> onStop, Node decoratee)
+- `Observer(Action onStart, Action<bool> onStop, Node decoratee)`: runs the given `onStop` lambda once the `decoratee` finishes, passing the result as parameter.
 
 #### Random
-- Random(float probability, Node decoratee)
+- `Random(float probability, Node decoratee)`: runs the `decoratee` with the given `probability` chance between 0 and 1.
 
 #### Repeater
 - Repeater(Node decoratee)
@@ -241,7 +241,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 - Service(float interval, float randomVariation, Action service, Node decoratee)
 
 #### Succeeder
-- Succeeder(Node decoratee)
+- `Succeeder(Node decoratee)`: always suceed, regardless of wether the `decoratee` suceeds or not
 
 #### TimeMax
 - TimeMax(float limit, bool waitForChildButFailOnLimitReached, Node decoratee)
