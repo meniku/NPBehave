@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -207,14 +208,25 @@ namespace NPBehave
 
         private void DrawNodeTree(Node node, int depth = 0, bool firstNode = true, float lastYPos = 0f)
         {
+            bool decorator = node is Decorator && !(node is Root);
+            bool parentIsDecorator = (node.ParentNode is Decorator);
             GUI.color = (node.CurrentState == Node.State.ACTIVE) ? new Color(1f, 1f, 1f, 1f) : new Color(1f, 1f, 1f, 0.3f);
 
-            DrawNode(node, depth);
+            if (!parentIsDecorator)
+            {
+                DrawSpacing();
+            }
+
+            bool drawConnected = !decorator || (decorator && ((Container)node).Collapse);
+            DrawNode(node, depth, drawConnected);
 
             Rect rect = GUILayoutUtility.GetLastRect();
 
             // Set intial line position
-            if (firstNode) lastYPos = rect.yMin;
+            if (firstNode)
+            {
+                lastYPos = rect.yMin;
+            }
 
             // Draw the lines
             Handles.BeginGUI();
@@ -231,14 +243,21 @@ namespace NPBehave
             }
 
             Handles.color = new Color(0f, 0f, 0f, 1f);
-            Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos + 4), new Vector2(rect.xMin - 5, rect.yMax - 4));
+            if (!decorator)
+            {
+                Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos + 4), new Vector2(rect.xMin - 5, rect.yMax - 4));
+            }
+            else
+            {
+                Handles.DrawLine(new Vector2(rect.xMin - 5, lastYPos + 4), new Vector2(rect.xMin - 5, rect.yMax + 6));
+            }
             Handles.EndGUI();
 
-            depth++;
+            if(decorator) depth++;
 
             if (node is Container && !((Container)node).Collapse)
             {
-                EditorGUILayout.BeginVertical(nestedBoxStyle);
+                if(!decorator) EditorGUILayout.BeginVertical(nestedBoxStyle);
 
                 Node[] children = (node as Container).DebugChildren;
                 if (children == null)
@@ -248,19 +267,26 @@ namespace NPBehave
                 else
                 {
                     lastYPos = rect.yMin + 16; // Set new Line position
-
+                    
                     for (int i = 0; i < children.Length; i++)
                     {
                         DrawNodeTree(children[i], depth, i == 0, lastYPos);
                     }
                 }
 
-                EditorGUILayout.EndVertical();
+                if(!decorator) EditorGUILayout.EndVertical();
             }
 
         }
 
-        private void DrawNode(Node node, int depth)
+        private void DrawSpacing()
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.Space();
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawNode(Node node, int depth, bool connected)
         {
             float tStopRequested = Mathf.Lerp(0.85f, 0.25f, 2.0f * (Time.time - node.DebugLastStopRequestAt));
             float tStopped = Mathf.Lerp(0.85f, 0.25f, 2.0f * (Time.time - node.DebugLastStoppedAt));
@@ -345,13 +371,16 @@ namespace NPBehave
             EditorGUILayout.EndHorizontal();
 
             // Draw the lines
-            Rect rect = GUILayoutUtility.GetLastRect();
+            if (connected)
+            {
+                Rect rect = GUILayoutUtility.GetLastRect();
 
-            Handles.color = new Color(0f, 0f, 0f, 1f);
-            Handles.BeginGUI();
-            float midY = 4 + (rect.yMin + rect.yMax) / 2f;
-            Handles.DrawLine(new Vector2(rect.xMin - 5, midY), new Vector2(rect.xMin, midY));
-            Handles.EndGUI();
+                Handles.color = new Color(0f, 0f, 0f, 1f);
+                Handles.BeginGUI();
+                float midY = 4 + (rect.yMin + rect.yMax) / 2f;
+                Handles.DrawLine(new Vector2(rect.xMin - 5, midY), new Vector2(rect.xMin, midY));
+                Handles.EndGUI();
+            }
         }
     }
 }
