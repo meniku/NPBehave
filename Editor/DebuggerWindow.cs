@@ -303,35 +303,33 @@ namespace NPBehave
                 GUIStyle tagStyle = stopRequested ? nodeCapsuleStopRequested : (failed ? nodeCapsuleFailed : nodeCapsuleGray);
 
                 bool drawLabel = !string.IsNullOrEmpty(node.Label);
+                string label = node.Label;
 
                 if (node is BlackboardCondition)
                 {
                     BlackboardCondition nodeBlackboardCond = node as BlackboardCondition;
-                    if (nodeBlackboardCond.Collapse)
-                    {
-                        tagName = "...";
-                    }
-                    else
-                    {
-                        tagName = nodeBlackboardCond.Key + " " + operatorToString[nodeBlackboardCond.Operator] + " " + nodeBlackboardCond.Value;
-                    }
+                    tagName = nodeBlackboardCond.Key + " " + operatorToString[nodeBlackboardCond.Operator] + " " + nodeBlackboardCond.Value;
                     GUI.backgroundColor = new Color(0.9f, 0.9f, 0.6f);
                 }
                 else
                 {
-                    if ((node is Container) && ((Container)node).Collapse)
-                    {
-                        tagName = "..."; //"+";
-                        GUI.backgroundColor = new Color(0.4f, 0.4f, 0.4f);
-                    }
-                    else
-                    {
-                        if (node is Composite) GUI.backgroundColor = new Color(0.3f, 1f, 0.1f);
-                        if (node is Decorator) GUI.backgroundColor = new Color(0.3f, 1f, 1f);
-                        if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.1f, 0.5f);
+                    if (node is Composite) GUI.backgroundColor = new Color(0.3f, 1f, 0.1f);
+                    if (node is Decorator) GUI.backgroundColor = new Color(0.3f, 1f, 1f);
+                    if (node is Task) GUI.backgroundColor = new Color(0.5f, 0.1f, 0.5f);
+                    if (node is ObservingDecorator) GUI.backgroundColor = new Color(0.9f, 0.9f, 0.6f);
 
-                        nameToTagString.TryGetValue(node.Name, out tagName);
+                    nameToTagString.TryGetValue(node.Name, out tagName);
+                }
+
+                if ((node is Container) && ((Container)node).Collapse)
+                {
+                    if (!drawLabel)
+                    {
+                        drawLabel = true;
+                        label = tagName;
                     }
+                    tagName = "...";
+                    GUI.backgroundColor = new Color(0.4f, 0.4f, 0.4f);
                 }
 
                 if (string.IsNullOrEmpty(tagName)) tagName = node.Name;
@@ -339,7 +337,7 @@ namespace NPBehave
                 if (!drawLabel) {
                     GUILayout.Label(tagName, tagStyle);
                 } else {
-                    GUILayout.Label("("+tagName+") " + node.Label, tagStyle);
+                    GUILayout.Label("("+tagName+") " + label, tagStyle);
                     // Reset background color
                     GUI.backgroundColor = Color.white;
                 }
