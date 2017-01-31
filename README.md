@@ -178,7 +178,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 - `Sequence(params Node[] children)`: Run children sequentially until one fails and fail (succeeds if non of the children fails).
 
 #### Parallel
-- vParallel(Policy successPolicy, Policy failurePolicy, params Node[] children)`: Run children in parallel. When `failurePolocity` is `Polociy.ONE`, the Parallel will stop failing as soon as one of the children fails. When `successPolicy` is `Policy.ONE`, the Parallel will stop succeeding when of the children fails. If the Parallel doesn't stop because of a `Policy.ONE` it will execute until all of the children are done, then it either succeeds if all children succeeded or fails.
+- `Parallel(Policy successPolicy, Policy failurePolicy, params Node[] children)`: Run children in parallel. When `failurePolocity` is `Polociy.ONE`, the Parallel will stop failing as soon as one of the children fails. When `successPolicy` is `Policy.ONE`, the Parallel will stop succeeding when of the children fails. If the Parallel doesn't stop because of a `Policy.ONE` it will execute until all of the children are done, then it either succeeds if all children succeeded or fails.
 
 ### Task Nodes
 
