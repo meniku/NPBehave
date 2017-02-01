@@ -178,7 +178,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 - `Sequence(params Node[] children)`: Run children sequentially until one fails and fail (succeeds if non of the children fails).
 
 #### Parallel
-- `Parallel(Policy successPolicy, Policy failurePolicy, params Node[] children)`: Run children in parallel. When `failurePolocity` is `Polociy.ONE`, the Parallel will stop failing as soon as one of the children fails. When `successPolicy` is `Policy.ONE`, the Parallel will stop succeeding when of the children fails. If the Parallel doesn't stop because of a `Policy.ONE` it will execute until all of the children are done, then it either succeeds if all children succeeded or fails.
+- `Parallel(Policy successPolicy, Policy failurePolicy, params Node[] children)`: Run children in parallel. When `failurePolocity` is `Polociy.ONE`, the Parallel will stop (with failing resi;t) as soon as one of the children fails. When `successPolicy` is `Policy.ONE`, the Parallel will stop (with succeeding result) when of the children fails. If the Parallel doesn't stop because of a `Policy.ONE` it will execute until all of the children are done, then it either succeeds if all children succeeded or fails.
 
 ### Task Nodes
 
@@ -232,20 +232,20 @@ You can use the clock in your nodes to register timers or get notified on each f
 - `Random(float probability, Node decoratee)`: runs the `decoratee` with the given `probability` chance between 0 and 1.
 
 #### Repeater
-- Repeater(Node decoratee)
-- Repeater(int loopCount, Node decoratee) 
+- `Repeater(Node decoratee)`: repeat the given `decoratee` infinitly, unless it fails
+- `Repeater(int loopCount, Node decoratee)`: execute the given `decoratee` for `loopCount` times (0 means decoratee would never run). If `decoratee` stops the looping is aborted and the Repeater fails. If all executions of the `decoratee` are successful, the Repeater will suceed.
 
 #### Service
-- Service(Action service, Node decoratee)
-- Service(float interval, Action service, Node decoratee)
-- Service(float interval, float randomVariation, Action service, Node decoratee)
+- `Service(Action service, Node decoratee)`: run the given `service` function, start the `decoratee` and then run the `service` every tick.
+- `Service(float interval, Action service, Node decoratee)`: run the given `service` function, start the `decoratee` and then run the `service` at the given `interval`.
+- `Service(float interval, float randomVariation, Action service, Node decoratee)`: run the given `service` function, start the `decoratee` and then run the `service` at the given `interval` with `randomVariation`.
 
 #### Succeeder
 - `Succeeder(Node decoratee)`: always suceed, regardless of wether the `decoratee` suceeds or not
 
 #### TimeMax
-- TimeMax(float limit, bool waitForChildButFailOnLimitReached, Node decoratee)
-- TimeMax(float limit, float randomVariation, bool waitForChildButFailOnLimitReached, Node decoratee)
+- `TimeMax(float limit, bool waitForChildButFailOnLimitReached, Node decoratee)`: run the given `decoratee`. If the `decoratee` doesn't finish within the `limit`, the execution fails. If `waitForChildButFailOnLimitReached` is true, it will wait for the decoratee to finish but still fail.
+- `TimeMax(float limit, float randomVariation, bool waitForChildButFailOnLimitReached, Node decoratee)`: run the given `decoratee`. If the `decoratee` doesn't finish within the `limit` and `randomVariation`, the execution fails. If `waitForChildButFailOnLimitReached` is true, it will wait for the decoratee to finish but still fail.
 
 #### TimeMin
 - TimeMin(float limit, Node decoratee)
