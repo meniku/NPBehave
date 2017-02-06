@@ -4,7 +4,6 @@
     {
         private int loopCount = -1;
         private int currentLoop;
-        private bool stopRequested;
 
         /// <param name="loopCount">number of times to execute the decoratee. Set to -1 to repeat forever, be careful with endless loops!</param>
         /// <param name="decoratee">Decorated Node</param>
@@ -22,7 +21,6 @@
         {
             if (loopCount != 0)
             {
-                stopRequested = false;
                 currentLoop = 0;
                 Decoratee.Start();
             }
@@ -35,7 +33,7 @@
         override protected void DoStop()
         {
             this.Clock.RemoveTimer(restartDecoratee);
-            stopRequested = true;
+            
             if (Decoratee.IsActive)
             {
                 Decoratee.Stop();
@@ -50,7 +48,7 @@
         {
             if (result)
             {
-                if (stopRequested || (loopCount > 0 && ++currentLoop >= loopCount))
+                if (IsStopRequested || (loopCount > 0 && ++currentLoop >= loopCount))
                 {
                     Stopped(true);
                 }
