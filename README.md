@@ -63,7 +63,7 @@ Up until now there really isn't anything event driven in this tree. Before we ca
 ## Blackboards
 In NPBehave, like in Unreal, we got blackboards. You can think about them as beeing the "memory" of your AI. In NPBehave, blackboards are basically dictionaries that can be observed for changes. We mainly use `Service` to store & update values in the blackboards. And we use `BlackboardCondition` or `BlackboardQuery` to observe the blackboard for changes and in turn continue traversing the bahaviour tree. Though you are free to access or modify values of the blackboard everywhere else (you'll also access them often from `Action` nodes).
 
-A blackboard is automatically created when you instantiate a `Root`, but you may also provide another instance with it's constructor (this is particulary useful for [Shared Blackboards](#Shared-Blackboards))
+A blackboard is automatically created when you instantiate a `Root`, but you may also provide another instance with it's constructor (this is particularly useful for [Shared Blackboards](#Shared-Blackboards))
 
 ### Example: An event-driven behavior tree
 Here's a simple example that uses the blackboard for event-driven behavior:
@@ -120,11 +120,11 @@ The following stop rules exist:
 
 ## Blackboard Alternatives
 
-In NPBehave you define your behavior tree within a `MonoBehavior`, as thus it isn't necessary to store everything in the blackboard. If you don't have `BlackboardDecorator` or `BlackboardQuery` with other stop rules than `Stops.NONE`, you probably don't need them to be in the blackboard at all. You can also just make use of plain member variables - it is often the cleaner, faster to write and more performant. It means that you won't make use of the event-drivenness of NPBehave in that case, but it's often not necessary.
+In NPBehave you define your behavior tree within a `MonoBehaviour`, as thus it isn't necessary to store everything in the blackboard. If you don't have `BlackboardDecorator` or `BlackboardQuery` with other stop rules than `Stops.NONE`, you probably don't need them to be in the blackboard at all. You can also just make use of plain member variables - it is often the cleaner, faster to write and more performant. It means that you won't make use of the event-drivenness of NPBehave in that case, but it's often not necessary.
 
 If you want to be able to make use of [`stopsOnChange` stops rules](#stops-rules) without using the Blackboard, two alternative ways exist in NPBehave:
 
-1. use a regular [`Condition` decorator](#stops-rules). This decorator has an optional [`stopsOnChange` stops rules](#stops-rules) parameter. When provididing any other value than `Stops.NONE`, the condition will frequently check the condition and interrupt the node according to the stops rule when the result of the given `query` function changes. Be aware that this method is not event-driven, it queries every frame (or at the provided interval) and as thus may lead to many queries if you make heavy use of them. However for simple cases it is often is sufficient and much simpler than a combination of a Blackboard-Key, a `Service` and a `BlackboardCondition`.
+1. use a regular [`Condition` decorator](#stops-rules). This decorator has an optional [`stopsOnChange` stops rules](#stops-rules) parameter. When providing any other value than `Stops.NONE`, the condition will frequently check the condition and interrupt the node according to the stops rule when the result of the given `query` function changes. Be aware that this method is not event-driven, it queries every frame (or at the provided interval) and as thus may lead to many queries if you make heavy use of them. However for simple cases it is often is sufficient and much simpler than a combination of a Blackboard-Key, a `Service` and a `BlackboardCondition`.
 2. Build your own event-driven `Decorator`s. It's actually pretty easy, just extend from [ObservingDecorator](#implementing-observing-decorators) and override the `isConditionMet()`, `StartObserving()` and `StopObserving()` methods.
 
 ## Node execution results
@@ -157,19 +157,19 @@ Please refer to the existing node implementations to find out how to create cust
 
 ### The golden rules
 
-1. **Every call to `DoStop()` must result in a call to `Stopped(result)`**. This is extremly important!: you really need to ensure that Stopped() is called within DoStop(), because NPBehave needs to be able to cancel a running branch at every time *immediately*. This also means that all your child nodes will also call Stopped(), which in turn makes it really easy to write reliable decorators or even composite nodes: Within DoStop() you just call `Stop()` on your active children, they in turn will call of `ChildStopped()` on your node where you then finally put in your Stopped() call. Please have a look at the existing implementations for reference.
-2. **Stopped() is the last call you do**, never do modify any state or call anything after calling Stopped. This is because Stopped will immediately continue traversal of the tree on other nodes, which will completly fuckup the state of the behavior tree if you don't take that into account.
+1. **Every call to `DoStop()` must result in a call to `Stopped(result)`**. This is extremely important!: you really need to ensure that Stopped() is called within DoStop(), because NPBehave needs to be able to cancel a running branch at every time *immediately*. This also means that all your child nodes will also call Stopped(), which in turn makes it really easy to write reliable decorators or even composite nodes: Within DoStop() you just call `Stop()` on your active children, they in turn will call of `ChildStopped()` on your node where you then finally put in your Stopped() call. Please have a look at the existing implementations for reference.
+2. **Stopped() is the last call you do**, never do modify any state or call anything after calling Stopped. This is because Stopped will immediately continue traversal of the tree on other nodes, which will completley fuckup the state of the behavior tree if you don't take that into account.
 3. **Every registered clock or blackboard observer needs to be removed eventually**. Most of the time you unregister your callbacks immediately before you call Stopped(), however there may be exceptions, e.g. the BlackboardCondition keeps observers around up until the parent composite is stopped, it needs to be able to react on blackboard value changes even when the node itself is not active.
 
 ### Implementing Tasks
 For tasks you extend from the `Task` class and override the `DoStart()` and `DoStop()` methods. In `DoStart()` you start your logic and once you're done, you call `Stopped(bool result)` with the appropriate result. Your node may get cancelled by another node, so be sure to implement `DoStop()`, do proper cleanup and call `Stopped(bool result)` immediately after it.
 
-For a relativly simple example, check the source of the [`Wait Node`](http://github.com/meniku/NPBehave/blob/master/Scripts/Task/Wait.cs).
+For a relatively simple example, check the source of the [`Wait Node`](http://github.com/meniku/NPBehave/blob/master/Scripts/Task/Wait.cs).
 
 *As already mentioned in the golden rules section, in NPBehave you have to always call Stopped(bool result) after your node is stopped. So it is currently not supported to have cancel-operations pending over multiple frames and will result in unpredictable behaviour*.
 
 ### Implementing Observing Decorators
-Writing decorators is a lot more complex than Tasks. However a special base class exists for conveinance. It's the `ObservingDecorator`. This class can be used for easy implementation of "conditional" `Decorators` that optionally make use [`stopsOnChange` stops rules](#stops-rules). 
+Writing decorators is a lot more complex than Tasks. However a special base class exists for convenience. It's the `ObservingDecorator`. This class can be used for easy implementation of "conditional" `Decorators` that optionally make use [`stopsOnChange` stops rules](#stops-rules). 
 
 All you have to do is to extend from it `ObservingDecorator` and override the method `bool IsConditionMet()`. If you want to support the `Stops-Rules` you will have to implement `StartObserving()` and `StopObserving()` too. For a simple example, check the source of the [`Condition Node`](http://github.com/meniku/NPBehave/blob/master/Scripts/Decorator/Decorator.cs).
 
@@ -260,17 +260,17 @@ You can use the clock in your nodes to register timers or get notified on each f
 - **`Failer(Node decoratee)`**: always fail, regardless of the `decoratee`'s result.
 
 #### Inverter
-- **`Inverter(Node decoratee)`**: if `decoratee` suceeds, the inverter fails and if the `decoratee` fails, the inverter suceeds.
+- **`Inverter(Node decoratee)`**: if `decoratee` succeeds, the inverter fails and if the `decoratee` fails, the inverter succeeds.
 
 #### Observer
-- **`Observer(Action onStart, Action<bool> onStop, Node decoratee)`**: runs the given `onStart` lambda once the `decoratee` starts and the `onStop(bool result)` lambda once the `decoratee` finishes. It's a bit like a special kind of `Service`, as it doens't interfere in the exeuction of the `decoratee` directly.
+- **`Observer(Action onStart, Action<bool> onStop, Node decoratee)`**: runs the given `onStart` lambda once the `decoratee` starts and the `onStop(bool result)` lambda once the `decoratee` finishes. It's a bit like a special kind of `Service`, as it doesn't interfere in the execution of the `decoratee` directly.
 
 #### Random
 - **`Random(float probability, Node decoratee)`**: runs the `decoratee` with the given `probability` chance between 0 and 1.
 
 #### Repeater
 - **`Repeater(Node decoratee)`**: repeat the given `decoratee` infinitly, unless it fails
-- **`Repeater(int loopCount, Node decoratee)`**: execute the given `decoratee` for `loopCount` times (0 means decoratee would never run). If `decoratee` stops the looping is aborted and the Repeater fails. If all executions of the `decoratee` are successful, the Repeater will suceed.
+- **`Repeater(int loopCount, Node decoratee)`**: execute the given `decoratee` for `loopCount` times (0 means decoratee would never run). If `decoratee` stops the looping is aborted and the Repeater fails. If all executions of the `decoratee` are successful, the Repeater will succeed.
 
 #### Service
 - **`Service(Action service, Node decoratee)`**: run the given `service` function, start the `decoratee` and then run the `service` every tick.
@@ -278,7 +278,7 @@ You can use the clock in your nodes to register timers or get notified on each f
 - **`Service(float interval, float randomVariation, Action service, Node decoratee)`**: run the given `service` function, start the `decoratee` and then run the `service` at the given `interval` with `randomVariation`.
 
 #### Succeeder
-- **`Succeeder(Node decoratee)`**: always suceed, regardless of whether the `decoratee` suceeds or not
+- **`Succeeder(Node decoratee)`**: always succeed, regardless of whether the `decoratee` succeeds or not
 
 #### TimeMax
 - **`TimeMax(float limit, bool waitForChildButFailOnLimitReached, Node decoratee)`**: run the given `decoratee`. If the `decoratee` doesn't finish within the `limit`, the execution fails. If `waitForChildButFailOnLimitReached` is true, it will wait for the decoratee to finish but still fail.
