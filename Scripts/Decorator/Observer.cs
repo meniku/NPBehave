@@ -27,7 +27,7 @@ namespace NPBehave
         protected override void DoChildStopped(Node child, bool result)
         {
             this.onStop(result);
-            Stopped(true);
+            Stopped(result);
         }
     }
 }
