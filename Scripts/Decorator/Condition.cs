@@ -36,7 +36,7 @@ namespace NPBehave
 
         override protected void StopObserving()
         {
-            this.RootNode.Clock.RemoveUpdateObserver(Evaluate);
+            this.RootNode.Clock.RemoveTimer(Evaluate);
         }
 
         protected override bool IsConditionMet()

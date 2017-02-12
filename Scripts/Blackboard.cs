@@ -60,6 +60,10 @@ namespace NPBehave
             {
                 this.parentBlackboard.children.Remove(this);
             }
+            if (this.clock != null)
+            {
+                this.clock.RemoveTimer(this.NotifiyObservers);
+            }
         }
 
         public object this[string key]
