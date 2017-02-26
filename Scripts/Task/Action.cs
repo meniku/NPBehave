@@ -77,7 +77,8 @@ namespace NPBehave
             }
             else
             {
-                Assert.IsTrue(false, "DoStop called for a single frame action on " + this);
+                // Assert.IsTrue(false, "DoStop called for a single frame action on " + this);
+                Assert.IsTrue(false, "DoStop called for a single frame action");
             }
         }
     }

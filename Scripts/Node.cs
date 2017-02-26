@@ -112,7 +112,8 @@ namespace NPBehave
 
         public void Start()
         {
-            Assert.AreEqual(this.currentState, State.INACTIVE, "can only start inactive nodes, tried to start: " + this.Name + "! PATH: " + GetPath());
+            // Assert.AreEqual(this.currentState, State.INACTIVE, "can only start inactive nodes, tried to start: " + this.Name + "! PATH: " + GetPath());
+            Assert.AreEqual(this.currentState, State.INACTIVE, "can only start inactive nodes");
 
 #if UNITY_EDITOR
             RootNode.TotalNumStartCalls++;
@@ -127,7 +128,8 @@ namespace NPBehave
         /// </summary>
         public void Stop()
         {
-            Assert.AreEqual(this.currentState, State.ACTIVE, "can only stop active nodes, tried to stop " + this.Name + "! PATH: " + GetPath());
+            // Assert.AreEqual(this.currentState, State.ACTIVE, "can only stop active nodes, tried to stop " + this.Name + "! PATH: " + GetPath());
+            Assert.AreEqual(this.currentState, State.ACTIVE, "can only stop active nodes, tried to stop");
             this.currentState = State.STOP_REQUESTED;
 #if UNITY_EDITOR
             RootNode.TotalNumStopCalls++;
@@ -152,7 +154,8 @@ namespace NPBehave
         /// ANY STATE AFTER CALLING Stopped !!!!
         protected virtual void Stopped(bool success)
         {
-            Assert.AreNotEqual(this.currentState, State.INACTIVE, "The Node " + this + " called 'Stopped' while in state INACTIVE, something is wrong! PATH: " + GetPath());
+            // Assert.AreNotEqual(this.currentState, State.INACTIVE, "The Node " + this + " called 'Stopped' while in state INACTIVE, something is wrong! PATH: " + GetPath());
+            Assert.AreNotEqual(this.currentState, State.INACTIVE, "Called 'Stopped' while in state INACTIVE, something is wrong!");
             this.currentState = State.INACTIVE;
 #if UNITY_EDITOR
             RootNode.TotalNumStoppedCalls++;

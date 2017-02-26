@@ -200,7 +200,7 @@ The current state can be retrieved with the `CurrentState` property
 You can use the clock in your nodes to register timers or get notified on each frame. Use `RootNode.Clock` to access the clock. Check the [`Wait Task`](http://github.com/meniku/NPBehave/blob/master/Scripts/Task/Wait.cs) for an example on how to register timers on the clock.
 
 By default the behavior tree will be using the global clock privoded by the `UnityContext`. This clock is updated every frame.
-There may be scenarious where you want to have more control. For example you may want to throttle or pause updates to a group of AIs. For this reason you can provide your own controlled clock instances to the `Root` node and `Blackboard`, this allows you to precicly control when your behavior trees are updated. Check the [Clock Throttling Example](https://github.com/meniku/NPBehave/blob/master/Examples/Scripts/NPBehaveExampleClockThrottling.cs).
+There may be scenarious where you want to have more control. For example you may want to throttle or pause updates to a group of AIs. For this reason you can provide your own controlled clock instances to the `Root` node and `Blackboard`, this allows you to precisely control when your behavior trees are updated. Check the [Clock Throttling Example](https://github.com/meniku/NPBehave/blob/master/Examples/Scripts/NPBehaveExampleClockThrottling.cs).
 
 
 ## Node Type Reference
