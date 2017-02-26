@@ -164,14 +164,14 @@ Please refer to the existing node implementations to find out how to create cust
 ### Implementing Tasks
 For tasks you extend from the `Task` class and override the `DoStart()` and `DoStop()` methods. In `DoStart()` you start your logic and once you're done, you call `Stopped(bool result)` with the appropriate result. Your node may get cancelled by another node, so be sure to implement `DoStop()`, do proper cleanup and call `Stopped(bool result)` immediately after it.
 
-For a relatively simple example, check the source of the [`Wait Node`](http://github.com/meniku/NPBehave/blob/master/Scripts/Task/Wait.cs).
+For a relatively simple example, check the source of the [`Wait Task`](http://github.com/meniku/NPBehave/blob/master/Scripts/Task/Wait.cs).
 
 *As already mentioned in the golden rules section, in NPBehave you have to always call Stopped(bool result) after your node is stopped. So it is currently not supported to have cancel-operations pending over multiple frames and will result in unpredictable behaviour*.
 
 ### Implementing Observing Decorators
 Writing decorators is a lot more complex than Tasks. However a special base class exists for convenience. It's the `ObservingDecorator`. This class can be used for easy implementation of "conditional" `Decorators` that optionally make use [`stopsOnChange` stops rules](#stops-rules). 
 
-All you have to do is to extend from it `ObservingDecorator` and override the method `bool IsConditionMet()`. If you want to support the `Stops-Rules` you will have to implement `StartObserving()` and `StopObserving()` too. For a simple example, check the source of the [`Condition Node`](http://github.com/meniku/NPBehave/blob/master/Scripts/Decorator/Decorator.cs).
+All you have to do is to extend from it `ObservingDecorator` and override the method `bool IsConditionMet()`. If you want to support the `Stops-Rules` you will have to implement `StartObserving()` and `StopObserving()` too. For a simple example, check the source of the [`Condition Decorator`](http://github.com/meniku/NPBehave/blob/master/Scripts/Decorator/Condition.cs).
 
 ### Implementing Generic Decorators
 For generic decorators you extend from the `Decorator` class and override the `DoStart()`, `DoStop()` and the `DoChildStopped(Node child, bool result)` methods. 
@@ -197,7 +197,11 @@ Most likely you won't need to access those, but it's still good to know about th
 The current state can be retrieved with the `CurrentState` property
 
 ### The Clock
-You can use the clock in your nodes to register timers or get notified on each frame. Use `RootNode.Clock` to access the clock. 
+You can use the clock in your nodes to register timers or get notified on each frame. Use `RootNode.Clock` to access the clock. Check the [`Wait Task`](http://github.com/meniku/NPBehave/blob/master/Scripts/Task/Wait.cs) for an example on how to register timers on the clock.
+
+By default the behavior tree will be using the global clock privoded by the `UnityContext`. This clock is updated every frame.
+There may be scenarious where you want to have more control. For example you may want to throttle or pause updates to a group of AIs. For this reason you can provide your own controlled clock instances to the `Root` node and `Blackboard`, this allows you to precicly control when your behavior trees are updated. Check the [Clock Throttling Example](https://github.com/meniku/NPBehave/blob/master/Examples/Scripts/NPBehaveExampleClockThrottling.cs).
+
 
 ## Node Type Reference
 
