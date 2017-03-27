@@ -72,7 +72,6 @@ namespace NPBehave
 
         override protected void DoStop()
         {
-            this.mainNode.Stop();
             if (this.mainNode.IsActive)
             {
                 this.mainNode.Stop();
