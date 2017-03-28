@@ -89,7 +89,6 @@ namespace NPBehave
             {
                 // wait one tick, to prevent endless recursions
                 this.clock.AddTimer(0, 0, this.mainNode.Start);
-                // this.mainNode.Start();
             }
             else
             {
