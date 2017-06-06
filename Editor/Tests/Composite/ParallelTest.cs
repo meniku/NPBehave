@@ -275,7 +275,6 @@ namespace NPBehave
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
         public void StopLowerPriorityChildrenForChild_WithoutImmediateRestart_ShouldThrowError()
         {
             Parallel.Policy failurePolicy = Parallel.Policy.ALL;
@@ -286,10 +285,11 @@ namespace NPBehave
             Parallel sut = new Parallel(successPolicy, failurePolicy, firstChild, secondChild);
             TestRoot behaviorTree = CreateBehaviorTree(sut);
 
-            behaviorTree.Start();
-            firstChild.Finish(false);
-            sut.StopLowerPriorityChildrenForChild(firstChild, false);
-
+            Assert.That(() => {
+                behaviorTree.Start();
+                firstChild.Finish(false);
+                sut.StopLowerPriorityChildrenForChild(firstChild, false);
+            }, Throws.TypeOf<Exception>());
         }
     }
 }
