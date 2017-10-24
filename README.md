@@ -138,6 +138,26 @@ In NPBehave we have four different node types:
 - **decorator nodes**: these nodes have always exactly one child and are used to either modify the result of the child or do something else while executing the child (e.g. a service updating the blackboard)
 - **task nodes**: these are the leafs of the tree doing the actual work. These are the ones you most likely would create custom classes for. You can use the `Action` with lambdas or functions - For more complicated tasks, it is often a better option to create a new subclass of `Task`. Be sure to read the [the golden rules](#the-golden-rules) if you do so.
 
+## Stopping the Tree
+
+In case your Monster gets killed or you just destroy your GameObject, you should always stop the tree. You could put sometihng like the following on your Script:
+
+```
+   ...
+    public void OnDestroy()
+    {
+        StopBehaviorTree();
+    }
+
+    public void StopBehaviorTree()
+    {
+        if ( behaviorTree != null && behaviorTree.CurrentState == Node.State.ACTIVE )
+        {
+            behaviorTree.Stop();
+        }
+    }
+```
+
 ## The Debugger
 You can use the `Debugger` component to debug the behavior trees at runtime in the inspector. 
 
