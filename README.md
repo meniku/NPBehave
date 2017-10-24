@@ -226,8 +226,9 @@ There may be scenarious where you want to have more control. For example you may
 #### Action
 - **`Action(System.Action action)`**: fire and forget action (always finishes successfully immediately)
 - **`Action(System.Func<bool> singleFrameFunc)`**: action which can succeed or fail (return false to fail) 
-- **`Action(Func<bool, Result> multiframeFunc)`**: action that can be ticked over multiple frames (return Result.SUCCESS, Result.FAILED or Result.PROGRESS depending on the Action's current state)
-
+- **`Action(Func<bool, Result> multiframeFunc)`**: action that can be ticked over multiple frames (return `Result.BLOCKED` when your action is not yet ready, `Result.PROGRESS` when you're busy with the action, `Result.SUCCESS` or `Result.FAILED` when your action failed).
+- **`Action(Func<Request, Result> multiframeFunc2)`**: similar to above, but Request will give you a state information: `Request.START` means it's the first tick to your action or you returned `Result.BLOCKED` last tick; `Request.UPDATE` means the last time you returned `Request.PROGRESS`; `Request.CANCEL` means that you need to cancel your action and return `Result.SUCCESS` or `Result.FAILED`.
+ 
 #### NavWalkTo (!!!! EXPERIMENTAL !!!!)
 - **`NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f)`**: move a NavMeshAgent `agent` to either a transform or vector stored in the given `blackboardKey`. Allows a `tolerance` distance to succeed and optionally will stop once in the tolerance range (`stopOnTolerance`). `updateFrequency` controls how often the target position will be updated and how often the task checks wether it's done.
 
