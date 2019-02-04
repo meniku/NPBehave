@@ -16,12 +16,12 @@ namespace NPBehave
             MockNode thirdChild = new MockNode(false);
 
             // coniditions for each subtree that listen the BB for events
-            BlackboardCondition firstSelector = new BlackboardCondition( "branch1", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART, firstChild );
-            BlackboardCondition secondSelector = new BlackboardCondition( "branch2", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART, secondChild );
-            BlackboardCondition thirdSelector = new BlackboardCondition( "branch3", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART, thirdChild );
+            BlackboardCondition firstCondition = new BlackboardCondition( "branch1", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART, firstChild );
+            BlackboardCondition secondCondition = new BlackboardCondition( "branch2", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART, secondChild );
+            BlackboardCondition thirdCondtion = new BlackboardCondition( "branch3", Operator.IS_EQUAL, true, Stops.IMMEDIATE_RESTART, thirdChild );
 
             // set up the tree
-            Selector selector = new Selector(firstSelector, secondSelector, thirdSelector);
+            Selector selector = new Selector(firstCondition, secondCondition, thirdCondtion);
             TestRoot behaviorTree = new TestRoot(Blackboard, Timer, selector);
 
             // intially we want to activate branch3
