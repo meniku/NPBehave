@@ -25,8 +25,8 @@ Just drop the `NPBehave` folder into your Unity project. There is also an `Examp
 ## Example: "Hello World" Behavior Tree
 Let's start with an example:
 
-```
-using namespace NPBehave;
+```csharp
+using NPBehave;
 
 public class HelloWorld : MonoBehaviour
 {
@@ -46,16 +46,15 @@ public class HelloWorld : MonoBehaviour
 
 When you run this, you'll notice that "Hello World" will be printed over and over again. This is because the `Root` node will restart the whole tree once traversal bypasses the last node in the tree. If you don't want this, you might add a `WaitUntilStopped` node, like so:
 
-```
-...
+```csharp
+// ...
 behaviorTree = new Root(
 	new Sequence(
 		new Action(() => Debug.Log("Hello World!")),
 		new WaitUntilStopped()
 	)
 );
-... 
-
+///... 
 ```
 
 Up until now there really isn't anything event driven in this tree. Before we can dig into this, you need to understand what Blackboards are.
@@ -68,8 +67,8 @@ A blackboard is automatically created when you instantiate a `Root`, but you may
 ### Example: An event-driven behavior tree
 Here's a simple example that uses the blackboard for event-driven behavior:
 
-```
-...
+```csharp
+/// ...
 behaviorTree = new Root(
     new Service(0.5f, () => { behaviorTree.Blackboard["foo"] = !behaviorTree.Blackboard.Get<bool>("foo"); },
         new Selector(
@@ -89,8 +88,7 @@ behaviorTree = new Root(
     )
 );
 behaviorTree.Start();
-...
-
+//...
 ```
 *[Full sample](https://github.com/meniku/NPBehave/blob/master/Examples/Scripts/NPBehaveExampleHelloBlackboardsAI.cs)*
 | *[More sophisticated example](https://github.com/meniku/NPBehave/blob/master/Examples/Scripts/NPBehaveExampleEnemyAI.cs)*
@@ -142,8 +140,8 @@ In NPBehave we have four different node types:
 
 In case your Monster gets killed or you just destroy your GameObject, you should always stop the tree. You could put sometihng like the following on your Script:
 
-```
-   ...
+```csharp
+    // ...
     public void OnDestroy()
     {
         StopBehaviorTree();
@@ -156,6 +154,7 @@ In case your Monster gets killed or you just destroy your GameObject, you should
             behaviorTree.Stop();
         }
     }
+    // ...
 ```
 
 ## The Debugger
