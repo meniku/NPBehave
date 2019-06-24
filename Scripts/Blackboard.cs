@@ -286,6 +286,7 @@ namespace NPBehave
             foreach (Blackboard child in children)
             {
                 child.notifications.AddRange(notifications);
+                child.clock.AddTimer(0f, 0, child.NotifiyObservers);
             }
             notifications.Clear();
 
