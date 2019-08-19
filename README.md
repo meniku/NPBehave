@@ -332,13 +332,6 @@ There may be scenarious where you want to have more control. For example you may
 
 NPBehave was created and is maintained by Nils Kübler (E-Mail: das@nilspferd.net, Skype: disruption@web.de)
 
-### Contributors
-
-* [Nils Kübler](https://github.com/meniku)
-* [Xerios/Sam](https://github.com/Xerios)
-* [MohHeader](https://github.com/MohHEader
-* [Wakerol](https://github.com/Wakerol)
-
 ### Games using NPBehave
 
 * [Ace Of Traze Mobile](http://artwaretists.com/aot)
