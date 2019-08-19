@@ -3,7 +3,7 @@ NPBahave是GitHub上开源的一个行为树，其代码简洁有力，与Unity�
 ## 开源链接
 [https://github.com/meniku/NPBehave](https://github.com/meniku/NPBehave)
 ## 正文
-![](https://myfirstblog.oss-cn-hangzhou.aliyuncs.com/2019/08/687474703a2f2f6c6162732e6e6b7565626c65722e64652f6e706265686176652f696d616765732f6e702d6265686176652e706e67.png)
+![NPBehave Logo](http://labs.nkuebler.de/npbehave/images/np-behave.png)
 NPBehave致力于：
 
 - 轻量，快速，简洁
@@ -141,7 +141,7 @@ behaviorTree.Start();
 ```
 ### 运行时Debugger
 可以使用调试器组件在运行时在检查器中调试行为树。
-![](https://myfirstblog.oss-cn-hangzhou.aliyuncs.com/2019/08/README-Debugger.png)
+![NPBehave Debugger](https://github.com/meniku/NPBehave/blob/master/README-Debugger.png)
 
 ### 共享黑板
 您可以选择在AI的多个实例之间共享黑板。如果您想实现某种集群行为，这将非常有用。此外，您可以创建黑板层次结构，这允许您将共享黑板与非共享黑板组合起来。
