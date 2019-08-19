@@ -94,5 +94,27 @@ namespace NPBehave
             this.sut.Update(1);
             Assert.IsFalse(timer2Invoked);
         }
+
+		[Test]
+		public void ShouldUpdateAgain_WhenUsingInfiniteRepititions()
+		{
+			int invokations = 0;
+			System.Action callback = new System.Action(() =>
+			{
+				invokations++;
+			});
+
+			this.sut.AddTimer(0.9f, -1, callback);
+			this.sut.Update(1);
+			Assert.AreEqual(1, invokations);
+			this.sut.Update(1);
+			Assert.AreEqual(2, invokations);
+			this.sut.Update(1);
+			Assert.AreEqual(3, invokations);
+			this.sut.Update(0.1f);
+			Assert.AreEqual(3, invokations);
+			this.sut.Update(0.1f);
+			Assert.AreEqual(3, invokations);
+		}
     }
 }
