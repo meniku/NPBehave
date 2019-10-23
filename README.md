@@ -113,8 +113,11 @@ The following stop rules exist:
 * `Stops.SELF`: the decorator will check it's condition once it is started and if it is met, it will observe the blackboard for changes. Once the condition is no longer met, it will stop itself allowing the parent composite to **proceed with it's next node**.
 * `Stops.LOWER_PRIORITY`: the decorator will check it's condition once it is started and if it's not met, it will observe the blackboard for changes. Once the condition is met, it will stop the lower priority node allowing the parent composite to **proceed with it's next node**.
 * `Stops.BOTH`: the decorator will stop both: self and lower priority nodes.
-* `Stops.LOWER_PRIORITY_IMMEDIATE_RESTART`: the decorator will check it's condition once it is started and if it's not met, it will observe the blackboard for changes. Once the condition is met, it will stop the lower priority node and order the parent composite to **restart the Decorator immediately**. 
+* `Stops.LOWER_PRIORITY_IMMEDIATE_RESTART`: the decorator will check it's condition once it is started and if it's not met, it will observe the blackboard for changes. Once the condition is met, it will stop the lower priority node and order the parent composite to **restart the Decorator immediately**.
 * `Stops.IMMEDIATE_RESTART`: the decorator will check it's condition once it is started and if it's not met, it will observe the blackboard for changes. Once the condition is met, it will stop the lower priority node and order the parent composite to **restart the Decorator immediately**. As in `BOTH` it will also stop itself as soon as the condition is no longer met.
+
+One caveat with both `IMMEDIATE_RESTART` variants is currently, that they may not actually always immediately restart your node. They won't immediately restart it in case the aborted branch leads the parent composite to evalutate to `succeed`. Therefor it's generally advised to make use of stop rules within Selector nodes and return `Failed` when your nodes are aborted.:
+In [NPBehave 2.0](https://github.com/meniku/NPBehave/issues/25) this might change.
 
 ## Blackboard Alternatives
 
@@ -250,9 +253,9 @@ There may be scenarious where you want to have more control. For example you may
 
 #### Action
 - **`Action(System.Action action)`**: fire and forget action (always finishes successfully immediately)
-- **`Action(System.Func<bool> singleFrameFunc)`**: action which can succeed or fail (return false to fail) 
-- **`Action(Func<bool, Result> multiframeFunc)`**: action that can be ticked over multiple frames (return `Result.BLOCKED` when your action is not yet ready, `Result.PROGRESS` when you're busy with the action, `Result.SUCCESS` or `Result.FAILED` when your action failed).
-- **`Action(Func<Request, Result> multiframeFunc2)`**: similar to above, but Request will give you a state information: `Request.START` means it's the first tick to your action or you returned `Result.BLOCKED` last tick; `Request.UPDATE` means the last time you returned `Request.PROGRESS`; `Request.CANCEL` means that you need to cancel your action and return `Result.SUCCESS` or `Result.FAILED`.
+- **`Action(System.Func<bool> singleFrameFunc)`**: action which can succeed or fail (return false to fail). 
+- **`Action(Func<bool, Result> multiframeFunc)`**: action that can be ticked over multiple frames (return `Result.BLOCKED` when your action is not yet ready, `Result.PROGRESS` when you're busy with the action, `Result.SUCCESS` or `Result.FAILED` when your action failed). The bool parameter that is passed to the delegate turns true when the task has to be aborted - in this case you are only allowed to return `Result.SUCCESS` or `Result.FAILED`. When considering using this type of Action, you should also think about creating a custom subclass of the `Task` instead.
+- **`Action(Func<Request, Result> multiframeFunc2)`**: similar to above, but the passed `Request` will give you a state information: `Request.START` means it's the first tick to your action or you returned `Result.BLOCKED` last tick; `Request.UPDATE` means the last time you returned `Request.PROGRESS`; `Request.CANCEL` means that you need to cancel your action and return `Result.SUCCESS` or `Result.FAILED`. When considering using this type of Action, you should also think about creating a custom subclass of the `Task` instead.
  
 #### NavWalkTo (!!!! EXPERIMENTAL !!!!)
 - **`NavMoveTo(NavMeshAgent agent, string blackboardKey, float tolerance = 1.0f, bool stopOnTolerance = false, float updateFrequency = 0.1f, float updateVariance = 0.025f)`**: move a NavMeshAgent `agent` to either a transform or vector stored in the given `blackboardKey`. Allows a `tolerance` distance to succeed and optionally will stop once in the tolerance range (`stopOnTolerance`). `updateFrequency` controls how often the target position will be updated and how often the task checks wether it's done.
