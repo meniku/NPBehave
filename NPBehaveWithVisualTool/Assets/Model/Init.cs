@@ -1,5 +1,4 @@
-﻿
-using NETCoreTest.Framework;
+﻿using NETCoreTest.Framework;
 using UnityEngine;
 
 namespace ETModel
@@ -24,8 +23,7 @@ namespace ETModel
             Game.Scene.AddComponent<NP_TreeDataRepository>();
 
             NP_RuntimeTree npRuntimeTree = NP_RuntimeTreeFactory.CreateNpRuntimeTree(UnitFactory.NPBehaveTestCreate(),
-                NP_Client_TreeIds.Darius_Q_Client);
-            Log.Info("行为树创建完成");
+                103542430171146);
             npRuntimeTree.m_NPRuntimeTreeRootNode.Start();
         }
 
