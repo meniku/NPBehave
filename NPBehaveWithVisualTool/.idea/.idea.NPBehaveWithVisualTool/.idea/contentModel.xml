@@ -1,0 +1,699 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Administrator\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Administrator\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_NPBehaveWithVisualTool.-522763665.00" t="ExcludeRecursive" />
+    <e p="D:\Study\GameProject\NPBehave\NPBehaveWithVisualTool" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Model" t="Include">
+          <e p="Base" t="Include">
+            <e p="DoubleMap.cs" t="Include" />
+            <e p="Entity" t="Include">
+              <e p="Game.cs" t="Include" />
+              <e p="Scene.cs" t="Include" />
+              <e p="Unit.cs" t="Include" />
+            </e>
+            <e p="Event" t="Include">
+              <e p="Env.cs" t="Include" />
+              <e p="EnvKey.cs" t="Include" />
+              <e p="EventAttribute.cs" t="Include" />
+              <e p="EventIdType.cs" t="Include" />
+              <e p="IEvent.cs" t="Include" />
+            </e>
+            <e p="Helper" t="Include">
+              <e p="ByteHelper.cs" t="Include" />
+              <e p="EnumHelper.cs" t="Include" />
+              <e p="FileHelper.cs" t="Include" />
+              <e p="IdGenerater.cs" t="Include" />
+              <e p="MD5Helper.cs" t="Include" />
+              <e p="MethodInfoHelper.cs" t="Include" />
+              <e p="MongoHelper.cs" t="Include" />
+              <e p="NetHelper.cs" t="Include" />
+              <e p="ObjectHelper.cs" t="Include" />
+              <e p="RandomHelper.cs" t="Include" />
+              <e p="StringHelper.cs" t="Include" />
+              <e p="TimeHelper.cs" t="Include" />
+            </e>
+            <e p="ListComponent.cs" t="Include" />
+            <e p="Log.cs" t="Include" />
+            <e p="LogType.cs" t="Include" />
+            <e p="MultiMap.cs" t="Include" />
+            <e p="MultiMapSet.cs" t="Include" />
+            <e p="Object" t="Include">
+              <e p="BaseAttribute.cs" t="Include" />
+              <e p="Component.cs" t="Include" />
+              <e p="ComponentFactory.cs" t="Include" />
+              <e p="ComponentView.cs" t="Include" />
+              <e p="ComponentWithId.cs" t="Include" />
+              <e p="Entity.cs" t="Include" />
+              <e p="EntityEventAttribute.cs" t="Include" />
+              <e p="EventProxy.cs" t="Include" />
+              <e p="EventSystem.cs" t="Include" />
+              <e p="HideInHierarchy.cs" t="Include" />
+              <e p="IAwakeSystem.cs" t="Include" />
+              <e p="IChangeSystem.cs" t="Include" />
+              <e p="IDeserializeSystem.cs" t="Include" />
+              <e p="IDestroySystem.cs" t="Include" />
+              <e p="IFixedUpdateSystem.cs" t="Include" />
+              <e p="ILateUpdateSystem.cs" t="Include" />
+              <e p="ILoadSystem.cs" t="Include" />
+              <e p="ISerializeToEntity.cs" t="Include" />
+              <e p="IStartSystem.cs" t="Include" />
+              <e p="IUpdateSystem.cs" t="Include" />
+              <e p="Object.cs" t="Include" />
+              <e p="ObjectPool.cs" t="Include" />
+              <e p="ObjectSystemAttribute.cs" t="Include" />
+            </e>
+            <e p="Other" t="Include">
+              <e p="AppType.cs" t="Include" />
+              <e p="Define.cs" t="Include" />
+              <e p="GizmosDebug.cs" t="Include" />
+              <e p="MotionType.cs" t="Include" />
+              <e p="ReferenceCollector.cs" t="Include" />
+            </e>
+            <e p="Pool.cs" t="Include" />
+            <e p="ProcessHelper.cs" t="Include" />
+            <e p="QueueDictionary.cs" t="Include" />
+            <e p="StructBsonSerialize.cs" t="Include" />
+            <e p="TryLocker.cs" t="Include" />
+            <e p="UnOrderMultiMap.cs" t="Include" />
+            <e p="UnOrderMultiMapSet.cs" t="Include" />
+          </e>
+          <e p="Init.cs" t="Include" />
+          <e p="NPBehaveCore" t="Include">
+            <e p="Component" t="Include">
+              <e p="UnitComponent.cs" t="Include" />
+            </e>
+            <e p="Helpers" t="Include">
+              <e p="CodeTimeCostObserver.cs" t="Include" />
+              <e p="DeepCopyHelper.cs" t="Include" />
+            </e>
+            <e p="NPBehave" t="Include">
+              <e p="Component" t="Include">
+                <e p="NP_InitCacheComponent.cs" t="Include" />
+                <e p="NP_RuntimeTree.cs" t="Include" />
+                <e p="NP_RuntimeTreeManager.cs" t="Include" />
+                <e p="NP_SyncComponent.cs" t="Include" />
+                <e p="NP_TreeIds.cs" t="Include" />
+                <e p="NP_TreeRepository.cs" t="Include" />
+              </e>
+              <e p="Core" t="Include">
+                <e p="Log" t="Include">
+                  <e p="Log.cs" t="Include" />
+                </e>
+                <e p="NPBehave" t="Include">
+                  <e p="Blackboard.cs" t="Include" />
+                  <e p="Clock.cs" t="Include" />
+                  <e p="Composite" t="Include">
+                    <e p="Composite.cs" t="Include" />
+                    <e p="Parallel.cs" t="Include" />
+                    <e p="RandomSelector.cs" t="Include" />
+                    <e p="RandomSequence.cs" t="Include" />
+                    <e p="Selector.cs" t="Include" />
+                    <e p="Sequence.cs" t="Include" />
+                  </e>
+                  <e p="Container.cs" t="Include" />
+                  <e p="Decorator" t="Include">
+                    <e p="BlackboardCondition.cs" t="Include" />
+                    <e p="BlackboardQuery.cs" t="Include" />
+                    <e p="Condition.cs" t="Include" />
+                    <e p="Cooldown.cs" t="Include" />
+                    <e p="Decorator.cs" t="Include" />
+                    <e p="Failer.cs" t="Include" />
+                    <e p="Inverter.cs" t="Include" />
+                    <e p="Observer.cs" t="Include" />
+                    <e p="ObservingDecorator.cs" t="Include" />
+                    <e p="Random.cs" t="Include" />
+                    <e p="Repeater.cs" t="Include" />
+                    <e p="Service.cs" t="Include" />
+                    <e p="Succeeder.cs" t="Include" />
+                    <e p="TimeMax.cs" t="Include" />
+                    <e p="TimeMin.cs" t="Include" />
+                    <e p="WaitForCondition.cs" t="Include" />
+                  </e>
+                  <e p="Exception.cs" t="Include" />
+                  <e p="Node.cs" t="Include" />
+                  <e p="Operator.cs" t="Include" />
+                  <e p="Root.cs" t="Include" />
+                  <e p="Stops.cs" t="Include" />
+                  <e p="SyncContext.cs" t="Include" />
+                  <e p="Task" t="Include">
+                    <e p="Action.cs" t="Include" />
+                    <e p="Task.cs" t="Include" />
+                    <e p="Wait.cs" t="Include" />
+                    <e p="WaitUntilStopped.cs" t="Include" />
+                  </e>
+                </e>
+                <e p="UnityMath" t="Include">
+                  <e p="Mathf.cs" t="Include" />
+                </e>
+                <e p="UpdateModule" t="Include">
+                  <e p="FixedUpdate.cs" t="Include" />
+                  <e p="GameTime.cs" t="Include" />
+                  <e p="TimerTicker.cs" t="Include" />
+                </e>
+              </e>
+              <e p="NodeDatas" t="Include">
+                <e p="Composite" t="Include">
+                  <e p="NP_ParallelNodeData.cs" t="Include" />
+                  <e p="NP_SelectorNodeData.cs" t="Include" />
+                  <e p="NP_SequenceNodeData.cs" t="Include" />
+                </e>
+                <e p="Decorator" t="Include">
+                  <e p="NP_BlackboardConditionNodeData.cs" t="Include" />
+                  <e p="NP_BlackboardQueryNodeData.cs" t="Include" />
+                  <e p="NP_RepeaterNodeData.cs" t="Include" />
+                  <e p="NP_ServiceNodeData.cs" t="Include" />
+                </e>
+                <e p="NodeType.cs" t="Include" />
+                <e p="NP_BlackBoardRelationData.cs" t="Include" />
+                <e p="NP_DataSupportorBase.cs" t="Include" />
+                <e p="NP_NodeDataBase.cs" t="Include" />
+                <e p="NP_RootNodeData.cs" t="Include" />
+                <e p="Task" t="Include">
+                  <e p="NP_ActionNodeData.cs" t="Include" />
+                  <e p="NP_WaitNodeData.cs" t="Include" />
+                  <e p="NP_WaitUntilStoppedData.cs" t="Include" />
+                </e>
+                <e p="TheDataContainsAction" t="Include">
+                  <e p="NP_AdvanceAddBlackBoardValueAction.cs" t="Include" />
+                  <e p="NP_ChangeBlackValueAction.cs" t="Include" />
+                  <e p="NP_ClassForStoreAction.cs" t="Include" />
+                  <e p="NP_InitTreeAction.cs" t="Include" />
+                  <e p="NP_LogAction.cs" t="Include" />
+                  <e p="NP_ReversalBlackValueAction.cs" t="Include" />
+                </e>
+              </e>
+              <e p="system" t="Include">
+                <e p="NP_RuntimeTreeFactory.cs" t="Include" />
+              </e>
+            </e>
+            <e p="system" t="Include">
+              <e p="Unit" t="Include">
+                <e p="UnitFactory.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Unity.Model.asmdef" t="Include" />
+        </e>
+        <e p="Plugins" t="Include">
+          <e p="NodeEditor" t="Include">
+            <e p="Editor" t="Include">
+              <e p="Canvas" t="Include">
+                <e p="NeverbeUsedCanvas.cs" t="Include" />
+                <e p="NPBehaveCanvas.cs" t="Include" />
+                <e p="NPBehaveCanvasBase.cs" t="Include" />
+              </e>
+              <e p="Node_Editor" t="Include">
+                <e p="NodeEditorWindow.cs" t="Include" />
+              </e>
+              <e p="NPBehaveNodes" t="Include">
+                <e p="Composite" t="Include">
+                  <e p="NP_ParallelNode.cs" t="Include" />
+                  <e p="NP_SelectorNode.cs" t="Include" />
+                  <e p="NP_SequenceNode.cs" t="Include" />
+                </e>
+                <e p="Decorator" t="Include">
+                  <e p="NP_BlackboardConditionNode.cs" t="Include" />
+                  <e p="NP_RepeaterNode.cs" t="Include" />
+                  <e p="NP_ServiceNode.cs" t="Include" />
+                </e>
+                <e p="NP_NodeBase.cs" t="Include" />
+                <e p="NP_RootNode.cs" t="Include" />
+                <e p="NPBehaveNodeInputAndOutputTypes.cs" t="Include" />
+                <e p="Task" t="Include">
+                  <e p="NP_ActionNode.cs" t="Include" />
+                  <e p="NP_WaitNode.cs" t="Include" />
+                  <e p="NP_WaitUntilStoppedNode.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Node_Editor" t="Include">
+              <e p="Default" t="Include">
+                <e p="DefaultCanvas.cs" t="Include" />
+                <e p="IO Formats" t="Include">
+                  <e p="XMLImportExport.cs" t="Include" />
+                </e>
+                <e p="Runtime Examples" t="Include">
+                  <e p="RTCanvasCalculator.cs" t="Include" />
+                  <e p="RTNodeEditor.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Framework" t="Include">
+                <e p="Core" t="Include">
+                  <e p="ConnectionKnob.cs" t="Include" />
+                  <e p="ConnectionPort.cs" t="Include" />
+                  <e p="ConnectionPortManager.cs" t="Include" />
+                  <e p="Node.cs" t="Include" />
+                  <e p="NodeCanvas.cs" t="Include" />
+                  <e p="NodeCanvasTraversal.cs" t="Include" />
+                  <e p="NodeEditorState.cs" t="Include" />
+                  <e p="NodeGroup.cs" t="Include" />
+                  <e p="ValueConnectionKnob.cs" t="Include" />
+                </e>
+                <e p="CoreExtensions" t="Include">
+                  <e p="ConnectionPortStyles.cs" t="Include" />
+                  <e p="NodeCanvasTypes.cs" t="Include" />
+                  <e p="NodeExtension" t="Include">
+                    <e p="Node.GeneralExtension.cs" t="Include" />
+                    <e p="Node.NP_NodeData.cs" t="Include" />
+                  </e>
+                  <e p="NodeTypes.cs" t="Include" />
+                </e>
+                <e p="Interface" t="Include">
+                  <e p="NodeEditorCallbackReceiver.cs" t="Include" />
+                  <e p="NodeEditorGUI.cs" t="Include" />
+                  <e p="NodeEditorInputControls.cs" t="Include" />
+                  <e p="NodeEditorInputSystem.cs" t="Include" />
+                  <e p="NodeEditorInterface.cs" t="Include" />
+                </e>
+                <e p="NodeEditor.cs" t="Include" />
+                <e p="SaveSystem" t="Include">
+                  <e p="ImportExportFormat.cs" t="Include" />
+                  <e p="ImportExportManager.cs" t="Include" />
+                  <e p="ImportExportStructure.cs" t="Include" />
+                  <e p="NodeCanvasSceneSave.cs" t="Include" />
+                  <e p="NodeEditorSaveManager.cs" t="Include" />
+                  <e p="NodeEditorUserCache.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Resources" t="Include">
+                <e p="Shader" t="Include">
+                  <e p="LineShader.shader" t="Include" />
+                </e>
+              </e>
+              <e p="Utilities" t="Include">
+                <e p="EditorLoadingControl.cs" t="Include" />
+                <e p="GUI" t="Include">
+                  <e p="GUIScaleUtility.cs" t="Include" />
+                  <e p="OverlayGUI.cs" t="Include" />
+                  <e p="RTEditorGUI.cs" t="Include" />
+                </e>
+                <e p="link.xml" t="Include" />
+                <e p="ReflectionUtility.cs" t="Include" />
+                <e p="ResourceManager.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Sirenix" t="Include">
+            <e p="Assemblies" t="Include">
+              <e p="link.xml" t="Include" />
+              <e p="Sirenix.OdinInspector.Attributes.xml" t="Include" />
+              <e p="Sirenix.OdinInspector.Editor.xml" t="Include" />
+              <e p="Sirenix.Serialization.Config.xml" t="Include" />
+              <e p="Sirenix.Utilities.Editor.xml" t="Include" />
+              <e p="Sirenix.Utilities.xml" t="Include" />
+            </e>
+            <e p="Odin Inspector" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="Editor" t="Include">
+                  <e p="AssemblyImportSettingsAutomation.cs" t="Include" />
+                  <e p="BuildAOTAutomation.cs" t="Include" />
+                  <e p="EnsureOdinInspectorDefine.cs" t="Include" />
+                  <e p="FixBrokenUnityObjectWrapperDrawer.cs" t="Include" />
+                  <e p="Sirenix.OdinInspector.CompatibilityLayer.Editor.asmdef" t="Include" />
+                  <e p="SyncListDrawer.cs" t="Include" />
+                  <e p="SyncVarAttributeDrawer.cs" t="Include" />
+                  <e p="Vector2IntMinMaxAttributeDrawer.cs" t="Include" />
+                  <e p="VectorIntDrawers.cs" t="Include" />
+                  <e p="VectorIntPropertyResolvers.cs" t="Include" />
+                </e>
+                <e p="SerializedNetworkBehaviour.cs" t="Include" />
+                <e p="Sirenix.OdinInspector.CompatibilityLayer.asmdef" t="Include" />
+                <e p="VectorIntFormatters.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Readme.txt" t="Include" />
+          </e>
+        </e>
+        <e p="ThirdParty" t="Include">
+          <e p="MongoDB" t="Include">
+            <e p="MongoDB.Bson" t="Include">
+              <e p="BsonConstants.cs" t="Include" />
+              <e p="BsonDefaults.cs" t="Include" />
+              <e p="BsonExtensionMethods.cs" t="Include" />
+              <e p="BsonUtils.cs" t="Include" />
+              <e p="Exceptions" t="Include">
+                <e p="BsonException.cs" t="Include" />
+                <e p="BsonInternalException.cs" t="Include" />
+                <e p="BsonSerializationException.cs" t="Include" />
+                <e p="DuplicateBsonMemberMapAttributeException.cs" t="Include" />
+                <e p="TruncationException.cs" t="Include" />
+              </e>
+              <e p="IO" t="Include">
+                <e p="ArrayElementNameAccelerator.cs" t="Include" />
+                <e p="BsonBinaryReader.cs" t="Include" />
+                <e p="BsonBinaryReaderBookmark.cs" t="Include" />
+                <e p="BsonBinaryReaderContext.cs" t="Include" />
+                <e p="BsonBinaryReaderSettings.cs" t="Include" />
+                <e p="BsonBinaryWriter.cs" t="Include" />
+                <e p="BsonBinaryWriterContext.cs" t="Include" />
+                <e p="BsonBinaryWriterSettings.cs" t="Include" />
+                <e p="BsonChunkPool.cs" t="Include" />
+                <e p="BsonDocumentReader.cs" t="Include" />
+                <e p="BsonDocumentReaderBookmark.cs" t="Include" />
+                <e p="BsonDocumentReaderContext.cs" t="Include" />
+                <e p="BsonDocumentReaderSettings.cs" t="Include" />
+                <e p="BsonDocumentWriter.cs" t="Include" />
+                <e p="BsonDocumentWriterContext.cs" t="Include" />
+                <e p="BsonDocumentWriterSettings.cs" t="Include" />
+                <e p="BsonReader.cs" t="Include" />
+                <e p="BsonReaderBookmark.cs" t="Include" />
+                <e p="BsonReaderSettings.cs" t="Include" />
+                <e p="BsonReaderState.cs" t="Include" />
+                <e p="BsonStream.cs" t="Include" />
+                <e p="BsonStreamAdapter.cs" t="Include" />
+                <e p="BsonStreamExtensions.cs" t="Include" />
+                <e p="BsonTrie.cs" t="Include" />
+                <e p="BsonWriter.cs" t="Include" />
+                <e p="BsonWriterSettings.cs" t="Include" />
+                <e p="BsonWriterState.cs" t="Include" />
+                <e p="ByteArrayBuffer.cs" t="Include" />
+                <e p="ByteArrayChunk.cs" t="Include" />
+                <e p="ByteBufferFactory.cs" t="Include" />
+                <e p="ByteBufferSlice.cs" t="Include" />
+                <e p="ByteBufferStream.cs" t="Include" />
+                <e p="ContextType.cs" t="Include" />
+                <e p="CStringUtf8Encoding.cs" t="Include" />
+                <e p="ElementAppendingBsonWriter.cs" t="Include" />
+                <e p="IBsonChunk.cs" t="Include" />
+                <e p="IBsonChunkSource.cs" t="Include" />
+                <e p="IBsonReader.cs" t="Include" />
+                <e p="IBsonReaderExtensions.cs" t="Include" />
+                <e p="IBsonWriter.cs" t="Include" />
+                <e p="IBsonWriterExtensions.cs" t="Include" />
+                <e p="IByteBuffer.cs" t="Include" />
+                <e p="IElementNameValidator.cs" t="Include" />
+                <e p="INameDecoder.cs" t="Include" />
+                <e p="InputBufferChunkSource.cs" t="Include" />
+                <e p="JsonBuffer.cs" t="Include" />
+                <e p="JsonConvert.cs" t="Include" />
+                <e p="JsonOutputMode.cs" t="Include" />
+                <e p="JsonReader.cs" t="Include" />
+                <e p="JsonReaderBookmark.cs" t="Include" />
+                <e p="JsonReaderContext.cs" t="Include" />
+                <e p="JsonReaderSettings.cs" t="Include" />
+                <e p="JsonScanner.cs" t="Include" />
+                <e p="JsonToken.cs" t="Include" />
+                <e p="JsonWriter.cs" t="Include" />
+                <e p="JsonWriterContext.cs" t="Include" />
+                <e p="JsonWriterSettings.cs" t="Include" />
+                <e p="MultiChunkBuffer.cs" t="Include" />
+                <e p="NoOpElementNameValidator.cs" t="Include" />
+                <e p="OutputBufferChunkSource.cs" t="Include" />
+                <e p="SingleChunkBuffer.cs" t="Include" />
+                <e p="TrieNameDecoder.cs" t="Include" />
+                <e p="Utf8Encodings.cs" t="Include" />
+                <e p="Utf8Helper.cs" t="Include" />
+                <e p="Utf8NameDecoder.cs" t="Include" />
+                <e p="WrappingBsonWriter.cs" t="Include" />
+              </e>
+              <e p="ObjectModel" t="Include">
+                <e p="BsonArray.cs" t="Include" />
+                <e p="BsonBinaryData.cs" t="Include" />
+                <e p="BsonBinarySubType.cs" t="Include" />
+                <e p="BsonBoolean.cs" t="Include" />
+                <e p="BsonDateTime.cs" t="Include" />
+                <e p="BsonDecimal128.cs" t="Include" />
+                <e p="BsonDocument.cs" t="Include" />
+                <e p="BsonDocumentWrapper.cs" t="Include" />
+                <e p="BsonDouble.cs" t="Include" />
+                <e p="BsonElement.cs" t="Include" />
+                <e p="BsonInt32.cs" t="Include" />
+                <e p="BsonInt64.cs" t="Include" />
+                <e p="BsonJavaScript.cs" t="Include" />
+                <e p="BsonJavaScriptWithScope.cs" t="Include" />
+                <e p="BsonMaxKey.cs" t="Include" />
+                <e p="BsonMinKey.cs" t="Include" />
+                <e p="BsonNull.cs" t="Include" />
+                <e p="BsonObjectId.cs" t="Include" />
+                <e p="BsonRegularExpression.cs" t="Include" />
+                <e p="BsonString.cs" t="Include" />
+                <e p="BsonSymbol.cs" t="Include" />
+                <e p="BsonSymbolTable.cs" t="Include" />
+                <e p="BsonTimestamp.cs" t="Include" />
+                <e p="BsonType.cs" t="Include" />
+                <e p="BsonTypeMapper.cs" t="Include" />
+                <e p="BsonTypeMapperOptions.cs" t="Include" />
+                <e p="BsonUndefined.cs" t="Include" />
+                <e p="BsonValue.cs" t="Include" />
+                <e p="Decimal128.cs" t="Include" />
+                <e p="GuidConverter.cs" t="Include" />
+                <e p="GuidRepresentation.cs" t="Include" />
+                <e p="IConvertibleToBsonDocument.cs" t="Include" />
+                <e p="ICustomBsonTypeMapper.cs" t="Include" />
+                <e p="LazyBsonArray.cs" t="Include" />
+                <e p="LazyBsonDocument.cs" t="Include" />
+                <e p="MaterializedOnDemandBsonArray.cs" t="Include" />
+                <e p="MaterializedOnDemandBsonDocument.cs" t="Include" />
+                <e p="ObjectId.cs" t="Include" />
+                <e p="RawBsonArray.cs" t="Include" />
+                <e p="RawBsonDocument.cs" t="Include" />
+                <e p="UInt128.cs" t="Include" />
+              </e>
+              <e p="PowerOf2.cs" t="Include" />
+              <e p="Serialization" t="Include">
+                <e p="AttributedSerializationProvider.cs" t="Include" />
+                <e p="Attributes" t="Include">
+                  <e p="BsonConstructorAttribute.cs" t="Include" />
+                  <e p="BsonDateTimeOptionsAttribute.cs" t="Include" />
+                  <e p="BsonDefaultValueAttribute.cs" t="Include" />
+                  <e p="BsonDictionaryOptionsAttribute.cs" t="Include" />
+                  <e p="BsonDiscriminatorAttribute.cs" t="Include" />
+                  <e p="BsonElementAttribute.cs" t="Include" />
+                  <e p="BsonExtraElementsAttribute.cs" t="Include" />
+                  <e p="BsonFactoryMethodAttribute.cs" t="Include" />
+                  <e p="BsonIdAttribute.cs" t="Include" />
+                  <e p="BsonIgnoreAttribute.cs" t="Include" />
+                  <e p="BsonIgnoreExtraElementsAttribute.cs" t="Include" />
+                  <e p="BsonIgnoreIfDefaultAttribute.cs" t="Include" />
+                  <e p="BsonIgnoreIfNullAttribute.cs" t="Include" />
+                  <e p="BsonKnownTypesAttribute.cs" t="Include" />
+                  <e p="BsonMemberMapAttributeUsageAttribute.cs" t="Include" />
+                  <e p="BsonNoIdAttribute.cs" t="Include" />
+                  <e p="BsonRepresentationAttribute.cs" t="Include" />
+                  <e p="BsonRequiredAttribute.cs" t="Include" />
+                  <e p="BsonSerializationOptionsAttribute.cs" t="Include" />
+                  <e p="BsonSerializerAttribute.cs" t="Include" />
+                  <e p="BsonTimeSpanOptionsAttribute.cs" t="Include" />
+                  <e p="IBsonClassMapAttribute.cs" t="Include" />
+                  <e p="IBsonCreatorMapAttribute.cs" t="Include" />
+                  <e p="IBsonMemberMapAttribute.cs" t="Include" />
+                  <e p="IBsonPostProcessingAttribute.cs" t="Include" />
+                </e>
+                <e p="BsonClassMap.cs" t="Include" />
+                <e p="BsonClassMapSerializationProvider.cs" t="Include" />
+                <e p="BsonCreatorMap.cs" t="Include" />
+                <e p="BsonDeserializationArgs.cs" t="Include" />
+                <e p="BsonDeserializationContext.cs" t="Include" />
+                <e p="BsonDocumentBackedClass.cs" t="Include" />
+                <e p="BsonMemberMap.cs" t="Include" />
+                <e p="BsonObjectModelSerializationProvider.cs" t="Include" />
+                <e p="BsonSerializationArgs.cs" t="Include" />
+                <e p="BsonSerializationContext.cs" t="Include" />
+                <e p="BsonSerializationInfo.cs" t="Include" />
+                <e p="BsonSerializationProviderBase.cs" t="Include" />
+                <e p="BsonSerializer.cs" t="Include" />
+                <e p="BsonSerializerRegistry.cs" t="Include" />
+                <e p="CollectionsSerializationProvider.cs" t="Include" />
+                <e p="Conventions" t="Include">
+                  <e p="AttributeConventionPack.cs" t="Include" />
+                  <e p="CamelCaseElementNameConvention.cs" t="Include" />
+                  <e p="ConventionBase.cs" t="Include" />
+                  <e p="ConventionPack.cs" t="Include" />
+                  <e p="ConventionRegistry.cs" t="Include" />
+                  <e p="ConventionRunner.cs" t="Include" />
+                  <e p="DefaultConventionPack.cs" t="Include" />
+                  <e p="DelegateClassMapConvention.cs" t="Include" />
+                  <e p="DelegateMemberMapConvention.cs" t="Include" />
+                  <e p="DelegatePostProcessingConvention.cs" t="Include" />
+                  <e p="EnumRepresentationConvention.cs" t="Include" />
+                  <e p="HierarchicalDiscriminatorConvention.cs" t="Include" />
+                  <e p="IClassMapConvention.cs" t="Include" />
+                  <e p="IConvention.cs" t="Include" />
+                  <e p="IConventionPack.cs" t="Include" />
+                  <e p="ICreatorMapConvention.cs" t="Include" />
+                  <e p="IDiscriminatorConvention.cs" t="Include" />
+                  <e p="IgnoreExtraElementsConvention.cs" t="Include" />
+                  <e p="IgnoreIfDefaultConvention.cs" t="Include" />
+                  <e p="IgnoreIfNullConvention.cs" t="Include" />
+                  <e p="IMemberMapConvention.cs" t="Include" />
+                  <e p="ImmutableTypeClassMapConvention.cs" t="Include" />
+                  <e p="IPostProcessingConvention.cs" t="Include" />
+                  <e p="LookupIdGeneratorConvention.cs" t="Include" />
+                  <e p="MemberDefaultValueConvention.cs" t="Include" />
+                  <e p="MemberNameElementNameConvention.cs" t="Include" />
+                  <e p="NamedExtraElementsMemberConvention.cs" t="Include" />
+                  <e p="NamedIdMemberConvention.cs" t="Include" />
+                  <e p="NamedParameterCreatorMapConvention.cs" t="Include" />
+                  <e p="NoIdMemberConvention.cs" t="Include" />
+                  <e p="ObjectDiscriminatorConvention.cs" t="Include" />
+                  <e p="ReadWriteMemberFinderConvention.cs" t="Include" />
+                  <e p="ResetClassMapConvention.cs" t="Include" />
+                  <e p="ResetMemberMapsConvention.cs" t="Include" />
+                  <e p="ScalarDiscriminatorConvention.cs" t="Include" />
+                  <e p="StandardDiscriminatorConvention.cs" t="Include" />
+                  <e p="StringObjectIdIdGeneratorConvention.cs" t="Include" />
+                </e>
+                <e p="CreatorMapDelegateCompiler.cs" t="Include" />
+                <e p="DiscriminatedInterfaceSerializationProvider.cs" t="Include" />
+                <e p="ExpressionVisitor.cs" t="Include" />
+                <e p="IBsonArraySerializer.cs" t="Include" />
+                <e p="IBsonDictionarySerializer.cs" t="Include" />
+                <e p="IBsonDocumentSerializer.cs" t="Include" />
+                <e p="IBsonIdProvider.cs" t="Include" />
+                <e p="IBsonPolymorphicSerializer.cs" t="Include" />
+                <e p="IBsonSerializationProvider.cs" t="Include" />
+                <e p="IBsonSerializer.cs" t="Include" />
+                <e p="IBsonSerializerExtensions.cs" t="Include" />
+                <e p="IBsonSerializerRegistry.cs" t="Include" />
+                <e p="IChildSerializerConfigurable.cs" t="Include" />
+                <e p="ICreatorSelector.cs" t="Include" />
+                <e p="IdGenerators" t="Include">
+                  <e p="AscendingGuidGenerator.cs" t="Include" />
+                  <e p="BsonBinaryDataGuidGenerator.cs" t="Include" />
+                  <e p="BsonObjectIdGenerator.cs" t="Include" />
+                  <e p="CombGuidGenerator.cs" t="Include" />
+                  <e p="GuidGenerator.cs" t="Include" />
+                  <e p="NullIdChecker.cs" t="Include" />
+                  <e p="ObjectIdGenerator.cs" t="Include" />
+                  <e p="StringObjectIdGenerator.cs" t="Include" />
+                  <e p="ZeroIdChecker.cs" t="Include" />
+                </e>
+                <e p="IDictionaryRepresentationConfigurable.cs" t="Include" />
+                <e p="IIdGenerator.cs" t="Include" />
+                <e p="IRepresentationConfigurable.cs" t="Include" />
+                <e p="IRepresentationConverterConfigurable.cs" t="Include" />
+                <e p="MostArgumentsCreatorSelector.cs" t="Include" />
+                <e p="Options" t="Include">
+                  <e p="DictionaryRepresentation.cs" t="Include" />
+                  <e p="RepresentationConverter.cs" t="Include" />
+                  <e p="TimeSpanUnits.cs" t="Include" />
+                </e>
+                <e p="PrimitiveSerializationProvider.cs" t="Include" />
+                <e p="Serializers" t="Include">
+                  <e p="AbstractClassSerializer.cs" t="Include" />
+                  <e p="ArraySerializer.cs" t="Include" />
+                  <e p="BitArraySerializer.cs" t="Include" />
+                  <e p="BooleanSerializer.cs" t="Include" />
+                  <e p="BsonArraySerializer.cs" t="Include" />
+                  <e p="BsonBinaryDataSerializer.cs" t="Include" />
+                  <e p="BsonBooleanSerializer.cs" t="Include" />
+                  <e p="BsonClassMapSerializer.cs" t="Include" />
+                  <e p="BsonDateTimeSerializer.cs" t="Include" />
+                  <e p="BsonDecimal128Serializer.cs" t="Include" />
+                  <e p="BsonDocumentBackedClassSerializer.cs" t="Include" />
+                  <e p="BsonDocumentSerializer.cs" t="Include" />
+                  <e p="BsonDocumentWrapperSerializer.cs" t="Include" />
+                  <e p="BsonDoubleSerializer.cs" t="Include" />
+                  <e p="BsonInt32Serializer.cs" t="Include" />
+                  <e p="BsonInt64Serializer.cs" t="Include" />
+                  <e p="BsonJavaScriptSerializer.cs" t="Include" />
+                  <e p="BsonJavaScriptWithScopeSerializer.cs" t="Include" />
+                  <e p="BsonMaxKeySerializer.cs" t="Include" />
+                  <e p="BsonMinKeySerializer.cs" t="Include" />
+                  <e p="BsonNullSerializer.cs" t="Include" />
+                  <e p="BsonObjectIdSerializer.cs" t="Include" />
+                  <e p="BsonRegularExpressionSerializer.cs" t="Include" />
+                  <e p="BsonStringSerializer.cs" t="Include" />
+                  <e p="BsonSymbolSerializer.cs" t="Include" />
+                  <e p="BsonTimestampSerializer.cs" t="Include" />
+                  <e p="BsonUndefinedSerializer.cs" t="Include" />
+                  <e p="BsonValueCSharpNullSerializer.cs" t="Include" />
+                  <e p="BsonValueSerializer.cs" t="Include" />
+                  <e p="BsonValueSerializerBase.cs" t="Include" />
+                  <e p="ByteArraySerializer.cs" t="Include" />
+                  <e p="ByteSerializer.cs" t="Include" />
+                  <e p="CharSerializer.cs" t="Include" />
+                  <e p="ClassSerializerBase.cs" t="Include" />
+                  <e p="CultureInfoSerializer.cs" t="Include" />
+                  <e p="DateTimeOffsetSerializer.cs" t="Include" />
+                  <e p="DateTimeSerializer.cs" t="Include" />
+                  <e p="Decimal128Serializer.cs" t="Include" />
+                  <e p="DecimalSerializer.cs" t="Include" />
+                  <e p="DictionaryInterfaceImplementerSerializer.cs" t="Include" />
+                  <e p="DictionarySerializerBase.cs" t="Include" />
+                  <e p="DiscriminatedInterfaceSerializer.cs" t="Include" />
+                  <e p="DiscriminatedWrapperSerializer.cs" t="Include" />
+                  <e p="DoubleSerializer.cs" t="Include" />
+                  <e p="DynamicDocumentBaseSerializer.cs" t="Include" />
+                  <e p="ElementAppendingSerializer.cs" t="Include" />
+                  <e p="EnumerableInterfaceImplementerSerializer.cs" t="Include" />
+                  <e p="EnumerableInterfaceImplementerSerializerBase.cs" t="Include" />
+                  <e p="EnumerableSerializerBase.cs" t="Include" />
+                  <e p="EnumSerializer.cs" t="Include" />
+                  <e p="ExpandoObjectSerializer.cs" t="Include" />
+                  <e p="GuidSerializer.cs" t="Include" />
+                  <e p="ImpliedImplementationInterfaceSerializer.cs" t="Include" />
+                  <e p="Int16Serializer.cs" t="Include" />
+                  <e p="Int32Serializer.cs" t="Include" />
+                  <e p="Int64Serializer.cs" t="Include" />
+                  <e p="IPAddressSerializer.cs" t="Include" />
+                  <e p="IPEndPointSerializer.cs" t="Include" />
+                  <e p="KeyValuePairSerializer.cs" t="Include" />
+                  <e p="LazyBsonArraySerializer.cs" t="Include" />
+                  <e p="LazyBsonDocumentSerializer.cs" t="Include" />
+                  <e p="NullableGenericSerializer.cs" t="Include" />
+                  <e p="ObjectIdSerializer.cs" t="Include" />
+                  <e p="ObjectSerializer.cs" t="Include" />
+                  <e p="PartiallyRawBsonDocumentSerializer.cs" t="Include" />
+                  <e p="ProjectingDeserializer.cs" t="Include" />
+                  <e p="QueueSerializer.cs" t="Include" />
+                  <e p="RawBsonArraySerializer.cs" t="Include" />
+                  <e p="RawBsonDocumentSerializer.cs" t="Include" />
+                  <e p="ReadOnlyCollectionSerializer.cs" t="Include" />
+                  <e p="ReadOnlyCollectionSubclassSerializer.cs" t="Include" />
+                  <e p="ReadOnlyDictionaryInterfaceImplementerSerializer.cs" t="Include" />
+                  <e p="SByteSerializer.cs" t="Include" />
+                  <e p="SealedClassSerializerBase.cs" t="Include" />
+                  <e p="SerializeAsNominalTypeSerializer.cs" t="Include" />
+                  <e p="SerializerBase.cs" t="Include" />
+                  <e p="SerializerHelper.cs" t="Include" />
+                  <e p="SingleSerializer.cs" t="Include" />
+                  <e p="StackSerializer.cs" t="Include" />
+                  <e p="StringSerializer.cs" t="Include" />
+                  <e p="StructSerializerBase.cs" t="Include" />
+                  <e p="ThreeDimensionalArraySerializer.cs" t="Include" />
+                  <e p="TimeSpanSerializer.cs" t="Include" />
+                  <e p="TupleSerializers.cs" t="Include" />
+                  <e p="TwoDimensionalArraySerializer.cs" t="Include" />
+                  <e p="UInt16Serializer.cs" t="Include" />
+                  <e p="UInt32Serializer.cs" t="Include" />
+                  <e p="UInt64Serializer.cs" t="Include" />
+                  <e p="UndiscriminatedActualTypeSerializer.cs" t="Include" />
+                  <e p="UriSerializer.cs" t="Include" />
+                  <e p="VersionSerializer.cs" t="Include" />
+                </e>
+                <e p="TypeMappingSerializationProvider.cs" t="Include" />
+                <e p="TypeNameDiscriminator.cs" t="Include" />
+              </e>
+            </e>
+            <e p="MongoDB.Shared" t="Include">
+              <e p="ApplicationNameHelper.cs" t="Include" />
+              <e p="CanonicalDisposableClass.cs" t="Include" />
+              <e p="CanonicalDisposableDerivedClass.cs" t="Include" />
+              <e p="CanonicalDisposableStruct.cs" t="Include" />
+              <e p="CanonicalEquatableClass.cs" t="Include" />
+              <e p="CanonicalEquatableDerivedClass.cs" t="Include" />
+              <e p="CanonicalEquatableStruct.cs" t="Include" />
+              <e p="Hasher.cs" t="Include" />
+              <e p="IncrementalMD5.cs" t="Include" />
+              <e p="MaxTimeHelper.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Unity.ThirdParty.asmdef" t="Include" />
+        </e>
+      </e>
+      <e p="NPBehaveWithVisualTool.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Sirenix.OdinInspector.CompatibilityLayer.csproj" t="IncludeRecursive" />
+      <e p="Sirenix.OdinInspector.CompatibilityLayer.Editor.csproj" t="IncludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="Unity.Model.csproj" t="IncludeRecursive" />
+      <e p="Unity.ThirdParty.csproj" t="IncludeRecursive" />
+    </e>
+  </component>
+</project>

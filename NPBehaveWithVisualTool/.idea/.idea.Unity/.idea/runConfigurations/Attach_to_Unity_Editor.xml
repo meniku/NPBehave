@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" singleton="false" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" pid="14348">
+    <option name="allowRunningInParallel" value="true" />
+    <option name="listenPortForConnections" value="false" />
+    <option name="pid" value="14348" />
+    <option name="userSelectedPid" value="false" />
+    <method v="2" />
+  </configuration>
+</component>
