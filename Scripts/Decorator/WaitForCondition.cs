@@ -29,6 +29,27 @@ namespace NPBehave
 
         protected override void DoStart()
         {
+            addTimerOrStartImmediately();
+        }
+
+        public override void Pause()
+        {
+            base.Pause();
+            if (currentState == State.PAUSED)
+                Clock.RemoveTimer(checkCondition);
+        }
+
+        public override void Resume()
+        {
+            if (currentState == State.PAUSED)
+            {
+                base.Resume();
+                addTimerOrStartImmediately();
+            }
+        }
+
+        private void addTimerOrStartImmediately()
+        {
             if (!condition.Invoke())
             {
                 Clock.AddTimer(checkInterval, checkVariance, -1, checkCondition);
