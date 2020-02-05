@@ -4,8 +4,6 @@ namespace NPBehave
 {
     public abstract class Composite : Container
     {
-        protected Node[] Children;
-
         public Composite(string name, Node[] children) : base(name)
         {
             this.Children = children;

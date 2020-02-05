@@ -9,6 +9,7 @@ namespace NPBehave
             INACTIVE,
             ACTIVE,
             STOP_REQUESTED,
+            PAUSED,
         }
 
         protected State currentState = State.INACTIVE;
@@ -138,6 +139,16 @@ namespace NPBehave
 #endif
             DoStop();
         }
+        
+        public virtual void Pause()
+        {
+            
+        }
+
+        public virtual void Resume()
+        {
+            
+        }
 
         protected virtual void DoStart()
         {
@@ -148,8 +159,7 @@ namespace NPBehave
         {
 
         }
-
-
+        
         /// THIS ABSOLUTLY HAS TO BE THE LAST CALL IN YOUR FUNCTION, NEVER MODIFY
         /// ANY STATE AFTER CALLING Stopped !!!!
         protected virtual void Stopped(bool success)
@@ -198,7 +208,7 @@ namespace NPBehave
 
         override public string ToString()
         {
-            return !string.IsNullOrEmpty(Label) ? (this.Name + "{"+Label+"}") : this.Name;
+            return !string.IsNullOrEmpty(Label) ? (this.Name + "{" + Label + "}") : this.Name;
         }
 
         protected string GetPath()
