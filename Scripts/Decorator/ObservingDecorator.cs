@@ -44,15 +44,11 @@ namespace NPBehave
         public override void Pause()
         {
             base.Pause();
-            if (currentState == State.PAUSED)
-                StopObserving();
+            StopObserving();
         }
 
         public override void Resume()
         {
-            if (currentState != State.PAUSED)
-                return;
-            
             base.Resume();
             StartObserving();
         }

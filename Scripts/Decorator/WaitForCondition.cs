@@ -35,17 +35,13 @@ namespace NPBehave
         public override void Pause()
         {
             base.Pause();
-            if (currentState == State.PAUSED)
-                Clock.RemoveTimer(checkCondition);
+            Clock.RemoveTimer(checkCondition);
         }
 
         public override void Resume()
         {
-            if (currentState == State.PAUSED)
-            {
-                base.Resume();
-                addTimerOrStartImmediately();
-            }
+            base.Resume();
+            addTimerOrStartImmediately();
         }
 
         private void addTimerOrStartImmediately()

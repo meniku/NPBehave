@@ -39,9 +39,7 @@ namespace NPBehave
 
         override public void Pause()
         {
-            if (!IsActive)
-                return;
-
+            Assert.AreEqual(this.currentState, State.ACTIVE, "Only an active container can be paused.");
             currentState = State.PAUSED;
             
             foreach (Node child in Children)
@@ -56,9 +54,7 @@ namespace NPBehave
 
         override public void Resume()
         {
-            if (currentState != State.PAUSED)
-                return;
-
+            Assert.AreEqual(this.currentState, State.PAUSED, "Only a paused contained can be resumed.");
             currentState = State.ACTIVE;
             
             foreach (Node child in pausedChildren)

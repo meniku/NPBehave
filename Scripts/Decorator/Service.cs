@@ -50,17 +50,13 @@
         public override void Pause()
         {
             base.Pause();
-            if (currentState == State.PAUSED)
-                stopService();
+            stopService();
         }
 
         public override void Resume()
         {
-            if (currentState == State.PAUSED)
-            {
-                base.Resume();
-                startService();
-            }
+            base.Resume();
+            startService();
         }
 
         private void startService()
