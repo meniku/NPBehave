@@ -41,6 +41,22 @@ namespace NPBehave
             Decoratee.Stop();
         }
 
+        public override void Pause()
+        {
+            base.Pause();
+            if (currentState == State.PAUSED)
+                StopObserving();
+        }
+
+        public override void Resume()
+        {
+            if (currentState != State.PAUSED)
+                return;
+            
+            base.Resume();
+            StartObserving();
+        }
+
         protected override void DoChildStopped(Node child, bool result)
         {
             Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
