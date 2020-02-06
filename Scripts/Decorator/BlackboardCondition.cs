@@ -47,6 +47,14 @@ namespace NPBehave
             this.stopsOnChange = stopsOnChange;
         }
 
+        public override void Resume()
+        {
+            base.Resume();
+            if( this.CurrentState == State.ACTIVE )
+            {
+                Evaluate();
+            }
+        }
 
         override protected void StartObserving()
         {
