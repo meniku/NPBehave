@@ -78,6 +78,10 @@ namespace NPBehave
 
         protected void Evaluate()
         {
+            if (ParentNode.CurrentState == State.PAUSED)
+            {
+                return;
+            }
             if (IsActive && !IsConditionMet())
             {
                 if (stopsOnChange == Stops.SELF || stopsOnChange == Stops.BOTH || stopsOnChange == Stops.IMMEDIATE_RESTART)
