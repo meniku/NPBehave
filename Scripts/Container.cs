@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Assertions;
 
 namespace NPBehave
@@ -6,8 +7,8 @@ namespace NPBehave
     public abstract class Container : Node
     {
         protected Node[] Children;
-        private readonly List<Node> pausedChildren = new List<Node>();
-        
+        protected readonly Stack<Node> pausedChildren = new Stack<Node>();
+
         private bool collapse = false;
 
         public bool Collapse
@@ -39,15 +40,26 @@ namespace NPBehave
 
         override public void Pause()
         {
-            Assert.AreEqual(this.currentState, State.ACTIVE, "Only an active container can be paused.");
+            if (!IsActive)
+                return;
             currentState = State.PAUSED;
-            
             foreach (Node child in Children)
             {
-                if (child.IsActive)
+                if (child is Task)
+                {
+                    if (child.IsActive)
+                    {
+                        child.Pause();
+                        this.pausedChildren.Push(child);
+                    }
+                }
+                else
                 {
                     child.Pause();
-                    this.pausedChildren.Add(child);
+                    if (child.CurrentState == State.PAUSED)
+                    {
+                        this.pausedChildren.Push(child);
+                    }
                 }
             }
         }
@@ -56,12 +68,10 @@ namespace NPBehave
         {
             Assert.AreEqual(this.currentState, State.PAUSED, "Only a paused contained can be resumed.");
             currentState = State.ACTIVE;
-            
-            foreach (Node child in pausedChildren)
+            while (pausedChildren.Any())
             {
-                child.Resume();
+                pausedChildren.Pop().Resume();
             }
-            this.pausedChildren.Clear();
         }
 
         protected abstract void DoChildStopped(Node child, bool succeeded);

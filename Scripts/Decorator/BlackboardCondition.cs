@@ -46,16 +46,7 @@ namespace NPBehave
             this.key = key;
             this.stopsOnChange = stopsOnChange;
         }
-
-        public override void Resume()
-        {
-            base.Resume();
-            if( this.CurrentState == State.ACTIVE )
-            {
-                Evaluate();
-            }
-        }
-
+        
         override protected void StartObserving()
         {
             this.RootNode.Blackboard.AddObserver(key, onValueChanged);

@@ -8,6 +8,7 @@ namespace NPBehave
     {
         protected Stops stopsOnChange;
         private bool isObserving;
+        private State beforePauseState;
 
         public ObservingDecorator(string name, Stops stopsOnChange, Node decoratee) : base(name, decoratee)
         {
@@ -43,13 +44,42 @@ namespace NPBehave
 
         public override void Pause()
         {
-            base.Pause();
+            beforePauseState = currentState;
+            currentState = State.PAUSED;
+
+            // only propagate Pause() on children when it was active
+            if (beforePauseState != State.ACTIVE)
+            {
+                return;
+            }
+            
+            foreach (Node child in Children)
+            {
+                if (child is Task task)
+                {
+                    if (child.IsActive)
+                    {
+                        task.Pause();
+                        this.pausedChildren.Push(child);
+                    }
+                }
+                else
+                {
+                    child.Pause();
+                    if (child.CurrentState == State.PAUSED)
+                    {
+                        this.pausedChildren.Pop().Resume();
+                    }
+                }
+            }
             StopObserving();
         }
 
         public override void Resume()
         {
             base.Resume();
+            currentState = beforePauseState;
+            Evaluate();
             StartObserving();
         }
 
