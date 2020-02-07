@@ -55,8 +55,8 @@
 
         public override void Resume()
         {
-            base.Resume();
             startService();
+            base.Resume();
         }
 
         private void startService()

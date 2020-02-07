@@ -40,8 +40,8 @@ namespace NPBehave
 
         public override void Resume()
         {
-            base.Resume();
             addTimerOrStartImmediately();
+            base.Resume();
         }
 
         private void addTimerOrStartImmediately()

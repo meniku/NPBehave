@@ -77,10 +77,10 @@ namespace NPBehave
 
         public override void Resume()
         {
+            StartObserving();
             base.Resume();
             currentState = beforePauseState;
             Evaluate();
-            StartObserving();
         }
 
         protected override void DoChildStopped(Node child, bool result)
