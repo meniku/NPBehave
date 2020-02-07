@@ -158,10 +158,6 @@ namespace NPBehave
             behaviorTree.Pause();
 
             // blackboard condition should be paused now, the observers are unregistered
-            // unregister the observers is actually unnecessary because only active nodes can be stopped
-            // and restart is only called when there is at least one active child
-            // and in pause state is everything inactive
-            // but it leads to less unnecessary executed code
             Assert.AreEqual(Node.State.PAUSED, firstCondition.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, firstTask.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, secondTask.CurrentState);
@@ -280,7 +276,7 @@ namespace NPBehave
             behaviorTree.Pause();
             Blackboard.Set("first", true);
             Timer.Update(0.1f);
-            Assert.AreEqual(Node.State.INACTIVE, condition.CurrentState);
+            Assert.AreEqual(Node.State.PAUSED, condition.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, firstTask.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, secondTask.CurrentState);
             
@@ -321,7 +317,7 @@ namespace NPBehave
             behaviorTree.Pause();
             Blackboard.Set("first", true);
             Timer.Update(0.1f);
-            Assert.AreEqual(Node.State.INACTIVE, condition.CurrentState);
+            Assert.AreEqual(Node.State.PAUSED, condition.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, firstTask.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, secondTask.CurrentState);
             
@@ -358,7 +354,7 @@ namespace NPBehave
             behaviorTree.Pause();
             Blackboard.Set("first", true);
             Timer.Update(0.1f);
-            Assert.AreEqual(Node.State.INACTIVE, condition.CurrentState);
+            Assert.AreEqual(Node.State.PAUSED, condition.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, firstTask.CurrentState);
             Assert.AreEqual(Node.State.INACTIVE, secondTask.CurrentState);
             
@@ -367,7 +363,7 @@ namespace NPBehave
             Timer.Update(0.1f);
             Assert.AreEqual(Node.State.ACTIVE, condition.CurrentState);
             Assert.AreEqual(Node.State.ACTIVE, firstTask.CurrentState);
-            Assert.AreEqual(Node.State.INACTIVE, secondTask.CurrentState);
+            Assert.AreEqual(Node.State.ACTIVE, secondTask.CurrentState);
         }
     }
 }
