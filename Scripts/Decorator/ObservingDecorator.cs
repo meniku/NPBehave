@@ -68,7 +68,7 @@ namespace NPBehave
                     child.Pause();
                     if (child.CurrentState == State.PAUSED)
                     {
-                        this.pausedChildren.Pop().Resume();
+                        this.pausedChildren.Push(child);
                     }
                 }
             }

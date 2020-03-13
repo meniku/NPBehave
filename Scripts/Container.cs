@@ -66,7 +66,7 @@ namespace NPBehave
 
         override public void Resume()
         {
-            Assert.AreEqual(this.currentState, State.PAUSED, "Only a paused contained can be resumed.");
+            Assert.AreEqual(this.currentState, State.PAUSED, "Only a paused container can be resumed.");
             currentState = State.ACTIVE;
             while (pausedChildren.Any())
             {
