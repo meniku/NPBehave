@@ -58,6 +58,16 @@ namespace NPBehave
             }
         }
 
+        public override void Pause()
+        {
+            Clock.RemoveTimer(TimeoutReached);
+        }
+
+        public override void Resume()
+        {
+            Clock.AddTimer(limit, randomVariation, 0, TimeoutReached);
+        }
+
         private void TimeoutReached()
         {
             if (!waitForChildButFailOnLimitReached)
