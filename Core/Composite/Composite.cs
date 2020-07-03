@@ -1,4 +1,5 @@
-﻿using UnityEngine.Assertions;
+﻿
+using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -9,7 +10,7 @@ namespace NPBehave
         public Composite(string name, Node[] children) : base(name)
         {
             this.Children = children;
-            Assert.IsTrue(children.Length > 0, "Composite nodes (Selector, Sequence, Parallel) need at least one child!");
+            Debug.Assert(children.Length > 0, "Composite nodes (Selector, Sequence, Parallel) need at least one child!");
 
             foreach (Node node in Children)
             {

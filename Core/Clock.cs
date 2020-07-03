@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UnityEngine.Assertions;
+using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -24,7 +24,7 @@ namespace NPBehave
 
 			public void ScheduleAbsoluteTime(double elapsedTime)
 			{
-				scheduledTime = elapsedTime + delay - randomVariance * 0.5f + randomVariance * UnityEngine.Random.value;
+				scheduledTime = elapsedTime + delay - randomVariance * 0.5f + randomVariance * Context.Platform.GenerateRandomFloat();
 			}
         }
 
@@ -74,7 +74,8 @@ namespace NPBehave
                 }
             }
 
-			Assert.IsTrue(timer.used);
+            Debug.Assert( timer.used );
+            
 			timer.delay = delay;
 			timer.randomVariance = randomVariance;
 			timer.repeat = repeat;
@@ -99,7 +100,7 @@ namespace NPBehave
                 }
                 if (this.addTimers.ContainsKey(action))
                 {
-                    Assert.IsTrue(this.addTimers[action].used);
+                    Debug.Assert(this.addTimers[action].used);
                     this.addTimers[action].used = false;
                     this.addTimers.Remove(action);
                 }
@@ -242,15 +243,15 @@ namespace NPBehave
             {
                 if (this.timers.ContainsKey(action))
                 {
-                    Assert.AreNotEqual(this.timers[action], this.addTimers[action]);
+                    Debug.Assert( this.timers[action] != this.addTimers[action]);
                     this.timers[action].used = false;
                 }
-                Assert.IsTrue(this.addTimers[action].used);
+                Debug.Assert( this.addTimers[action].used);
                 this.timers[action] = this.addTimers[action];
             }
             foreach (System.Action action in this.removeTimers)
             {
-                Assert.IsTrue(this.timers[action].used);
+                Debug.Assert( this.timers[action].used);
                 timers[action].used = false;
                 this.timers.Remove(action);
             }

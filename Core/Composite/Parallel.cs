@@ -1,6 +1,5 @@
-using UnityEngine;
-using UnityEngine.Assertions;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -44,7 +43,7 @@ namespace NPBehave
         {
             foreach (Node child in Children)
             {
-                Assert.AreEqual(child.CurrentState, State.INACTIVE);
+                Debug.Assert(child.CurrentState == State.INACTIVE);
             }
 
             childrenAborted = false;
@@ -60,7 +59,7 @@ namespace NPBehave
 
         protected override void DoStop()
         {
-            Assert.IsTrue(runningCount + succeededCount + failedCount == childrenCount);
+            Debug.Assert(runningCount + succeededCount + failedCount == childrenCount);
 
             foreach (Node child in this.Children)
             {
@@ -112,8 +111,8 @@ namespace NPBehave
                 }
                 else if (!this.childrenAborted)
                 {
-                    Assert.IsFalse(succeededCount == childrenCount);
-                    Assert.IsFalse(failedCount == childrenCount);
+                    Debug.Assert( succeededCount != childrenCount);
+                    Debug.Assert( failedCount != childrenCount);
 
                     if (failurePolicy == Policy.ONE && failedCount > 0/* && waitForPendingChildrenRule != Wait.ON_FAILURE && waitForPendingChildrenRule != Wait.BOTH*/)
                     {
@@ -144,7 +143,7 @@ namespace NPBehave
         {
             if (immediateRestart)
             {
-                Assert.IsFalse(abortForChild.IsActive);
+                Debug.Assert(!abortForChild.IsActive);
                 if (childrenResults[abortForChild])
                 {
                     succeededCount--;

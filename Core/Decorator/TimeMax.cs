@@ -1,4 +1,4 @@
-﻿using UnityEngine.Assertions;
+﻿using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -14,7 +14,7 @@ namespace NPBehave
             this.limit = limit;
             this.randomVariation = limit * 0.05f;
             this.waitForChildButFailOnLimitReached = waitForChildButFailOnLimitReached;
-            Assert.IsTrue(limit > 0f, "limit has to be set");
+            Debug.Assert( limit > 0f, "limit has to be set");
         }
 
         public TimeMax(float limit, float randomVariation, bool waitForChildButFailOnLimitReached, Node decoratee) : base("TimeMax", decoratee)
@@ -22,7 +22,7 @@ namespace NPBehave
             this.limit = limit;
             this.randomVariation = randomVariation;
             this.waitForChildButFailOnLimitReached = waitForChildButFailOnLimitReached;
-            Assert.IsTrue(limit > 0f, "limit has to be set");
+            Debug.Assert( limit > 0f, "limit has to be set");
         }
 
         protected override void DoStart()
@@ -67,7 +67,7 @@ namespace NPBehave
             else
             {
                 isLimitReached = true;
-                Assert.IsTrue(Decoratee.IsActive);
+                Debug.Assert( Decoratee.IsActive);
             }
         }
     }

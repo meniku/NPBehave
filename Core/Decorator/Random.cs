@@ -11,7 +11,7 @@
 
         protected override void DoStart()
         {
-            if (UnityEngine.Random.value <= this.probability)
+            if (Context.Platform.GenerateRandomFloat() <= this.probability)
             {
                 Decoratee.Start();
             }

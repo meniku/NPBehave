@@ -1,4 +1,6 @@
-﻿namespace NPBehave
+﻿using System.Diagnostics;
+
+namespace NPBehave
 {
     public class Wait : Task
     {
@@ -21,7 +23,7 @@
 
         public Wait(float seconds, float randomVariance) : base("Wait")
         {
-            UnityEngine.Assertions.Assert.IsTrue(seconds >= 0);
+            Debug.Assert(seconds >= 0);
             this.seconds = seconds;
             this.randomVariance = randomVariance;
         }

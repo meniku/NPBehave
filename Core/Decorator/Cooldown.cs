@@ -1,4 +1,5 @@
-﻿using UnityEngine.Assertions;
+﻿
+using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -36,7 +37,7 @@ namespace NPBehave
         	this.resetOnFailiure = resetOnFailiure;
         	this.randomVariation = randomVariation;
         	this.failOnCooldown = failOnCooldown;
-        	Assert.IsTrue(cooldownTime > 0f, "cooldownTime has to be set");
+        	Debug.Assert(cooldownTime > 0f, "cooldownTime has to be set");
         }
 
         public Cooldown(float cooldownTime, bool startAfterDecoratee, bool resetOnFailiure, bool failOnCooldown, Node decoratee) : base("TimeCooldown", decoratee)
@@ -46,7 +47,7 @@ namespace NPBehave
         	this.randomVariation = cooldownTime * 0.1f;
         	this.resetOnFailiure = resetOnFailiure;
         	this.failOnCooldown = failOnCooldown;
-        	Assert.IsTrue(cooldownTime > 0f, "cooldownTime has to be set");
+            Debug.Assert( cooldownTime > 0f, "cooldownTime has to be set");
         }
 
         public Cooldown(float cooldownTime, float randomVariation, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee) : base("TimeCooldown", decoratee)
@@ -55,7 +56,7 @@ namespace NPBehave
         	this.cooldownTime = cooldownTime;
         	this.resetOnFailiure = resetOnFailiure;
         	this.randomVariation = randomVariation;
-        	Assert.IsTrue(cooldownTime > 0f, "cooldownTime has to be set");
+            Debug.Assert( cooldownTime > 0f, "cooldownTime has to be set");
         }
 
         public Cooldown(float cooldownTime, bool startAfterDecoratee, bool resetOnFailiure, Node decoratee) : base("TimeCooldown", decoratee)
@@ -64,7 +65,7 @@ namespace NPBehave
             this.cooldownTime = cooldownTime;
             this.randomVariation = cooldownTime * 0.1f;
             this.resetOnFailiure = resetOnFailiure;
-            Assert.IsTrue(cooldownTime > 0f, "cooldownTime has to be set");
+            Debug.Assert( cooldownTime > 0f, "cooldownTime has to be set");
         }
 
         public Cooldown(float cooldownTime, float randomVariation, Node decoratee) : base("TimeCooldown", decoratee)
@@ -73,7 +74,7 @@ namespace NPBehave
             this.cooldownTime = cooldownTime;
             this.resetOnFailiure = false;
             this.randomVariation = randomVariation;
-        	Assert.IsTrue(cooldownTime > 0f, "cooldownTime has to be set");
+            Debug.Assert( cooldownTime > 0f, "cooldownTime has to be set");
         }
 
         public Cooldown(float cooldownTime, Node decoratee) : base("TimeCooldown", decoratee)
@@ -82,7 +83,7 @@ namespace NPBehave
             this.cooldownTime = cooldownTime;
             this.resetOnFailiure = false;
             this.randomVariation = cooldownTime * 0.1f;
-        	Assert.IsTrue(cooldownTime > 0f, "cooldownTime has to be set");
+            Debug.Assert( cooldownTime > 0f, "cooldownTime has to be set");
         }
 
         protected override void DoStart()

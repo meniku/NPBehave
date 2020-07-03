@@ -1,5 +1,5 @@
-﻿using UnityEngine.Assertions;
-using System;
+﻿using System;
+using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -63,7 +63,7 @@ namespace NPBehave
 
         protected override void DoChildStopped(Node child, bool result)
         {
-            Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
+            Debug.Assert(this.CurrentState != State.INACTIVE);
             Stopped(result);
         }
     }

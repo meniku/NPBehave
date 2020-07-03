@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -94,7 +95,7 @@ namespace NPBehave
                     }
                     else
                     {
-                        Debug.LogError("Type not compareable: " + o.GetType());
+                        Debug.Assert(false, "Type not compareable: " + o.GetType());
                         return false;
                     }
 
@@ -109,7 +110,7 @@ namespace NPBehave
                     }
                     else
                     {
-                        Debug.LogError("Type not compareable: " + o.GetType());
+                        Debug.Assert( false, "Type not compareable: " + o.GetType());
                         return false;
                     }
 
@@ -124,7 +125,7 @@ namespace NPBehave
                     }
                     else
                     {
-                        Debug.LogError("Type not compareable: " + o.GetType());
+                        Debug.Assert( false, "Type not compareable: " + o.GetType());
                         return false;
                     }
 
@@ -139,7 +140,7 @@ namespace NPBehave
                     }
                     else
                     {
-                        Debug.LogError("Type not compareable: " + o.GetType());
+                        Debug.Assert( false, "Type not compareable: " + o.GetType());
                         return false;
                     }
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine.Assertions;
+﻿using System.Diagnostics;
 
 namespace NPBehave
 {
@@ -36,7 +36,7 @@ namespace NPBehave
         public Root(Node mainNode) : base("Root", mainNode)
         {
             this.mainNode = mainNode;
-            this.clock = UnityContext.GetClock();
+            this.clock = Context.Clock;
             this.blackboard = new Blackboard(this.clock);
             this.SetRoot(this);
         }
@@ -44,7 +44,7 @@ namespace NPBehave
         {
             this.blackboard = blackboard;
             this.mainNode = mainNode;
-            this.clock = UnityContext.GetClock();
+            this.clock = Context.Clock;
             this.SetRoot(this);
         }
 
@@ -58,7 +58,7 @@ namespace NPBehave
 
         public override void SetRoot(Root rootNode)
         {
-            Assert.AreEqual(this, rootNode);
+            Debug.Assert( this == rootNode );
             base.SetRoot(rootNode);
             this.mainNode.SetRoot(rootNode);
         }
