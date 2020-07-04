@@ -2,6 +2,29 @@
 [//]: # "THIS DOCUMENTATION IS BEST VIEWED ONLINE AT https://github.com/meniku/NPBehave"
 [//]: # "******************************************************************************"
 
+
+# NPBehave 2.0 Information
+
+**This is branch WIP and may currently not even compile on your platform.**
+
+Goals for NPBehave 2.0:
+
+* Cleaner Abortion and StopRules
+* Decoupling of Unity ( use in monogame to be specific )
+* API improvements
+
+Feel free to add ideas here: https://github.com/meniku/NPBehave/issues/25
+
+
+
+
+
+
+
+
+
+
+
 # NPBehave - An event driven Behavior Tree Library for code based AIs in Unity
 
 ![NPBehave Logo](http://labs.nkuebler.de/npbehave/images/np-behave.png)
