@@ -18,6 +18,10 @@ namespace NPBehave
             }
         }
 
+        protected Composite( string name ) : base( name )
+        {
+        }
+
         override public void SetRoot(Root rootNode)
         {
             base.SetRoot(rootNode);
