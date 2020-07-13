@@ -47,7 +47,7 @@ namespace NPBehave
 
         public float Normalize( float input )
         {
-            return Math.Clamp( ( input - Min ) / ( Max - Min ), 0.0f, 1.0f );
+            return MathHelper.Clamp( ( input - Min ) / ( Max - Min ), 0.0f, 1.0f );
         }
     }
 
@@ -76,7 +76,7 @@ namespace NPBehave
                 // CurveK; // expoent
                 // CurveB; // y-intercept ( vertical shift )
                 // CurveC; // x-intercept ( horizontal shift )
-                value = CurveM * MathF.Pow( normalized - CurveC, CurveK ) + CurveB;
+                value = CurveM * (float)Math.Pow( normalized - CurveC, CurveK ) + CurveB;
             }
             else if ( CurveType == CurveType.Logistic )
             {
@@ -84,9 +84,9 @@ namespace NPBehave
                 // CurveK; // vertical size of the curve
                 // CurveB; // y-intercept ( vertical shift )
                 // CurveC; // x-interception of the inflection point ( horizontal shift )
-                value = CurveK * ( 1.0f / ( 1 + MathF.Pow( ( 1000 * MathF.E * CurveM ), -1 * normalized + CurveC ) ) ) + CurveB;
+                value = CurveK * ( 1.0f / ( 1 + (float)Math.Pow( ( 1000 * Math.E * CurveM ), -1 * normalized + CurveC ) ) ) + CurveB;
             }
-            return Math.Clamp( value, 0.0f, 1.0f );
+            return MathHelper.Clamp( value, 0.0f, 1.0f );
         }
     }
 

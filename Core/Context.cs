@@ -1,8 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using NPBehave.Monogame;
+﻿using System.Collections.Generic;
 
 namespace NPBehave
 {
