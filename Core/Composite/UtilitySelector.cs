@@ -124,9 +124,11 @@ namespace NPBehave
         public string Name;
         public Node Subtree;
         public List<UtilityConsideration> Considerations;
+        public float Weight = 1.0f;
 
         public float LastUtility;
         public double LastTimestamp = 0.0f;
+
 
         public float IdleTime
         {
@@ -151,18 +153,18 @@ namespace NPBehave
             int numConsiderations = Considerations.Count;
             float modificationFactor = 1.0f - ( 1.0f / ( float ) numConsiderations );
 
-            float totalScore = 1.0f;
+            float totalScore = Weight;
 
             foreach ( UtilityConsideration axis in Considerations )
             {
-                float score = axis.CalculateUtiltiy();
-                float makeUpValue = ( 1.0f - score ) * modificationFactor;
-                float finalScore = score + ( makeUpValue * score );
-                totalScore *= finalScore;
                 if( totalScore < min )
                 {
                     return 0.0f;
                 }
+                float score = axis.CalculateUtiltiy();
+                float makeUpValue = ( 1.0f - score ) * modificationFactor;
+                float finalScore = score + ( makeUpValue * score );
+                totalScore *= finalScore;
             }
 
             LastUtility = totalScore;
