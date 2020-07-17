@@ -125,6 +125,7 @@ namespace NPBehave
         public Node Subtree;
         public List<UtilityConsideration> Considerations;
         public float Weight = 1.0f;
+        public float AbortThreshold = 0.0f;
 
         public float LastUtility;
         public double LastTimestamp = 0.0f;
@@ -147,7 +148,7 @@ namespace NPBehave
             }
         }
 
-        public float UpdateUtility( float min )
+        public float CalculateScore( float min )
         {
             //https://archive.org/details/GDC2015Mark -> Min 10:00
             int numConsiderations = Considerations.Count;
@@ -174,9 +175,12 @@ namespace NPBehave
 
     public class UtilitySelector : Composite
     {
+        private UtilityAction lastStopped = null;
         private UtilityAction current = null;
         public readonly UtilityAction[] Actions;
         private Dictionary<string, UtilityAction> ActionsDict = new Dictionary<string, UtilityAction>();
+
+        public float UpdateInterval = 0.25f;
 
         public UtilitySelector( params UtilityAction[] actions ) : base( "Utility" )
         {
@@ -230,7 +234,9 @@ namespace NPBehave
         {
             //// utility doesn't care about the result
             current.LastTimestamp = Clock.ElapsedTime;
+            lastStopped = current;
             current = null;
+            Clock.RemoveTimer( ObserveUtilities );
             ProcessChildren();
         }
 
@@ -246,13 +252,20 @@ namespace NPBehave
             float fBestUtility = 0.0f;
             foreach ( UtilityAction action in Actions )
             {
-                float utility = action.UpdateUtility( fBestUtility );
+                if( action == lastStopped )
+                {
+                    continue;
+                }
+
+                float utility = action.CalculateScore( fBestUtility );
                 if( utility > fBestUtility )
                 {
                     fBestUtility = utility;
                     selected = action;
                 }
             }
+
+            lastStopped = null;
 
             if( null == selected )
             {
@@ -262,7 +275,33 @@ namespace NPBehave
             else
             {
                 current = selected;
+                Clock.AddTimer( UpdateInterval, -1, ObserveUtilities );
                 current.Subtree.Start();
+            }
+        }
+
+        private void ObserveUtilities()
+        {
+            UtilityAction selected = null;
+            float fBestUtility = 0.0f;
+            float fCurrentUtility = 0.0f;
+            foreach ( UtilityAction action in Actions )
+            {
+                float utility = action.CalculateScore( fBestUtility );
+                if ( utility > fBestUtility )
+                {
+                    fBestUtility = utility;
+                    selected = action;
+                }
+                if ( action == current )
+                {
+                    fCurrentUtility = fBestUtility;
+                }
+            }
+            Debug.Assert( current != null );
+            if( selected != current && fCurrentUtility < current.AbortThreshold )
+            {
+                current.Subtree.Stop();
             }
         }
 
