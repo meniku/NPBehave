@@ -7,6 +7,8 @@ namespace NPBehave
     {
         public Root BehaviorTree;
 
+        public string Label;
+
         private static Blackboard _customGlobalStats = null;
         public static Blackboard CustomGlobalStats
         {

@@ -10,7 +10,7 @@ namespace NPBehave
     {
         public override void OnInspectorGUI()
         {
-            GUILayout.Label("NPBehave Debugger", EditorStyles.centeredGreyMiniLabel);
+            GUILayout.Label($"NPBehave Debugger {(target as Debugger).Label}", EditorStyles.centeredGreyMiniLabel);
 
             if (GUILayout.Button("Open Debugger"))
             {

@@ -80,7 +80,7 @@ namespace NPBehave
             if (nameToTagString == null) Init(); // Weird recompile bug fix
 
             GUI.color = defaultColor;
-            GUILayout.Toggle(false, "NPBehave Debugger", GUI.skin.FindStyle("LODLevelNotifyText"));
+            GUILayout.Toggle(false, $"NPBehave Debugger {selectedDebugger?.Label}", GUI.skin.FindStyle("LODLevelNotifyText"));
             GUI.color = Color.white;
 
             if (!Application.isPlaying)
