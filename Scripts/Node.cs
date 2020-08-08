@@ -110,6 +110,10 @@ namespace NPBehave
         public bool DebugLastResult = false;
 #endif
 
+        public event System.Action OnStart;
+        
+        public event System.Action OnStop;
+        
         public void Start()
         {
             // Assert.AreEqual(this.currentState, State.INACTIVE, "can only start inactive nodes, tried to start: " + this.Name + "! PATH: " + GetPath());
@@ -120,6 +124,7 @@ namespace NPBehave
             this.DebugNumStartCalls++;
 #endif
             this.currentState = State.ACTIVE;
+            OnStart?.Invoke();
             DoStart();
         }
 
@@ -131,6 +136,7 @@ namespace NPBehave
             // Assert.AreEqual(this.currentState, State.ACTIVE, "can only stop active nodes, tried to stop " + this.Name + "! PATH: " + GetPath());
             Assert.AreEqual(this.currentState, State.ACTIVE, "can only stop active nodes, tried to stop");
             this.currentState = State.STOP_REQUESTED;
+            OnStop?.Invoke();
 #if UNITY_EDITOR
             RootNode.TotalNumStopCalls++;
             this.DebugLastStopRequestAt = UnityEngine.Time.time;
