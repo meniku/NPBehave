@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using NPBehave;
+using Project;
 
 namespace NPBehave
 {
@@ -18,22 +19,15 @@ namespace NPBehave
         public InputType InputType;
         public string InputKey;
 
-        private UtilitySelector Utility;
-
-        public void SetUtilitySelector( UtilitySelector utility )
-        {
-            Utility = utility;
-        }
-
-        public float GetValue()
+        public float GetValue( UtilitySelector selector )
         {
             if( InputType == InputType.Blackboard )
             {
-               return Utility.Blackboard.Get<float>( InputKey );
+               return selector.Blackboard.Get<float>( InputKey );
             }
             else
             {
-                return Utility.GetUtilityAction( InputKey ).IdleTime;
+                return selector.GetUtilityAction( InputKey ).IdleTime;
             }
         }
     }
@@ -92,7 +86,6 @@ namespace NPBehave
 
     public class UtilityConsideration
     {
-        public UtilitySelector Utility;
         public UtilityInput Input;
         public UtilityNormalizer Normalizer;
         public UtilityCurve Curve;
@@ -100,15 +93,9 @@ namespace NPBehave
         public float LastNormalized = 0.0f;
         public float LastScore = 0.0f;
 
-        public void SetSelector( UtilitySelector utility )
+        public float CalculateUtility(UtilitySelector selector)
         {
-            this.Utility = utility;
-            Input.SetUtilitySelector( utility );
-        }
-
-        public float CalculateUtiltiy()
-        {
-            float rawValue = Input.GetValue();
+            float rawValue = Input.GetValue(selector);
             float normalized = Normalizer.Normalize( rawValue );
             float score = Curve.CalculateScore( normalized );
             LastScore = score;
@@ -119,7 +106,7 @@ namespace NPBehave
 
     public class UtilityAction
     {
-        private UtilitySelector Selector;
+        public UtilitySelector Selector;
 
         public string Name;
         public Node Subtree;
@@ -142,10 +129,6 @@ namespace NPBehave
         public void SetSelector( UtilitySelector selector )
         {
             this.Selector = selector;
-            foreach( UtilityConsideration considerations in Considerations )
-            {
-                considerations.SetSelector( this.Selector );
-            }
         }
 
         public float CalculateScore( float min )
@@ -162,7 +145,7 @@ namespace NPBehave
                 {
                     return 0.0f;
                 }
-                float score = axis.CalculateUtiltiy();
+                float score = axis.CalculateUtility(Selector);
                 float makeUpValue = ( 1.0f - score ) * modificationFactor;
                 float finalScore = score + ( makeUpValue * score );
                 totalScore *= finalScore;
@@ -287,6 +270,8 @@ namespace NPBehave
             float fCurrentUtility = 0.0f;
             foreach ( UtilityAction action in Actions )
             {
+                Debug.Assert( action.Selector == this );
+
                 float utility = action.CalculateScore( fBestUtility );
                 if ( utility > fBestUtility )
                 {
