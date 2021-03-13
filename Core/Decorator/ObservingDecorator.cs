@@ -101,7 +101,11 @@ namespace NPBehave
                         }
                     }
 
-                    ((Composite)parentNode).StopLowerPriorityChildrenForChild(childNode, stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART);
+                    Composite parentComposite = parentNode as Composite;
+                    if( parentComposite != null )
+                    {
+                        parentComposite.StopLowerPriorityChildrenForChild(childNode, stopsOnChange == Stops.IMMEDIATE_RESTART || stopsOnChange == Stops.LOWER_PRIORITY_IMMEDIATE_RESTART);
+                    }
                 }
             }
         }

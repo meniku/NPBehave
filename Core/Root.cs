@@ -4,7 +4,7 @@ namespace NPBehave
 {
     public class Root : Decorator
     {
-        private Node mainNode;
+        //private Node mainNode;
 
         //private Node inProgressNode;
 
@@ -35,7 +35,6 @@ namespace NPBehave
 
         public Root(Node mainNode) : base("Root", mainNode)
         {
-            this.mainNode = mainNode;
             this.clock = Context.Clock;
             this.blackboard = new Blackboard(this.clock);
             this.SetRoot(this);
@@ -43,7 +42,6 @@ namespace NPBehave
         public Root(Blackboard blackboard, Node mainNode) : base("Root", mainNode)
         {
             this.blackboard = blackboard;
-            this.mainNode = mainNode;
             this.clock = Context.Clock;
             this.SetRoot(this);
         }
@@ -51,7 +49,6 @@ namespace NPBehave
         public Root(Blackboard blackboard, Clock clock, Node mainNode) : base("Root", mainNode)
         {
             this.blackboard = blackboard;
-            this.mainNode = mainNode;
             this.clock = clock;
             this.SetRoot(this);
         }
@@ -60,25 +57,24 @@ namespace NPBehave
         {
             Debug.Assert( this == rootNode );
             base.SetRoot(rootNode);
-            this.mainNode.SetRoot(rootNode);
         }
 
 
         override protected void DoStart()
         {
             this.blackboard.Enable();
-            this.mainNode.Start();
+            this.Decoratee.Start();
         }
 
         override protected void DoStop()
         {
-            if (this.mainNode.IsActive)
+            if (this.Decoratee.IsActive)
             {
-                this.mainNode.Stop();
+                this.Decoratee.Stop();
             }
             else
             {
-                this.clock.RemoveTimer(this.mainNode.Start);
+                this.clock.RemoveTimer(this.Decoratee.Start);
             }
         }
 
@@ -88,7 +84,7 @@ namespace NPBehave
             if (!IsStopRequested)
             {
                 // wait one tick, to prevent endless recursions
-                this.clock.AddTimer(0, 0, this.mainNode.Start);
+                this.clock.AddTimer(0, 0, this.Decoratee.Start);
             }
             else
             {
