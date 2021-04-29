@@ -13,7 +13,7 @@ namespace NPBehave
 
     public class CoroutineAction : Task
     {
-        public System.Func<IEnumerator> action;
+        private System.Func<IEnumerator> action;
         private IEnumerator actionCoroutine;
 
         public CoroutineAction(System.Func<IEnumerator> action) : base("Action")
