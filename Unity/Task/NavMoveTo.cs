@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NPBehave
+namespace NPBehave.Unity
 {
     public class NavMoveTo : Task
     {

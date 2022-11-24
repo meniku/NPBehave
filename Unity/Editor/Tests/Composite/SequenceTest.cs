@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-namespace NPBehave
-{
 
+namespace NPBehave.Unity
+{
     public class SequenceTest : Test
     {
         [Test]

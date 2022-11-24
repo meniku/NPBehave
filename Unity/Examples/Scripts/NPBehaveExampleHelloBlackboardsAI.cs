@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using NPBehave;
+using NPBehave.Unity;
 
 public class NPBehaveExampleHelloBlackboardsAI : MonoBehaviour
 {

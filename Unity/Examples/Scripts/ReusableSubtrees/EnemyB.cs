@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using NPBehave;
 
-namespace NPBehave.Examples.ReusableSubtrees
+namespace NPBehave.Unity.Examples.ReusableSubtrees
 {
     public class EnemyB : MonoBehaviour
     {

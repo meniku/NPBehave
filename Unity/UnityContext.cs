@@ -1,49 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace NPBehave
+namespace NPBehave.Unity
 {
-    public class UnityContext : MonoBehaviour
+    public class UnityPlatform : Platform
     {
-        private static UnityContext instance = null;
-
-        private static UnityContext GetInstance()
+        public override float GenerateRandomFloat()
         {
-            if (instance == null)
-            {
-                GameObject gameObject = new GameObject();
-                gameObject.name = "~Context";
-                instance = (UnityContext)gameObject.AddComponent(typeof(UnityContext));
-                gameObject.isStatic = true;
-#if !UNITY_EDITOR
-            gameObject.hideFlags = HideFlags.HideAndDontSave;
-#endif
-            }
-            return instance;
+            return UnityEngine.Random.value;
+        }
+    }
+
+    public class UnityContext : Context
+    {
+        static UnityContext()
+        {
+            Instance = new UnityContext();
+            Platform = new UnityPlatform();
         }
 
-        public static Clock GetClock()
+        public void Update(double gameTime)
         {
-            return GetInstance().clock;
-        }
-
-        public static Blackboard GetSharedBlackboard(string key)
-        {
-            UnityContext context = GetInstance();
-            if (!context.blackboards.ContainsKey(key))
-            {
-                context.blackboards.Add(key, new Blackboard(context.clock));
-            }
-            return context.blackboards[key];
-        }
-
-        private Dictionary<string, Blackboard> blackboards = new Dictionary<string, Blackboard>();
-
-        private Clock clock = new Clock();
-
-        void Update()
-        {
-            clock.Update(Time.deltaTime);
+            Clock.Update( ( float ) gameTime );
         }
     }
 }

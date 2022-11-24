@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
-namespace NPBehave
+namespace NPBehave.Unity
 {
     public class DebuggerWindow : EditorWindow
     {
@@ -157,8 +157,6 @@ namespace NPBehave
                     DrawKeyValue("Total Stopped:", behaviorTree.TotalNumStoppedCalls.ToString());
                     DrawKeyValue("Active Timers:  ", behaviorTree.Clock.NumTimers.ToString());
                     DrawKeyValue("Timer Pool Size:  ", behaviorTree.Clock.DebugPoolSize.ToString());
-                    DrawKeyValue("Active Update Observers:  ", behaviorTree.Clock.NumUpdateObservers.ToString());
-                    DrawKeyValue("Active Blackboard Observers:  ", behaviorTree.Blackboard.NumObservers.ToString());
                 }
                 EditorGUILayout.EndVertical();
             }

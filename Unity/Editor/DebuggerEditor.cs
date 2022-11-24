@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace NPBehave
+namespace NPBehave.Unity
 {
     [CustomEditor(typeof(Debugger))]
     public class DebuggerEditor : Editor

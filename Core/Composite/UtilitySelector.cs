@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using NPBehave;
-using Project;
 
 namespace NPBehave
 {

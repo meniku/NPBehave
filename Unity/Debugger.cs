@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace NPBehave
+namespace NPBehave.Unity
 {
     public class Debugger : MonoBehaviour
     {
@@ -27,7 +27,7 @@ namespace NPBehave
             {
                 if (_customStats == null)
                 {
-                    _customStats = new Blackboard(CustomGlobalStats, UnityContext.GetClock());
+                    _customStats = new Blackboard(CustomGlobalStats, UnityContext.Clock);
                 }
                 return _customStats;
             }

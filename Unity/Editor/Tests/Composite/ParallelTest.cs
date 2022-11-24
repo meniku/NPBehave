@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-namespace NPBehave
-{
 
+namespace NPBehave.Unity
+{
     public class ParallelTest : Test
     {
         // private static Parallel.Wait[] ALL_WAITING_POLICIES = new Parallel.Wait[] { Parallel.Wait.NEVER, Parallel.Wait.BOTH, Parallel.Wait.ON_FAILURE, Parallel.Wait.ON_SUCCESS };

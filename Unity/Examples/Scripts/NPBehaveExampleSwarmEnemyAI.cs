@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using NPBehave;
+using NPBehave.Unity;
 
 public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class NPBehaveExampleSwarmEnemyAI : MonoBehaviour
 
         // create a new blackboard instance for this ai instance, parenting it to the sharedBlackboard.
         // This way we can also access shared values through the own blackboard.
-        ownBlackboard = new Blackboard(sharedBlackboard, UnityContext.GetClock());
+        ownBlackboard = new Blackboard(sharedBlackboard, UnityContext.Clock);
 
         // create the behaviourTree
         behaviorTree = CreateBehaviourTree();

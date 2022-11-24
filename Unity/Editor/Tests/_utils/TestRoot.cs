@@ -1,4 +1,4 @@
-﻿namespace NPBehave
+﻿namespace NPBehave.Unity
 {
     public class TestRoot : Root
     {

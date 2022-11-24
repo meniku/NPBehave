@@ -1,4 +1,5 @@
-﻿namespace NPBehave
+﻿
+namespace NPBehave.Unity
 {
     public class MockNode : Node
     {
