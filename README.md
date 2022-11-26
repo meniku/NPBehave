@@ -269,7 +269,7 @@ There may be scenarious where you want to have more control. For example you may
 #### RandomSelector
 - **`RandomSelector(params Node[] children)`**: Run children in random order until one succeeds and succeed (succeeds if one of the children succeeds). Note that for abortion rules the original order defines priorities.
 
-#### RandomSelector
+#### RandomSequence
 - **`RandomSequence(params Node[] children)`**: Run children in random order until one fails and fail (succeeds if none of the children fails). Note that for abortion rules the original order defines priorities.
 
 ### Task Nodes
