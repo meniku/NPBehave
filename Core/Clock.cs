@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -6,13 +7,18 @@ namespace NPBehave
 
     public class Clock
     {
-        private List<System.Action> updateObservers = new List<System.Action>();
-        private Dictionary<System.Action, Timer> timers = new Dictionary<System.Action, Timer>();
-        private HashSet<System.Action> removeObservers = new HashSet<System.Action>();
-        private HashSet<System.Action> addObservers = new HashSet<System.Action>();
+        private Dictionary<System.Action, long> timerLookup = new Dictionary<System.Action, long>();
+        private SortedDictionary<long, Timer> timers = new SortedDictionary<long, Timer>();
         private HashSet<System.Action> removeTimers = new HashSet<System.Action>();
-        private Dictionary<System.Action, Timer> addTimers = new Dictionary<System.Action, Timer>();
+        private Dictionary<System.Action, AddTimerStruct> addTimers = new Dictionary<System.Action, AddTimerStruct>();
         private bool isInUpdate = false;
+        private long timerNum = 0;
+
+        class AddTimerStruct
+        {
+            public long timerId;
+            public Timer timer;
+        }
 
         class Timer
         {
@@ -21,8 +27,9 @@ namespace NPBehave
             public bool used = false;
 			public double delay = 0f;
 			public float randomVariance = 0.0f;
+            public System.Action action = null;
 
-			public void ScheduleAbsoluteTime(double elapsedTime)
+            public void ScheduleAbsoluteTime(double elapsedTime)
 			{
 				scheduledTime = elapsedTime + delay - randomVariance * 0.5f + randomVariance * Context.Platform.GenerateRandomFloat();
 			}
@@ -49,24 +56,40 @@ namespace NPBehave
         /// <param name="action">method to invoke</param>
         public void AddTimer(float delay, float randomVariance, int repeat, System.Action action)
         {
-			
-			Timer timer = null;
+            Timer timer = null;
+            long timerId;
 
             if (!isInUpdate)
             {
-                if (!this.timers.ContainsKey(action))
+                if (!this.timerLookup.ContainsKey(action))
                 {
-					this.timers[action] = getTimerFromPool();
+                    timerId = timerNum;
+                    ++timerNum;
+                    this.timerLookup[action] = timerId;
+                    this.timers[timerId] = getTimerFromPool();
                 }
-				timer = this.timers[action];
+                else
+                {
+                    timerId = this.timerLookup[action];
+                }
+				timer = this.timers[timerId];
             }
             else
             {
                 if (!this.addTimers.ContainsKey(action))
                 {
-					this.addTimers[action] = getTimerFromPool();
+                    timerId = timerNum;
+                    ++timerNum;
+                    AddTimerStruct addTimer = new Clock.AddTimerStruct();
+                    addTimer.timerId = timerId;
+                    addTimer.timer = getTimerFromPool();
+                    this.addTimers[action] = addTimer;
+                    timer = this.addTimers[action].timer;
                 }
-				timer = this.addTimers [action];
+                else
+                {
+                    timer = this.addTimers[ action ].timer;
+                }
 
                 if (this.removeTimers.Contains(action))
                 {
@@ -79,6 +102,7 @@ namespace NPBehave
 			timer.delay = delay;
 			timer.randomVariance = randomVariance;
 			timer.repeat = repeat;
+            timer.action = action;
 			timer.ScheduleAbsoluteTime(elapsedTime);
         }
 
@@ -86,32 +110,36 @@ namespace NPBehave
         {
             if (!isInUpdate)
             {
-                if (this.timers.ContainsKey(action))
+                if (this.timerLookup.ContainsKey(action))
                 {
-                    timers[action].used = false;
-                    this.timers.Remove(action);
+                    long timerId = timerLookup[action];
+                    this.timers[timerId].used = false;
+                    this.timers.Remove(timerId);
+                    this.timerLookup.Remove(action);
                 }
             }
             else
             {
-                if (this.timers.ContainsKey(action))
+                if (this.timerLookup.ContainsKey(action))
                 {
                     this.removeTimers.Add(action);
                 }
                 if (this.addTimers.ContainsKey(action))
                 {
-                    Debug.Assert(this.addTimers[action].used);
-                    this.addTimers[action].used = false;
+                    AddTimerStruct addTimer = this.addTimers[action];
+                    Debug.Assert(addTimer.timer.used);
+                    addTimer.timer.used = false;
                     this.addTimers.Remove(action);
                 }
             }
         }
 
+
         public bool HasTimer(System.Action action)
         {
             if (!isInUpdate)
             {
-                return this.timers.ContainsKey(action);
+                return this.timerLookup.ContainsKey(action);
             }
             else
             {
@@ -125,7 +153,7 @@ namespace NPBehave
                 }
                 else
                 {
-                    return this.timers.ContainsKey(action);
+                    return this.timerLookup.ContainsKey(action);
                 }
             }
         }
@@ -134,63 +162,17 @@ namespace NPBehave
         /// <param name="action">function to invoke</param>
         public void AddUpdateObserver(System.Action action)
         {
-            if (!isInUpdate)
-            {
-                this.updateObservers.Add(action);
-            }
-            else
-            {
-                if (!this.updateObservers.Contains(action))
-                {
-                    this.addObservers.Add(action);
-                }
-                if (this.removeObservers.Contains(action))
-                {
-                    this.removeObservers.Remove(action);
-                }
-            }
+            this.AddTimer(0.0f, -1, action);
         }
 
         public void RemoveUpdateObserver(System.Action action)
         {
-            if (!isInUpdate)
-            {
-                this.updateObservers.Remove(action);
-            }
-            else
-            {
-                if (this.updateObservers.Contains(action))
-                {
-                    this.removeObservers.Add(action);
-                }
-                if (this.addObservers.Contains(action))
-                {
-                    this.addObservers.Remove(action);
-                }
-            }
+            this.RemoveTimer(action);
         }
 
         public bool HasUpdateObserver(System.Action action)
         {
-            if (!isInUpdate)
-            {
-                return this.updateObservers.Contains(action);
-            }
-            else
-            {
-                if (this.removeObservers.Contains(action))
-                {
-                    return false;
-                }
-                else if (this.addObservers.Contains(action))
-                {
-                    return true;
-                }
-                else
-                {
-                    return this.updateObservers.Contains(action);
-                }
-            }
+            return this.HasTimer(action);
         }
 
         public void Update(float deltaTime)
@@ -199,76 +181,58 @@ namespace NPBehave
 
             this.isInUpdate = true;
 
-            foreach (System.Action action in updateObservers)
+            SortedDictionary<long, Timer>.KeyCollection keys = this.timers.Keys;
+			foreach (long timerId in keys)
             {
-                if (!removeObservers.Contains(action))
-                {
-                    action.Invoke();
-                }
-            }
-
-            Dictionary<System.Action, Timer>.KeyCollection keys = timers.Keys;
-			foreach (System.Action callback in keys)
-            {
-                if (this.removeTimers.Contains(callback))
+                Timer timer = this.timers[timerId];
+                Debug.Assert(timer.used);
+                if (this.removeTimers.Contains(timer.action) )
                 {
                     continue;
                 }
 
-				Timer timer = timers[callback];
                 if (timer.scheduledTime <= this.elapsedTime)
                 {
                     if (timer.repeat == 0)
                     {
-                        RemoveTimer(callback);
+                        RemoveTimer(timer.action);
                     }
                     else if (timer.repeat >= 0)
                     {
                         timer.repeat--;
                     }
-                    callback.Invoke();
+                    timer.action.Invoke();
 					timer.ScheduleAbsoluteTime(elapsedTime);
                 }
             }
 
-            foreach (System.Action action in this.addObservers)
-            {
-                this.updateObservers.Add(action);
-            }
-            foreach (System.Action action in this.removeObservers)
-            {
-                this.updateObservers.Remove(action);
-            }
-            foreach (System.Action action in this.addTimers.Keys)
-            {
-                if (this.timers.ContainsKey(action))
-                {
-                    Debug.Assert( this.timers[action] != this.addTimers[action]);
-                    this.timers[action].used = false;
-                }
-                Debug.Assert( this.addTimers[action].used);
-                this.timers[action] = this.addTimers[action];
-            }
             foreach (System.Action action in this.removeTimers)
             {
-                Debug.Assert( this.timers[action].used);
-                timers[action].used = false;
-                this.timers.Remove(action);
+                long timerId = timerLookup[action];
+                Debug.Assert(this.timers[timerId].used);
+                this.timers[timerId].used = false;
+                this.timers.Remove(timerId);
+                this.timerLookup.Remove(action);
             }
-            this.addObservers.Clear();
-            this.removeObservers.Clear();
+
+            foreach (System.Action action in this.addTimers.Keys)
+            {
+                AddTimerStruct addTimer = this.addTimers[ action ];
+
+                if (this.timerLookup.ContainsKey(action))
+                {
+                    Debug.Assert( false );
+                }
+                long timerId = addTimer.timerId;
+                this.timers[addTimer.timerId] = addTimer.timer;
+                this.timerLookup[action] = timerId;
+                Debug.Assert(this.timers[timerId].used);
+            }
+
             this.addTimers.Clear();
             this.removeTimers.Clear();
 
             this.isInUpdate = false;
-        }
-
-        public int NumUpdateObservers
-        {
-            get
-            {
-                return updateObservers.Count;
-            }
         }
 
         public int NumTimers

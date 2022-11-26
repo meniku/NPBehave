@@ -109,6 +109,7 @@ namespace NPBehave.Unity
 
             // tick the timer to ensure the blackboard notifies the nodes
             clock.Update(0.1f);
+            clock.Update(0.1f); // need twice, because of child blackboard notification being delayed
 
             // verify the second child is running
             Assert.AreEqual(Node.State.INACTIVE, firstChild.CurrentState);
@@ -119,6 +120,7 @@ namespace NPBehave.Unity
 
             // tick the timer to ensure the blackboard notifies the nodes
             clock.Update(0.1f);
+            clock.Update(0.1f); // need twice, because of child blackboard notification being delayed
 
             // now we should be in branch1
             Assert.AreEqual(Node.State.ACTIVE, firstChild.CurrentState);

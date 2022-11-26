@@ -80,7 +80,6 @@ namespace NPBehave.Unity
             child.Finish(true);
 
             Assert.AreEqual(1, behaviorTree.Clock.NumTimers);
-            Assert.AreEqual(0, behaviorTree.Clock.NumUpdateObservers);
 
             Timer.Update(0.01f);
             child.Finish(false);
@@ -89,7 +88,6 @@ namespace NPBehave.Unity
             Assert.IsFalse(behaviorTree.WasSuccess);
 
             Assert.AreEqual(0, behaviorTree.Clock.NumTimers);
-            Assert.AreEqual(0, behaviorTree.Clock.NumUpdateObservers);
         }
     }
 }
