@@ -131,7 +131,16 @@ namespace NPBehave
             }
 
             lastDestination = agent.destination;
-            lastDistance = agent.remainingDistance;
+
+            // Workaround for lastDistance set to 0 https://github.com/meniku/NPBehave/issues/33
+            if (agent.pathPending)
+            {
+                lastDistance = 99999999.0f;
+            }
+            else
+            {
+                lastDistance = agent.remainingDistance;
+            }
         }
 
         private void stopAndCleanUp(bool result)
