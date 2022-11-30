@@ -8,6 +8,7 @@
         public Decorator(string name, Node decoratee) : base(name)
         {
             this.Decoratee = decoratee;
+            Children = new[] {decoratee};
             this.Decoratee.SetParent(this);
         }
 

@@ -96,5 +96,11 @@ namespace NPBehave
                 Stopped(success);
             }
         }
+
+        public override void Pause()
+        {
+            Assert.AreEqual(this.currentState, State.ACTIVE, "Only an active tree can be paused.");
+            base.Pause();
+        }
     }
 }

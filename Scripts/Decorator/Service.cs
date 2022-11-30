@@ -32,6 +32,35 @@
 
         protected override void DoStart()
         {
+            startService();
+            Decoratee.Start();
+        }
+
+        override protected void DoStop()
+        {
+            Decoratee.Stop();
+        }
+
+        protected override void DoChildStopped(Node child, bool result)
+        {
+            stopService();
+            Stopped(result);
+        }
+
+        public override void Pause()
+        {
+            base.Pause();
+            stopService();
+        }
+
+        public override void Resume()
+        {
+            startService();
+            base.Resume();
+        }
+
+        private void startService()
+        {
             if (this.interval <= 0f)
             {
                 this.Clock.AddUpdateObserver(serviceMethod);
@@ -46,15 +75,9 @@
             {
                 InvokeServiceMethodWithRandomVariation();
             }
-            Decoratee.Start();
         }
 
-        override protected void DoStop()
-        {
-            Decoratee.Stop();
-        }
-
-        protected override void DoChildStopped(Node child, bool result)
+        private void stopService()
         {
             if (this.interval <= 0f)
             {
@@ -68,9 +91,8 @@
             {
                 this.Clock.RemoveTimer(InvokeServiceMethodWithRandomVariation);
             }
-            Stopped(result);
         }
-
+        
         private void InvokeServiceMethodWithRandomVariation()
         {
             serviceMethod();

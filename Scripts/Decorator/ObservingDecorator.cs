@@ -8,6 +8,7 @@ namespace NPBehave
     {
         protected Stops stopsOnChange;
         private bool isObserving;
+        private State beforePauseState;
 
         public ObservingDecorator(string name, Stops stopsOnChange, Node decoratee) : base(name, decoratee)
         {
@@ -41,6 +42,47 @@ namespace NPBehave
             Decoratee.Stop();
         }
 
+        public override void Pause()
+        {
+            beforePauseState = currentState;
+            currentState = State.PAUSED;
+
+            // only propagate Pause() on children when it was active
+            if (beforePauseState != State.ACTIVE)
+            {
+                return;
+            }
+            
+            foreach (Node child in Children)
+            {
+                if (child is Task task)
+                {
+                    if (child.IsActive)
+                    {
+                        task.Pause();
+                        this.pausedChildren.Push(child);
+                    }
+                }
+                else
+                {
+                    child.Pause();
+                    if (child.CurrentState == State.PAUSED)
+                    {
+                        this.pausedChildren.Push(child);
+                    }
+                }
+            }
+            StopObserving();
+        }
+
+        public override void Resume()
+        {
+            StartObserving();
+            base.Resume();
+            currentState = beforePauseState;
+            Evaluate();
+        }
+
         protected override void DoChildStopped(Node child, bool result)
         {
             Assert.AreNotEqual(this.CurrentState, State.INACTIVE);
@@ -66,6 +108,10 @@ namespace NPBehave
 
         protected void Evaluate()
         {
+            if (ParentNode.CurrentState == State.PAUSED)
+            {
+                return;
+            }
             if (IsActive && !IsConditionMet())
             {
                 if (stopsOnChange == Stops.SELF || stopsOnChange == Stops.BOTH || stopsOnChange == Stops.IMMEDIATE_RESTART)

@@ -160,6 +160,23 @@ In case your Monster gets killed or you just destroy your GameObject, you should
     // ...
 ```
 
+## Pausing the Tree
+
+The tree can be paused with `Pause()`. When the tree is paused the current executing task is stopped 
+and the tree does not change its state anymore.
+Then the tree can be resumed with `Resume()` again and the previously stopped task is restarted again.
+This is useful for executing behavior tree independent logic while the tree is paused,
+e.g. an enemy should be stunned after he got hurt.
+
+```csharp
+    public IEnumerator StunEnemy() 
+    {
+        behaviorTree.Pause();
+        yield return enemy.Stun();
+        behaviorTree.Resume();
+    }
+```
+
 ## The Debugger
 You can use the `Debugger` component to debug the behavior trees at runtime in the inspector. 
 

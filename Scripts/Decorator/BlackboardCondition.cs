@@ -46,8 +46,7 @@ namespace NPBehave
             this.key = key;
             this.stopsOnChange = stopsOnChange;
         }
-
-
+        
         override protected void StartObserving()
         {
             this.RootNode.Blackboard.AddObserver(key, onValueChanged);
